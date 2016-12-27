@@ -1,0 +1,64 @@
+
+/* simple css-based tooltip */
+.tooltip {
+	background-color:#000000;
+	border:1px solid #fff;
+	padding:10px 15px;
+	width:200px;
+	display:none;
+	color:#fff;
+	text-align:left;
+	font-size:10px;
+
+	/* outline radius for mozilla/firefox only */
+	-moz-box-shadow:0 0 10px #000;
+	-webkit-box-shadow:0 0 10px #000;
+}
+
+
+/* http://www.quirksmode.org/css/forms.html */
+.inputs label, .inputs input, .inputs textarea, .inputs select {
+    -moz-border-radius: 2px 2px 2px 2px;
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    font-family: "Tahoma","sans";
+    font-size: 11px;
+    padding: 2px;
+}
+
+select{ text-transform:capitalize;
+    -moz-border-radius: 2px 2px 2px 2px;
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    font-family: "Tahoma","sans";
+    padding: 2px;
+}
+
+.inputs label {
+	text-align: right;
+	width: 90px;
+	padding-right: 10px;
+	font-weight:bold;
+}
+
+input{
+    -moz-border-radius: 2px 2px 2px 2px;
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    font-family: "Tahoma","sans";}
+	
+input:hover{ background-color: #DFDFDF;}
+textarea:hover{background-color: #DFDFDF;}
+	
+textarea{
+    -moz-border-radius: 2px 2px 2px 2px;
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;}
+
+.inputs br {
+	clear: left;
+}
+
+
+/* end tooltip styling */
+

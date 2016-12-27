@@ -115,7 +115,7 @@ class Vinyl extends MX_Controller
 
     public function chart($cur='IDR')
     {
-        $fusion = new Fusioncharts();
+        $fusion = $this->load->library('fusioncharts');
         $chart  = base_url().'public/flash/Column3D.swf';
         
         $ps = new Period();
@@ -762,8 +762,8 @@ class Vinyl extends MX_Controller
 
         if ( intval($p->month) != intval($month) || intval($p->year) != intval($year) )
         {
-            $this->form_validation->set_message('valid_period', "Invalid Period.!");
-            return FALSE;
+            if (cek_previous_period($month, $year) == TRUE){ return TRUE; }
+            else { $this->form_validation->set_message('valid_period', "Invalid Period.!"); return FALSE; }
         }
         else {  return TRUE; }
     }

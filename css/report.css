@@ -1,0 +1,57 @@
+@import "960.css";
+
+body{
+font-size:16px;
+font-family:Arial, Helvetica, sans-serif;}
+
+#container{ border:1px solid #CCCCCC;}
+
+.grid_12{
+margin:0;
+padding:0;}
+
+.grid_4,.grid_5,.grid_6,.grid_7,.grid_8{
+margin:4px;
+padding:0;}
+
+.clear{ clear:both;}
+
+#header{
+border:0px solid red;}
+
+#logo{
+border:0px solid blue;} 
+
+h4{ font-size:15px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; margin:5px 0px 3px 0px; padding:0;}
+h3{ font-size:21px; font-family:Arial, Helvetica, sans-serif; font-weight:bold; margin:0; padding:0;}
+h2{ font-size:25px; text-align:center; font-family:Arial, Helvetica, sans-serif; font-weight:bold; margin:0; padding:0;}
+
+.clear{clear:both;}
+
+#cust{
+border:0px solid green;}
+
+#cust table{ text-align:left; margin:5px 45px 0px 0px;}
+
+/* ------------------- ---------------- ---------------------------- */
+
+#keterangan{
+margin:10px 0px 3px 10px;
+border-bottom:1px dotted #CCCCCC;}
+
+#content{
+margin:10px 0px 3px 10px;
+border:0px solid #003300;}
+
+.order{ text-align:left; font-weight:bold; float:left; margin-top:15px;}
+.order2{ text-align:left; font-weight:bold; float:left; margin-top:45px;}
+.jarak{ padding-left:45px;}
+.kanan{ text-align:right;}
+#content table{ margin:15px 0px 0px 65px;}
+.terbilang{ margin-top:25px; margin:25px 0px 0px 40px;}
+.batas{ height:3px; margin-top:15px; border-bottom:1px dotted #CCCCCC;}
+
+
+
+
+

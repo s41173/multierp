@@ -1,0 +1,17 @@
+
+body {
+	background-color:#fff;	
+	font-family:"Lucida Grande","bitstream vera sans","trebuchet ms",verdana,arial;
+	text-align:left;
+}
+
+#page {
+	background-color:#efefef;
+	width:600px;
+	margin:50px auto;
+	padding:20px 150px 20px 50px;
+	min-height:600px;
+	border:2px solid #fff;
+	outline:1px solid #ccc;
+	text-align:left;
+}

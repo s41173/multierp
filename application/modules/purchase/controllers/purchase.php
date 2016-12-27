@@ -115,7 +115,7 @@ class Purchase extends MX_Controller
 
     public function chart($cur='IDR')
     {
-        $fusion = new Fusioncharts();
+        $fusion = $this->load->library('fusioncharts');
         $chart  = base_url().'public/flash/Column3D.swf';
         
         $ps = new Period();

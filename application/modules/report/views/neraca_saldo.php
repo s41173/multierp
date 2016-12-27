@@ -59,7 +59,7 @@ table td{ padding:2px 3px 2px 0;}
 .s6 {
  font-family: Arial;
  font-size: 1px;
- color: #000000; font-style: normal;1;
+ color: #000000; font-style: normal;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 0px;
@@ -71,7 +71,7 @@ table td{ padding:2px 3px 2px 0;}
 .s7 {
  font-family: Arial;
  font-size: 11px;
- color: #000000; font-style: normal;2;
+ color: #000000; font-style: normal;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 0px;
@@ -83,14 +83,14 @@ table td{ padding:2px 3px 2px 0;}
 .s8 {
  font-family: Arial;
  font-size: 11px;
- color: #000000; font-style: normal;1;
+ color: #000000; font-style: normal;
  background-color: transparent;
  text-align: Left; vertical-align: Top;
 }
 .s9 {
  font-family: Arial;
  font-size: 11px;
- color: #000000; font-style: normal;1;;
+ color: #000000; font-style: normal;;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 1;
@@ -102,7 +102,7 @@ table td{ padding:2px 3px 2px 0;}
 .s10 {
  font-family: Arial;
  font-size: 1px;
- color: #000000; font-style: normal;1;
+ color: #000000; font-style: normal;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 0px;
@@ -114,7 +114,7 @@ table td{ padding:2px 3px 2px 0;}
 .s11 {
  font-family: Arial;
  font-size: 11px;
- color: #000000; font-weight: bold; font-style: normal;1;
+ color: #000000; font-weight: bold; font-style: normal;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 1;
@@ -126,14 +126,14 @@ table td{ padding:2px 3px 2px 0;}
 .s12 {
  font-family: Arial;
  font-size: 11px;
- color: #000000; font-weight: bold; font-style: normal;1;
+ color: #000000; font-weight: bold; font-style: normal;
  background-color: transparent;
  text-align: Left; vertical-align: Middle;
 }
 .s13 {
  font-family: Arial;
  font-size: 11px;
- color: #000000; font-style: normal;1;;
+ color: #000000; font-style: normal;;
  background-color: transparent;
  text-align: Center; vertical-align: Middle;
 }

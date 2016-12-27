@@ -367,4 +367,166 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function setSuperScript($pValue = false) {
 		if ($pValue == '') {
-			$pValue 
+			$pValue = false;
+		}
+		if ($this->_isSupervisor) {
+			$styleArray = $this->getStyleArray(array('superScript' => $pValue));
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+		} else {
+			$this->_superScript = $pValue;
+			$this->_subScript = !$pValue;
+		}
+		return $this;
+	}
+
+		/**
+	 * Get SubScript
+	 *
+	 * @return boolean
+	 */
+	public function getSubScript() {
+		if ($this->_isSupervisor) {
+			return $this->getSharedComponent()->getSubScript();
+		}
+		return $this->_subScript;
+	}
+
+	/**
+	 * Set SubScript
+	 *
+	 * @param boolean $pValue
+	 * @return PHPExcel_Style_Font
+	 */
+	public function setSubScript($pValue = false) {
+		if ($pValue == '') {
+			$pValue = false;
+		}
+		if ($this->_isSupervisor) {
+			$styleArray = $this->getStyleArray(array('subScript' => $pValue));
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+		} else {
+			$this->_subScript = $pValue;
+			$this->_superScript = !$pValue;
+		}
+		return $this;
+	}
+
+	/**
+	 * Get Underline
+	 *
+	 * @return string
+	 */
+	public function getUnderline() {
+		if ($this->_isSupervisor) {
+			return $this->getSharedComponent()->getUnderline();
+		}
+		return $this->_underline;
+	}
+
+	/**
+	 * Set Underline
+	 *
+	 * @param string|boolean $pValue	PHPExcel_Style_Font underline type
+	 *									If a boolean is passed, then TRUE equates to UNDERLINE_SINGLE,
+	 *										false equates to UNDERLINE_NONE
+	 * @return PHPExcel_Style_Font
+	 */
+	public function setUnderline($pValue = self::UNDERLINE_NONE) {
+		if (is_bool($pValue)) {
+			$pValue = ($pValue) ? self::UNDERLINE_SINGLE : self::UNDERLINE_NONE;
+		} elseif ($pValue == '') {
+			$pValue = self::UNDERLINE_NONE;
+		}
+		if ($this->_isSupervisor) {
+			$styleArray = $this->getStyleArray(array('underline' => $pValue));
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+		} else {
+			$this->_underline = $pValue;
+		}
+		return $this;
+	}
+
+	/**
+	 * Get Strikethrough
+	 *
+	 * @return boolean
+	 */
+	public function getStrikethrough() {
+		if ($this->_isSupervisor) {
+			return $this->getSharedComponent()->getStrikethrough();
+		}
+		return $this->_strikethrough;
+	}
+
+	/**
+	 * Set Strikethrough
+	 *
+	 * @param boolean $pValue
+	 * @return PHPExcel_Style_Font
+	 */
+	public function setStrikethrough($pValue = false) {
+		if ($pValue == '') {
+			$pValue = false;
+		}
+		if ($this->_isSupervisor) {
+			$styleArray = $this->getStyleArray(array('strike' => $pValue));
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+		} else {
+			$this->_strikethrough = $pValue;
+		}
+		return $this;
+	}
+
+	/**
+	 * Get Color
+	 *
+	 * @return PHPExcel_Style_Color
+	 */
+	public function getColor() {
+		return $this->_color;
+	}
+
+	/**
+	 * Set Color
+	 *
+	 * @param	PHPExcel_Style_Color $pValue
+	 * @throws	PHPExcel_Exception
+	 * @return PHPExcel_Style_Font
+	 */
+	public function setColor(PHPExcel_Style_Color $pValue = null) {
+		// make sure parameter is a real color and not a supervisor
+		$color = $pValue->getIsSupervisor() ? $pValue->getSharedComponent() : $pValue;
+
+		if ($this->_isSupervisor) {
+			$styleArray = $this->getColor()->getStyleArray(array('argb' => $color->getARGB()));
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+		} else {
+			$this->_color = $color;
+		}
+		return $this;
+	}
+
+	/**
+	 * Get hash code
+	 *
+	 * @return string	Hash code
+	 */
+	public function getHashCode() {
+		if ($this->_isSupervisor) {
+			return $this->getSharedComponent()->getHashCode();
+		}
+		return md5(
+			  $this->_name
+			. $this->_size
+			. ($this->_bold ? 't' : 'f')
+			. ($this->_italic ? 't' : 'f')
+			. ($this->_superScript ? 't' : 'f')
+			. ($this->_subScript ? 't' : 'f')
+			. $this->_underline
+			. ($this->_strikethrough ? 't' : 'f')
+			. $this->_color->getHashCode()
+			. __CLASS__
+		);
+	}
+
+}

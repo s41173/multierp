@@ -57,14 +57,14 @@
 .s6 {
  font-family: Arial;
  font-size: 12px;
- color: #434889; font-weight: bold; font-style: normal;1;
+ color: #434889; font-weight: bold; font-style: normal;
  background-color: transparent;
  text-align: Left; vertical-align: Top;
 }
 .s7 {
  font-family: Arial;
  font-size: 12px;
- color: #434889; font-weight: bold; font-style: normal;1;;
+ color: #434889; font-weight: bold; font-style: normal;;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 0px;
@@ -76,14 +76,14 @@
 .s8 {
  font-family: Arial;
  font-size: 12px;
- color: #80334A; font-weight: bold; font-style: normal;1;
+ color: #80334A; font-weight: bold; font-style: normal;
  background-color: transparent;
  text-align: Left; vertical-align: Top;
 }
 .s9 {
  font-family: Arial;
  font-size: 12px;
- color: #80334A; font-weight: bold; font-style: normal;1;;
+ color: #80334A; font-weight: bold; font-style: normal;;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 0px;
@@ -95,7 +95,7 @@
 .s10 {
  font-family: Arial;
  font-size: 1px;
- color: #000000; font-style: normal;1;
+ color: #000000; font-style: normal;
  background-color: transparent;
  border-color:#000000; border-style: solid;
  border-left-width: 0px;

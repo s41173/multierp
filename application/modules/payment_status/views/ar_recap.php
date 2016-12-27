@@ -17,7 +17,7 @@
 	.strongs{ font-weight:bold; }
 	.right{ font-size:12px; border-top:1px dotted #000000; text-align:right;  padding:2px; border-right:1px solid #000; }
 	.center{ font-size:12px; border-top:1px dotted #000; padding:2px; border-right:1px solid #000; text-align:center; }
-	.desc{ font-weight:normal; font-size:12px; border-bottom:1px dotted #000000; border-right:1px solid #000 text-align:left; }
+	.desc{ font-weight:normal; font-size:12px; border-bottom:1px dotted #000000; border-right:1px solid #000; text-align:left; }
 	.poder{ border-bottom:0px solid #000000; color:#0000FF;}
 </style>
 </head>
