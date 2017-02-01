@@ -65,18 +65,22 @@
         </div>
         
 		<table id="input" border="0" width="100%">
-        <thead>
-        <tr>
-        <th> No </th> <th> Type </th> <th> Deal </th> <th> Date </th> <th> Due </th> <th> Order No </th> <th> Cur </th> <th> Customer </th> <th> Notes </th> <th> Tax </th> <th> Amount </th> <th> Balance </th> <th> Status </th> <th> Staff </th>
-        </tr>
-        </thead>
+<thead>
+<tr>
+<th> No </th> <th> Type </th> <th> C-Type </th> <th> Deal </th> <th> Date </th> <th> Due </th> <th> Order No </th> <th> Cur </th> <th> Customer </th> <th> Notes </th> <th> Tax </th> <th> Amount </th> <th> Balance </th> <th> Status </th> <th> Staff </th>
+<th> Approved </th>  <th> Void-Date </th> <th> Void-Desc </th>
+</tr>
+</thead>
         
         <tbody>
         
         <?php 
         
           function status($val){ if ($val == 0){ return 'C'; }elseif($val == 2){ return 'D'; } else{ return 'S'; }}
-        
+          function void_date($val){ if ($val) { return tglin($val); }}
+          function approved($val){ if ($val == 0){ return '-'; }else{ return 'Y'; }}
+          function ctype($val){ $ct = new Contract_type_lib(); return $ct->get_name($val); }
+
           $i=1; 
           if ($contract)
           {
@@ -86,8 +90,9 @@
                <tr> 
                    <td class=\"strongs\">".$i."</td> 
                    <td class=\"strongs\">".$res->type."</td>
+                   <td class=\"strongs\">".ctype($res->contract_type)."</td>
                    <td class=\"strongs\">".tglin($res->deal_dates)."</td>
-				   <td class=\"strongs\">".tglin($res->dates)."</td>
+                   <td class=\"strongs\">".tglin($res->dates)."</td>
                    <td class=\"strongs\">".tglin($res->due)."</td> 
                    <td class=\"strongs\"> CO-00".$res->no."</td> 
                    <td class=\"strongs\">".$res->currency."</td>
@@ -97,7 +102,10 @@
                    <td class=\"strongs\">".$res->amount."</td>
                    <td class=\"strongs\">".$res->balance."</td>
                    <td class=\"strongs\">".status($res->status)."</td>
-				   <td class=\"strongs\">".$res->staff."</td>
+                   <td class=\"strongs\">".$res->staff."</td>
+                   <td class=\"strongs\">".approved($res->approved)."</td>
+                   <td class=\"strongs\">".void_date($res->void_date)."</td>
+                   <td class=\"strongs\">".$res->void_desc."</td>
                </tr>";
                $i++;
             }

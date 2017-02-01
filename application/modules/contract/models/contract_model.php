@@ -86,14 +86,14 @@ class Contract_model extends CI_Model
     
     function get_contract_by_id($uid)
     {
-       $this->db->select('id, no, docno, type, customer, notes, deal_dates, dates, due, user, staff, currency, amount, tax, balance, status, void, void_date, void_desc, approved, log');
+       $this->db->select('id, no, docno, type, contract_type, customer, notes, deal_dates, dates, due, user, staff, currency, amount, tax, balance, status, void, void_date, void_desc, approved, log');
        $this->db->where('id', $uid);
        return $this->db->get($this->table);
     }
 
     function get_contract_by_no($uid)
     {
-       $this->db->select('id, no, docno, type, customer, notes, deal_dates, dates, due, user, staff, currency, amount, tax, balance, status, void, void_date, void_desc, approved, log');
+       $this->db->select('id, no, docno, type, contract_type, customer, notes, deal_dates, dates, due, user, staff, currency, amount, tax, balance, status, void, void_date, void_desc, approved, log');
        $this->db->where('no', $uid);
        return $this->db->get($this->table);
     }
@@ -145,8 +145,8 @@ class Contract_model extends CI_Model
 
     function report($customer,$cur,$start,$end,$duestart,$dueend)
     {
-        $this->db->select('contract.id, contract.no, contract.docno, contract.type, contract.dates, contract.deal_dates, contract.due, customer.prefix, customer.name, customer.address, customer.phone1, customer.phone2,
-                           customer.city, contract.currency, contract.user, contract.staff, contract.log,
+        $this->db->select('contract.id, contract.no, contract.docno, contract.type, contract.contract_type, contract.dates, contract.deal_dates, contract.due, customer.prefix, customer.name, customer.address, customer.phone1, customer.phone2,
+                           customer.city, contract.currency, contract.user, contract.staff, contract.log, contract.contract_type,
                            contract.status, contract.tax, contract.amount, contract.balance, contract.amount, contract.notes,
                            contract.void_date, contract.void_desc, contract.approved');
 
@@ -165,7 +165,7 @@ class Contract_model extends CI_Model
     private function cek_between_date($start,$end)
     {
         if ($start == null || $end == null ){return null;}
-        else { return $this->db->where("contract.dates BETWEEN '".$start."' AND '".$end."'"); }
+        else { return $this->db->where("contract.deal_dates BETWEEN '".$start."' AND '".$end."'"); }
     }
     
     private function cek_between_due($start,$end)

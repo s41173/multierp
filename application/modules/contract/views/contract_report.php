@@ -66,6 +66,7 @@
                     [
                         { name: "No", type: "string" },
 						{ name: "Type", type: "string" },
+                        { name: "C-Type", type: "string" },
 						{ name: "Deal", type: "string" },
 						{ name: "Date", type: "string" },
 						{ name: "Due", type: "string" },
@@ -105,6 +106,7 @@
                 columns: [
                   { text: 'No', dataField: 'No', width: 50 },
 				  { text: 'Type', dataField: 'Type', width: 60 },
+                  { text: 'C-Type', dataField: 'C-Type', width: 100 },
 				  { text: 'Deal', dataField: 'Deal', width : 100 },
 				  { text: 'Date', dataField: 'Date', width : 100 },
 				  { text: 'Due', dataField: 'Due', width : 100 },
@@ -123,7 +125,7 @@
                 ]
             });
 			
-			$('#jqxgrid').jqxGrid({ pagesizeoptions: ['10', '20', '30', '40', '50', '100', '200', '300']}); 
+			$('#jqxgrid').jqxGrid({ pagesizeoptions: ['100', '500', '1000', '3000', '5000', '10000']}); 
 			
 			$("#bexport").click(function() {
 				
@@ -208,7 +210,7 @@
 <table id="table" border="0" width="100%">
 <thead>
 <tr>
-<th> No </th> <th> Type </th> <th> Deal </th> <th> Date </th> <th> Due </th> <th> Order No </th> <th> Cur </th> <th> Customer </th> <th> Notes </th> <th> Tax </th> <th> Amount </th> <th> Balance </th> <th> Status </th> <th> Staff </th>
+<th> No </th> <th> Type </th> <th> C-Type </th> <th> Deal </th> <th> Date </th> <th> Due </th> <th> Order No </th> <th> Cur </th> <th> Customer </th> <th> Notes </th> <th> Tax </th> <th> Amount </th> <th> Balance </th> <th> Status </th> <th> Staff </th>
 <th> Approved </th>  <th> Void-Date </th> <th> Void-Desc </th>
 </tr>
 </thead>
@@ -220,6 +222,7 @@
   function status($val){ if ($val == 0){ return 'C'; }elseif($val == 2){ return 'D'; } else{ return 'S'; }}
   function void_date($val){ if ($val) { return tglin($val); }}
   function approved($val){ if ($val == 0){ return '-'; }else{ return 'Y'; }}
+  function ctype($val){ $ct = new Contract_type_lib(); return $ct->get_name($val); }
 
   $i=1; 
   if ($contract)
@@ -230,6 +233,7 @@
        <tr> 
            <td class=\"strongs\">".$i."</td> 
            <td class=\"strongs\">".$res->type."</td>
+           <td class=\"strongs\">".ctype($res->contract_type)."</td>
 		   <td class=\"strongs\">".tglin($res->deal_dates)."</td>
 		   <td class=\"strongs\">".tglin($res->dates)."</td>
 		   <td class=\"strongs\">".tglin($res->due)."</td> 

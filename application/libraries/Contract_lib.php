@@ -77,6 +77,13 @@ class Contract_lib {
        if ($query > 0) { return FALSE; } else { return TRUE; }
     } 
     
+    function cek_relation_contract_type($id,$type)
+    {
+       $this->ci->db->where($type, $id);
+       $query = $this->ci->db->get($this->table)->num_rows();
+       if ($query > 0) { return FALSE; } else { return TRUE; }
+    } 
+    
 }
 
 /* End of file Property.php */

@@ -191,7 +191,8 @@
       <tr> <td> Order Date </td> <td>:</td> <td> <?php echo $podate; ?> / <?php echo $due; ?> </td> </tr>
 	  <tr> <td> Currency </td> <td>:</td> <td> <?php echo isset($currency) ? $currency : ''; ?> </td> </tr>
       <tr> <td> Type </td> <td>:</td> <td> <?php echo isset($type) ? $type : ''; ?> </td> </tr>
-	  <tr> <td> Customer </td> <td>:</td> <td> <?php echo isset($customer) ? $customer : ''; ?> </td> </tr>
+	  <tr> <td> Customer </td> <td>:</td> <td> <?php echo isset($customer) ? $customer : ''; ?> <br> 
+                <?php echo isset($npwp) ? $npwp : ''; ?> </td> </tr>
       <tr> <td> Notes </td> <td>:</td> <td> <?php echo isset($notes) ? $notes : ''; ?> </td> </tr>
       <tr> <td> User </td> <td>:</td> <td> <?php echo isset($user) ? $user : ''; ?> </td> </tr>
 	</table>

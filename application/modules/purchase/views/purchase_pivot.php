@@ -65,7 +65,7 @@
 		   
            <thead>
            <tr>
- 	       <th> No </th> <th> Date </th> <th> Order No </th> <th> Vendor </th> <th> Acc </th> <th> Sub Total </th> <th> Tax </th> 
+ 	       <th> No </th> <th> Date </th> <th> Order No </th> <th> Demand </th> <th> Vendor </th> <th> Acc </th> <th> Sub Total </th> <th> Tax </th> 
            <th> Costs </th> <th> Purchase Total </th> <th> Payment </th>  <th> Balance </th> <th> Status </th> 
 		   </tr>
            </thead>
@@ -100,6 +100,7 @@
 				       <td class=\"strongs\">".$i."</td> 
 					   <td class=\"strongs\">".tglin($purchase->dates)."</td> 
 					   <td class=\"strongs\"> PO-00".$purchase->no."</td> 
+                       <td class=\"strongs\"> FPB-00".$purchase->demand."</td>
 					   <td class=\"strongs\">".$purchase->prefix.' '.$purchase->name."</td> 
 					   <td class=\"strongs\">".ucfirst($purchase->acc)."</td> 
 					   <td class=\"strongs\" align=\"right\">".intval($purchase->total - $purchase->tax)."</td> 

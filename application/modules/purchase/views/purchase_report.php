@@ -67,6 +67,7 @@
                         { name: "No", type: "string" },
 						{ name: "Date", type: "string" },
 						{ name: "Order No", type: "string" },
+                        { name: "Demand", type: "string" },
 						{ name: "Vendor", type: "string" },
 						{ name: "Acc", type: "string" },
   					    { name: "Sub Total", type: "number" },
@@ -104,6 +105,7 @@
                   { text: 'No', dataField: 'No', width: 50 },
 				  { text: 'Date', dataField: 'Date', width : 120 },
   				  { text: 'Order No', dataField: 'Order No', width : 100 },
+                  { text: 'Demand', dataField: 'Demand', width : 100 },
 				  { text: 'Vendor', dataField: 'Vendor', width : 200 },
   				  { text: 'Acc', datafield: 'Acc', width: 70, cellsalign: 'center' },
 				  { text: 'Sub Total', datafield: 'Sub Total', width: 130, cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] },
@@ -201,7 +203,7 @@
 		   
            <thead>
            <tr>
- 	       <th> No </th> <th> Date </th> <th> Order No </th> <th> Vendor </th> <th> Acc </th> <th> Sub Total </th> <th> Tax </th> 
+ 	       <th> No </th> <th> Date </th> <th> Order No </th> <th> Demand </th> <th> Vendor </th> <th> Acc </th> <th> Sub Total </th> <th> Tax </th> 
            <th> Costs </th> <th> Purchase Total </th> <th> Payment </th> <th> Refund </th> <th> Refund Amount </th>  <th> Balance </th> <th> Status </th> 
            <th> Stock-IN </th>
 		   </tr>
@@ -245,7 +247,8 @@
 				   <tr> 
 				       <td class=\"strongs\">".$i."</td> 
 					   <td class=\"strongs\">".tglin($purchase->dates)."</td> 
-					   <td class=\"strongs\"> PO-00".$purchase->no."</td> 
+					   <td class=\"strongs\"> PO-00".$purchase->no."</td>
+                       <td class=\"strongs\"> FPB-00".$purchase->demand."</td>
 					   <td class=\"strongs\">".$purchase->prefix.' '.$purchase->name."</td> 
 					   <td class=\"strongs\">".ucfirst($purchase->acc)."</td> 
 					   <td class=\"strongs\" align=\"right\">".intval($purchase->total - $purchase->tax)."</td> 

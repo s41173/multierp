@@ -128,8 +128,6 @@ $atts1 = array(
 		
 	</fieldset>
 	
-	
-	
 	<p style="margin:10px 0 0 10px; float:left;">
 		<input type="submit" name="submit" class="" title="" value=" Save " /> 
 		<input type="reset" name="reset" class="" title="" value=" Cancel " />
@@ -139,18 +137,24 @@ $atts1 = array(
 	<div class="clear"></div>
 	
 	<fieldset class="field"> <legend> Item Transaction </legend>
+        
 	<form name="modul_form" class="myform" id="ajaxform2" method="post" action="<?php echo $form_action_item; ?>">
 		<table>
 			<tr>
-								
+				
+                <td>  
+					<label for="tnotes">  </label> <br />
+         <?php echo anchor_popup(site_url("cash_demand/get_list_transaction/".$vendorid), '[ Open Last Transaction ]', $atts1); ?>
+                </td>
+                
 				<td> <label for="ccost"> Cost Type : </label>  <br />
 	                 <?php $js = 'class="required"'; echo form_dropdown('ccost', $cost, isset($default['cost']) ? $default['cost'] : '', $js); ?>
                      &nbsp; </td>
 					
                 <td>  
 					<label for="tnotes"> Notes : </label> <br />
-                    <textarea required name="tnotes" id="tnotes" rows="2" cols="40"></textarea &nbsp;
-				></td>    
+                    <textarea required name="tnotes" id="tnotes" rows="2" cols="40"></textarea> &nbsp;
+                </td>    
                     			
                 <td>
 					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <label for="tamount"> Amount : </label> <br />

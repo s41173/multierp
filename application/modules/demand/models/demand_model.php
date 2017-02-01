@@ -17,7 +17,7 @@ class Demand_model extends CI_Model
     
     function get_last_demand($limit, $offset)
     {
-        $this->db->select('id, no, dates, desc, user, supervisor, approved, log');
+        $this->db->select('id, no, dates, desc, user, supervisor, approved, released, log');
         $this->db->from($this->table);
         $this->db->order_by('no', 'desc');
         $this->db->limit($limit, $offset);
@@ -26,7 +26,7 @@ class Demand_model extends CI_Model
 
     function search($no=null,$date=null)
     {
-        $this->db->select('id, no, dates, desc, user, supervisor, approved, log');
+        $this->db->select('id, no, dates, desc, user, supervisor, approved, released, log');
         $this->db->from($this->table);
         $this->cek_null($no,"no");
         $this->cek_null($date,"dates");
@@ -61,7 +61,7 @@ class Demand_model extends CI_Model
     
     function get_demand_by_id($uid)
     {
-        $this->db->select('id, no, dates, desc, user, supervisor, approved, log');
+        $this->db->select('id, no, dates, desc, user, supervisor, approved, released, log');
         $this->db->from($this->table);
         $this->db->where('id', $uid);
         return $this->db->get();
@@ -69,7 +69,7 @@ class Demand_model extends CI_Model
 
     function get_demand_by_no($uid)
     {
-        $this->db->select('id, no, dates, desc, user, supervisor, approved, log');
+        $this->db->select('id, no, dates, desc, user, supervisor, approved, released, log');
         $this->db->from($this->table);
         $this->db->where('no', $uid);
         return $this->db->get();
@@ -77,9 +77,10 @@ class Demand_model extends CI_Model
 
     function get_list()
     {
-        $this->db->select('id, no, dates, desc, user, supervisor, approved, log');
+        $this->db->select('id, no, dates, desc, user, supervisor, approved, released, log');
         $this->db->from($this->table);
         $this->db->where('approved', 1);
+        $this->db->where('released', 0);
         return $this->db->get();
     }
     
@@ -116,7 +117,7 @@ class Demand_model extends CI_Model
     function report($start,$end,$type)
     {
         $this->db->select("$this->table.id, $this->table.no, $this->table.dates, $this->table.desc,
-                           $this->table.user, $this->table.approved, $this->table.log");
+                           $this->table.user, $this->table.approved, $this->table.released, $this->table.log");
         $this->db->from("$this->table");
         $this->db->where("$this->table.dates BETWEEN '".setnull($start)."' AND '".setnull($end)."'");
         $this->db->where("$this->table.approved", 1);

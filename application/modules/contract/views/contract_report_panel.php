@@ -66,7 +66,7 @@ $atts1 = array(
 			</tr>
 					
             <tr>	
-                 <td> <label for="tstart"> Period </label> </td> <td>:</td>
+                 <td> <label for="tstart"> Period (Deal Date) </label> </td> <td>:</td>
                  <td>  
                    <input type="Text" name="tstart" id="d1" title="Start date" size="10" class="required" /> 
                    <img src="<?php echo base_url();?>/jdtp-images/cal.gif" onclick="javascript:NewCssCal('d1','yyyymmdd')" style="cursor:pointer"/> &nbsp; - &nbsp;

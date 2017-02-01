@@ -104,7 +104,7 @@ class Purchase_model extends CI_Model
     
     function get_purchase_by_id($uid)
     {
-        $this->db->select('purchase.id, purchase.no, purchase.vendor, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, purchase.currency, purchase.user, purchase.log,
+        $this->db->select('purchase.id, purchase.no, purchase.demand, purchase.vendor, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, purchase.currency, purchase.user, purchase.log,
                            purchase.status, purchase.tax, purchase.discount, purchase.p1, purchase.p2, purchase.total, purchase.notes, purchase.desc,
                            purchase.shipping_date,purchase.costs, purchase.approved, purchase.ap_over, purchase.over_amount, purchase.stock_in_stts');
 
@@ -116,7 +116,7 @@ class Purchase_model extends CI_Model
 
     function get_purchase_by_no($uid)
     {
-        $this->db->select('purchase.id, purchase.no, purchase.vendor, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
+        $this->db->select('purchase.id, purchase.no, purchase.demand, purchase.vendor, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
                            vendor.city, purchase.currency, purchase.user, purchase.log, purchase.desc, purchase.shipping_date,
                            purchase.status, purchase.tax, purchase.p1, purchase.p2, purchase.total, purchase.notes, purchase.shipping_date,
                            purchase.costs, purchase.approved, purchase.ap_over, purchase.over_amount, purchase.stock_in_stts');
@@ -167,7 +167,7 @@ class Purchase_model extends CI_Model
 
     function report($vendor,$cur,$start,$end,$status,$acc)
     {
-        $this->db->select('purchase.id, purchase.no, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
+        $this->db->select('purchase.id, purchase.no, purchase.demand, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
                            vendor.city, purchase.currency, purchase.user, purchase.log, purchase.desc,
                            purchase.status, purchase.tax, purchase.p1, purchase.p2, purchase.total, purchase.notes, purchase.shipping_date,
                            purchase.costs, purchase.approved, purchase.ap_over, purchase.over_amount, purchase.stock_in_stts');
@@ -226,7 +226,7 @@ class Purchase_model extends CI_Model
     
     function report_product($product,$cur,$start,$end)
     {
-        $this->db->select('purchase.id, purchase.no, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
+        $this->db->select('purchase.id, purchase.no, purchase.demand, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
                            purchase.currency, purchase.user, purchase.log,
                            purchase.notes, purchase.shipping_date, purchase.status,
                            purchase_item.product, purchase_item.qty, purchase_item.price, purchase_item.tax, purchase_item.amount');

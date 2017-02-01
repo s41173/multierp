@@ -29,6 +29,23 @@ class Cash_demand_model extends CI_Model
         return $this->db->get();
     }
     
+    function get_list_transaction($vendor=null,$cur='IDR')
+    {
+        $this->db->select('cash_demand.id, cash_demand.no, cash_demand.dates,
+                           costs.name as cost, cash_demand_trans.notes, cash_demand_trans.amount,');
+        
+        $this->db->from('cash_demand, cash_demand_trans, costs, categories, accounts');
+        $this->db->where('cash_demand.id = cash_demand_trans.cash_demand_id');
+        $this->db->where('cash_demand_trans.cost = costs.id');
+        $this->db->where('costs.category = categories.id');
+        $this->db->where('costs.account_id = accounts.id');
+        $this->db->where('cash_demand.currency', $cur);
+        $this->db->where('cash_demand.approved', 1);
+        $this->cek_null($vendor, 'cash_demand.vendor');
+        $this->db->order_by('cash_demand.dates','desc');
+        return $this->db->get();
+    }
+    
     function report_category($cur=null,$start=null,$end,$cat=null)
     {
        $this->db->select('cash_demand.id, cash_demand.no, cash_demand.vendor, cash_demand.type, cash_demand.dates, cash_demand.currency, cash_demand.notes,
@@ -50,6 +67,7 @@ class Cash_demand_model extends CI_Model
        
         return $this->db->get();  
     }
+
     
     private function cek_between($start,$end)
     {

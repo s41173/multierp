@@ -55,6 +55,10 @@ $atts2 = array(
 <td> <label for="tname"> No : </label> <br /> <input type="text" id="tno" name="tno" size="5" title="No" 
 value="<?php echo set_value('tno', isset($default['no']) ? $default['no'] : ''); ?>" onkeyup="checkdigit(this.value, 'tno')" /> &nbsp; &nbsp; </td> 
 					
+        <td> <label for="tvendor"> Vendor </label> <br />
+             <input type="text" class="required" readonly="readonly" name="tvendor" id="tcust" size="35" title="Name" /> &nbsp; 
+            <?php echo anchor_popup(site_url("vendor/get_list/"), '[ ... ]', $atts1); ?> &nbsp; </td>
+                    
 					<td> <label for=""> Date : </label> <br />
 					     <input type="Text" name="tdate" id="d1" title="Start date" size="10" class="form_field" /> 
 				         <img src="<?php echo base_url();?>/jdtp-images/cal.gif" onclick="javascript:NewCssCal('d1','yyyymmdd')" style="cursor:pointer"/>

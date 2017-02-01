@@ -22,6 +22,7 @@ class Demand extends MX_Controller
         $this->return_stock = $this->load->library('return_stock_lib');
         $this->wt           = $this->load->library('warehouse_transaction');
         $this->vendor       = $this->load->library('vendor_lib');
+        $this->purchase     = new Purchase_lib();
 
     }
 
@@ -31,7 +32,7 @@ class Demand extends MX_Controller
                       'screeny'=> '0','class'=> 'print','title'=> 'print', 'screeny' => '\'+((parseInt(screen.height) - 600)/2)+\'');
 
     private $properti, $modul, $title, $currency, $unit;
-    private $user,$product,$return_stock,$wt,$vendor;
+    private $user,$product,$return_stock,$wt,$vendor,$purchase;
 
     function index()
     {
@@ -82,8 +83,9 @@ class Demand extends MX_Controller
                 
                 $this->table->add_row
                 (
-                    ++$i, 'FPB-00'.$demand->no, tgleng($demand->dates), $demand->desc, $demand->log,
-                    anchor($this->title.'/confirmation/'.$demand->id,'<span>update</span>',array('class' => $this->post_status($demand->approved), 'title' => 'edit / update')).' '.
+                    ++$i, 'FPB-00'.$demand->no, tglin($demand->dates), $demand->desc, $demand->log,
+                    anchor($this->title.'/confirmation/'.$demand->id,'<span>update</span>',array('class' => $this->post_status($demand->approved), 'title' => 'edit / update')).' &nbsp; |&nbsp; '.
+                    anchor($this->title.'/release/'.$demand->id,'<span>update</span>',array('class' => $this->released_status($demand->released), 'title' => 'edit / update')).' &nbsp; '.
                     anchor_popup($this->title.'/print_invoice/'.$demand->no,'<span>print</span>',$this->atts).' '.
                     anchor($this->title.'/add_trans/'.$demand->no,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                     anchor($this->title.'/delete/'.$demand->id.'/'.$demand->no,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
@@ -147,10 +149,13 @@ class Demand extends MX_Controller
 
         $data['title'] = $this->properti['name'].' | Administrator  '.ucwords($this->modul['title']);
         $data['h2title'] = $this->modul['title'];
-        $data['main_view'] = 'product_list';
         $data['form_action'] = site_url($this->title.'/get_list');
+        $data['main_view'] = 'vendor_list';
+        $data['currency'] = $this->currency->combo();
+        $data['link'] = array('link_back' => anchor($this->title.'/get_list','<span>back</span>', array('class' => 'back')));
 
-        $stocks = $this->Demand_model->get_list()->result();
+
+        $demands = $this->Demand_model->get_list()->result();
 
         $tmpl = array('table_open' => '<table cellpadding="2" cellspacing="1" class="tablemaster">');
 
@@ -161,15 +166,24 @@ class Demand extends MX_Controller
         $this->table->set_heading('No', 'Code', 'Date', 'Notes', 'Action');
 
         $i = 0;
-        foreach ($stocks as $stock)
+        foreach ($demands as $res)
         {
-          $datax = array('name' => 'button', 'type' => 'button', 'content' => 'Select', 'onclick' => 'setvalue(\''.$stock->no.'\',\'tref\')');
-          $this->table->add_row( ++$i, 'EX-00'.$stock->no, tgleng($stock->dates), $stock->desc, form_button($datax) );
+           $datax = array(
+                            'name' => 'button',
+                            'type' => 'button',
+                            'content' => 'Select',
+                            'onclick' => 'setvalue(\''.$res->no.'\',\'tdemand\')'
+                         );
+
+            $this->table->add_row
+            (
+                ++$i, 'FPB-00'.$res->no, tglin($res->dates), ucfirst($res->desc),
+                form_button($datax)
+            );
         }
 
         $data['table'] = $this->table->generate();
         $this->load->view('demand_list', $data);
-        
     }
 
 //    ===================== approval ===========================================
@@ -178,6 +192,13 @@ class Demand extends MX_Controller
     {
        if ($val == 0) {$class = "notapprove"; }
        elseif ($val == 1){$class = "approve"; }
+       return $class;
+    }
+    
+    private function released_status($val)
+    {
+       if ($val == 0) {$class = "credit"; }
+       elseif ($val == 1){$class = "settled"; }
        return $class;
     }
 
@@ -196,6 +217,26 @@ class Demand extends MX_Controller
            $this->Demand_model->update_id($pid, $data);
 
            $this->session->set_flashdata('message', "$this->title FPB-00$demand->no confirmed..!");
+           redirect($this->title);
+        }
+
+    }
+    
+    function release($pid)
+    {
+        $demand = $this->Demand_model->get_demand_by_id($pid)->row();
+
+        if ($demand->approved == 0)
+        {
+           $this->session->set_flashdata('message', "$this->title unapproved, can't released..!"); // set flash data message dengan session
+           redirect($this->title);
+        }
+        else
+        {
+           $data = array('released' => 1);
+           $this->Demand_model->update_id($pid, $data);
+
+           $this->session->set_flashdata('message', "$this->title FPB-00$demand->no released..!");
            redirect($this->title);
         }
 
@@ -219,13 +260,17 @@ class Demand extends MX_Controller
     {
         $this->acl->otentikasi_admin($this->title);
         $val = $this->Demand_model->get_demand_by_id($uid)->row();
+        
+        if ($this->purchase->cek_relation($po, 'demand') == TRUE)
+        {
+          $this->Demand_item_model->delete_po($po);
+          $this->Demand_model->delete($uid);
 
-        $this->Demand_item_model->delete_po($po);
-        $this->Demand_model->delete($uid);
-
-        $this->session->set_flashdata('message', "1 $this->title successfully removed..!");
+          $this->session->set_flashdata('message', "1 $this->title successfully removed..!");
+        }
+        else { $this->session->set_flashdata('message', "1 $this->title related to purchase module..!"); }
+        
         redirect($this->title);
-
     }
 
     function add()

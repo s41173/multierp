@@ -77,6 +77,12 @@ $atts1 = array(
                              </select> &nbsp;
                         </td>
 					</tr>
+                    
+                    <tr>	
+						<td> <label for="ctype"> Type </label> </td> <td>:</td>
+<td> <?php $js = 'class="required"'; echo form_dropdown('cctype', $ctype, isset($default['ctype']) ? $default['ctype'] : '', $js); ?> &nbsp;
+                        </td>
+					</tr>
 					
                     <tr>	
 						 <td> <label for="tdate"> Deal Date </label> </td> <td>:</td>

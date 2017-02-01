@@ -113,10 +113,11 @@ class Cash_demand extends MX_Controller
 	$this->load->view('template', $data);
     }
 
-    private function get_search($no,$date)
+    private function get_search($no,$date,$vendor=null)
     {
         if ($no){ $this->model->where('no', $no); }
         elseif($date){ $this->model->where('dates', $date); }
+        elseif($vendor){ $this->model->where('vendor', $this->vendor->get_vendor_id($vendor)); }
         return $this->model->get();
     }
     
@@ -132,7 +133,7 @@ class Cash_demand extends MX_Controller
         $data['currency'] = $this->currency->combo();
 //        $data['year'] = $this->financial->combo_active();
 
-        $aps = $this->get_search($this->input->post('tno'), $this->input->post('tdate'));
+        $aps = $this->get_search($this->input->post('tno'), $this->input->post('tdate'), $this->input->post('tvendor'));
         
         $tmpl = array('table_open' => '<table cellpadding="2" cellspacing="1" class="tablemaster">');
 
@@ -161,6 +162,36 @@ class Cash_demand extends MX_Controller
         $this->load->view('template', $data);
     }
 
+    function get_list_transaction($vendor=null)
+    {
+        $this->acl->otentikasi1($this->title);
+
+        $data['title'] = $this->properti['name'].' | Administrator  '.ucwords($this->modul['title']);
+        $data['h2title'] = $this->modul['title'];
+        $data['main_view'] = 'product_list';
+        $data['form_action'] = site_url($this->title.'/get_list');
+
+        $stocks = $this->demandmodel->get_list_transaction($vendor=null)->result();
+
+        $tmpl = array('table_open' => '<table cellpadding="2" cellspacing="1" class="tablemaster">');
+
+        $this->table->set_template($tmpl);
+        $this->table->set_empty("&nbsp;");
+
+        //Set heading untuk table
+        $this->table->set_heading('No', 'Code', 'Date', 'Cost', 'Notes', 'Amount');
+
+        $i = 0;
+        foreach ($stocks as $stock)
+        {
+          $datax = array('name' => 'button', 'type' => 'button', 'content' => 'Select', 'onclick' => 'setvalue(\''.$stock->no.'\',\'tref\')');
+          $this->table->add_row( ++$i, 'RC-00'.$stock->no, tglin($stock->dates), $stock->cost, $stock->notes, number_format($stock->amount));
+        }
+
+        $data['table'] = $this->table->generate();
+        $this->load->view('cash_demand_list', $data);
+    }
+    
     function get_list($vendor=null)
     {
         $this->acl->otentikasi1($this->title);
@@ -422,6 +453,7 @@ class Cash_demand extends MX_Controller
         $data['default']['desc'] = $cash->desc;
         $data['default']['user'] = $this->user->get_username($cash->user);
         $data['default']['docno'] = $cash->docno;
+        $data['vendorid'] = $cash->vendor;
 
         $data['default']['balance'] = $cash->amount;
 

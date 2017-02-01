@@ -26,10 +26,11 @@ class Purchase extends MX_Controller
         $this->stockin = new Stock_in_lib();
         $this->ap = new Ap_payment_lib();
         $this->trans = new Trans_ledger_lib();
+        $this->demand = new Demand_lib();
 
     }
 
-    private $properti, $modul, $title, $trans;
+    private $properti, $modul, $title, $trans, $demand;
     private $vendor,$user,$tax,$journal,$journalgl,$product,$currency,$unit,$stockin,$ap;
 
     private  $atts = array('width'=> '400','height'=> '350',
@@ -513,16 +514,19 @@ class Purchase extends MX_Controller
         $this->form_validation->set_rules('tshipping', 'Shipping', 'required');
         $this->form_validation->set_rules('tuser', 'User', 'required');
         $this->form_validation->set_rules('tdocno', 'Doc NO', '');
+        $this->form_validation->set_rules('tdemand', 'Demand', 'required');
 
         if ($this->form_validation->run($this) == TRUE)
         {
-            $purchase = array('vendor' => $this->vendor->get_vendor_id($this->input->post('tvendor')), 'no' => $this->input->post('tno'), 'status' => 0, 'docno' => $this->input->post('tdocno'),
+            $purchase = array('vendor' => $this->vendor->get_vendor_id($this->input->post('tvendor')), 'no' => $this->input->post('tno'), 
+                              'demand' => $this->input->post('tdemand'), 'status' => 0, 'docno' => $this->input->post('tdocno'),
                               'dates' => $this->input->post('tdate'), 'acc' => $this->input->post('cacc'), 'currency' => $this->input->post('ccurrency'), 'notes' => $this->input->post('tnote'), 
                               'desc' => $this->input->post('tdesc'), 'shipping_date' => $this->input->post('tshipping'), 'user' => $this->user->get_userid($this->input->post('tuser')),
                               'log' => $this->session->userdata('log'));
             
             $this->Purchase_model->add($purchase);
             $this->session->set_flashdata('message', "One $this->title data successfully saved!");
+            $this->trans_item($this->input->post('tno'));
             redirect($this->title.'/add_trans/'.$this->input->post('tno'));
 //            echo 'true';
         }
@@ -561,6 +565,7 @@ class Purchase extends MX_Controller
         $data['default']['shipping'] = $purchase->shipping_date;
         $data['default']['user'] = $this->user->get_username($purchase->user);
         $data['default']['docno'] = $purchase->docno;
+        $data['default']['demand'] = $purchase->demand;
 
         $data['default']['tax'] = $purchase->tax;
         $data['default']['totaltax'] = $purchase->total;
@@ -635,6 +640,22 @@ class Purchase extends MX_Controller
         }
         
         redirect($this->title.'/edit_item/'.$id.'/'.$po);
+    }
+    
+    private function trans_item($po=null)
+    {
+        $demand = $this->Purchase_model->get_purchase_by_no($po)->row();
+        $results = $this->demand->get_request($demand->demand)->result();
+        
+        foreach ($results as $res)
+        {
+           $pitem = array('product' => $res->product, 'purchase_id' => $po, 'qty' => $res->qty,
+                           'price' => 0,
+                           'amount' => 0,
+                           'tax' => 0);
+           $this->Purchase_item_model->add($pitem);
+           $this->update_trans($po); 
+        }
     }
     
     function add_item($po=null)
@@ -873,6 +894,7 @@ class Purchase extends MX_Controller
        $data['user'] = $this->user->get_username($purchase->user);
        $data['currency'] = $purchase->currency;
        $data['docno'] = $purchase->docno;
+       $data['demand'] = $purchase->demand;
        $data['log'] = $this->session->userdata('log');
 
        $data['cost'] = $purchase->costs;

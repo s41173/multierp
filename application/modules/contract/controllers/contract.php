@@ -22,14 +22,17 @@ class Contract extends MX_Controller
         $this->nsales = new Nsales();
         $this->phase = new Phase_lib();
         $this->journalgl = new Journalgl_lib();
+        $this->coa = new Contract_adjustment_lib();
+        $this->ctype = new Contract_type_lib();
+        $this->account = new Account_lib();
         
         $this->load->library('fusioncharts');
         $this->swfCharts  = base_url().'public/flash/Column3D.swf';
         
     }
 
-    private $properti, $modul, $title, $phase, $journalgl;
-    private $customer,$user,$currency,$sales,$nsales;
+    private $properti, $modul, $title, $phase, $journalgl, $coa, $ctype;
+    private $customer,$user,$currency,$sales,$nsales, $account;
     
     private  $atts = array('width'=> '800','height'=> '600',
                       'scrollbars' => 'yes','status'=> 'yes',
@@ -81,7 +84,7 @@ class Contract extends MX_Controller
             $this->table->set_empty("&nbsp;");
 
             //Set heading untuk table
-            $this->table->set_heading('No', 'Type', 'Code', 'Cur', 'Doc-No', 'Customer', 'Deal', 'Start', 'End', 'Amount', 'Balance',  '#', 'Action');
+            $this->table->set_heading('No', 'Type', 'Code', 'Cur', 'Doc-No', 'Customer', 'Deal', 'Start', 'End', 'Amount', 'Balance', 'Adjustment',  '#', 'Action');
 
             $i = 0 + $offset;
             foreach ($contracts as $contract)
@@ -90,7 +93,8 @@ class Contract extends MX_Controller
                 
                 $this->table->add_row
                 (
-                    ++$i, $contract->type, 'CO-00'.$contract->no, $contract->currency, $contract->docno, $contract->prefix.' '.$contract->name, tglin($contract->deal_dates), tglin($contract->dates), tglin($contract->due), number_format($contract->tax+$contract->amount), number_format($contract->balance), $this->status($contract->status),
+                    ++$i, $contract->type, 'CO-00'.$contract->no, $contract->currency, $contract->docno, $contract->prefix.' '.$contract->name, tglin($contract->deal_dates), tglin($contract->dates), tglin($contract->due), number_format($contract->tax+$contract->amount), number_format($contract->balance),
+                    $this->coa->cek_contract($contract->no), $this->status($contract->status),
                     anchor($this->title.'/void/'.$contract->id.'/'.$contract->no.'/'.$contract->type,'<span>print</span>',$this->atts2).'&nbsp;'.
                     anchor($this->title.'/confirmation/'.$contract->id,'<span>update</span>',array('class' => $this->post_status($contract->approved), 'title' => 'edit / update')).' '.
                     anchor_popup($this->title.'/invoice/'.$contract->id,'<span>print</span>',$this->atts).' '.
@@ -131,7 +135,7 @@ class Contract extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('No', 'Type', 'Code', 'Cur', 'Doc-No', 'Customer', 'Deal', 'Start', 'End', 'Amount', 'Balance',  '#', 'Action');
+        $this->table->set_heading('No', 'Type', 'Code', 'Cur', 'Doc-No', 'Customer', 'Deal', 'Start', 'End', 'Amount', 'Balance', 'Adjustment',  '#', 'Action');
 
         $i = 0;
         foreach ($contracts as $contract)
@@ -140,7 +144,8 @@ class Contract extends MX_Controller
 
             $this->table->add_row
             (
-                ++$i, $contract->type, 'CO-00'.$contract->no, $contract->currency, $contract->docno, $contract->prefix.' '.$contract->name, tglin($contract->deal_dates), tglin($contract->dates), tglin($contract->due), number_format($contract->tax+$contract->amount), number_format($contract->balance), $this->status($contract->status),
+                ++$i, $contract->type, 'CO-00'.$contract->no, $contract->currency, $contract->docno, $contract->prefix.' '.$contract->name, tglin($contract->deal_dates), tglin($contract->dates), tglin($contract->due), number_format($contract->tax+$contract->amount), number_format($contract->balance),
+                $this->coa->cek_contract($contract->no), $this->status($contract->status),
                 anchor($this->title.'/void/'.$contract->id.'/'.$contract->no.'/'.$contract->type,'<span>print</span>',$this->atts2).'&nbsp;'.
                 anchor($this->title.'/confirmation/'.$contract->id,'<span>update</span>',array('class' => $this->post_status($contract->approved), 'title' => 'edit / update')).' '.
                 anchor_popup($this->title.'/invoice/'.$contract->id,'<span>print</span>',$this->atts).' '.
@@ -160,8 +165,6 @@ class Contract extends MX_Controller
 //        
         if ($this->input->post('ctype')){ $type = $this->input->post('ctype'); }else { $type = '0'; }
         if ($this->input->post('tyear')){ $year = $this->input->post('tyear'); }else { $year = $ps->year; }
-        
-        
         
         $arpData[0][1] = 'January';
         $arpData[0][2] = $this->Contract_model->total(1,$year,$type);
@@ -199,8 +202,8 @@ class Contract extends MX_Controller
         $arpData[11][1] = 'December';
         $arpData[11][2] = $this->Contract_model->total(12,$year,$type);
 
-        $strXML1        = $this->fusioncharts->setDataXML($arpData,'','') ;
-        $graph = $this->fusioncharts->renderChart($this->swfCharts,'',$strXML1,"Sales", "98%", 400, false, false) ;
+        $strXML1 = $this->fusioncharts->setDataXML($arpData,'','') ;
+        $graph   = $this->fusioncharts->renderChart($this->swfCharts,'',$strXML1,"Sales", "98%", 400, false, false) ;
         return $graph;
         
     }
@@ -260,29 +263,40 @@ class Contract extends MX_Controller
     function confirmation($pid)
     { 
       $this->acl->otentikasi_admin($this->title);  
-      $this->create_journal($pid);
-      $contract = array('approved' => 1);
-      $this->Contract_model->update_id($pid, $contract);
-      $this->session->set_flashdata('message', "1 $this->title approved..!");
+      if ($this->create_journal($pid) == TRUE)
+      {
+        $contract = array('approved' => 1);
+        $this->Contract_model->update_id($pid, $contract);
+        $this->session->set_flashdata('message', "1 $this->title approved..!");
+      }
+      else{ $this->session->set_flashdata('message', "1 $this->title can't approved..!"); }
       redirect($this->title); 
     }
     
     private function create_journal($pid)
     {
+        $this->db->trans_start();
+        
         $ap1 = $this->Contract_model->get_contract_by_id($pid)->row();
         //  create journal gl
                 
         $cm = new Control_model();
         
-        if ($ap1->type == 'tax'){ $ar = $cm->get_id(17); $sales = $cm->get_id(19); }else { $ar = $cm->get_id(55); $sales = $cm->get_id(56); }
+        if ($ap1->type == 'tax')
+        { $ar = $cm->get_id(56); }else { $ar = $cm->get_id(57); }
         $tax   = $cm->get_id(18); // tax
+        $sales = $this->ctype->get_account($ap1->contract_type);
         
-        $this->journalgl->new_journal('0'.$ap1->no,$ap1->dates,'CO',$ap1->currency,$ap1->notes,$ap1->amount, $this->session->userdata('log'));
+        
+        $this->journalgl->new_journal('0'.$ap1->no,$ap1->deal_dates,'CO',$ap1->currency,$ap1->notes,$ap1->amount, $this->session->userdata('log'));
         $dpid = $this->journalgl->get_journal_id('CO','0'.$ap1->no);
         
-        if ($ap1->tax > 0){ $this->journalgl->add_trans($dpid,$tax,0,$ap1->tax); } // hutang ppn
-        $this->journalgl->add_trans($dpid,$sales,0,$ap1->amount); // penjualan
+//        if ($ap1->tax > 0){ $this->journalgl->add_trans($dpid,$tax,0,$ap1->tax); } // hutang ppn
+        $this->journalgl->add_trans($dpid,$sales,0,$ap1->balance); // penjualan
         $this->journalgl->add_trans($dpid,$ar,$ap1->balance,0); // piutang / kas
+        
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){ return FALSE; }else { return TRUE; }
     }
 
 
@@ -302,17 +316,24 @@ class Contract extends MX_Controller
     
     private function rollback($uid,$po)
     {
+      $this->db->trans_start();   
       $this->journalgl->remove_journal('CO', '0'.$po); // journal gl    
       $contract = array('approved' => 0);
       $this->Contract_model->update_id($uid, $contract); 
-      $this->session->set_flashdata('message', "1 $this->title has been rollback..!");
+      $this->db->trans_complete();
+      if ($this->db->trans_status() === FALSE){ $this->session->set_flashdata('message', "1 $this->title can't rollback..!"); }
+      else { $this->session->set_flashdata('message', "1 $this->title has been rollback..!"); }
     }
     
     private function remove($uid,$po)
     {
+      $this->db->trans_start();     
       $this->pm->delete_po($po);     
       $this->Contract_model->delete($uid);  
-      $this->session->set_flashdata('message', "1 $this->title has been removed..!");
+      
+      $this->db->trans_complete();
+      if ($this->db->trans_status() === FALSE){ $this->session->set_flashdata('message', "1 $this->title can't removed..!"); }
+      else { $this->session->set_flashdata('message', "1 $this->title has been removed..!");; }
     }
 
     private function cek_confirmation($po,$page=null)
@@ -335,6 +356,7 @@ class Contract extends MX_Controller
         $data['currency'] = $this->currency->combo();
         $data['code'] = $this->Contract_model->counter();
         $data['user'] = $this->session->userdata("username");
+        $data['ctype'] = $this->ctype->combo();
         
         $this->load->view('contract_form', $data);
     }
@@ -350,6 +372,7 @@ class Contract extends MX_Controller
 	$data['currency'] = $this->currency->combo();
         $data['code'] = $this->Contract_model->counter();
         $data['user'] = $this->session->userdata("username");
+        $data['ctype'] = $this->ctype->combo();
 
 	// Form validation
         $this->form_validation->set_rules('tcust', 'Customer', 'required|callback_valid_customer');
@@ -361,11 +384,12 @@ class Contract extends MX_Controller
         $this->form_validation->set_rules('ccurrency', 'Currency', 'required');
         $this->form_validation->set_rules('tnote', 'Note', 'required');
         $this->form_validation->set_rules('tuser', 'User', 'required');
+        $this->form_validation->set_rules('ctype', 'Contract Type', 'required');
 
         if ($this->form_validation->run($this) == TRUE)
         {
             $contract = array('customer' => $this->customer->get_customer_id($this->input->post('tcust')), 'no' => $this->input->post('tno'),
-                              'docno' => $this->input->post('tdocno'),
+                              'docno' => $this->input->post('tdocno'), 'contract_type' => $this->input->post('cctype'), 'type' => $this->input->post('ctype'),
                               'deal_dates' => $this->input->post('tdealdate'), 'dates' => $this->input->post('tdate'), 'due' => $this->input->post('tdue'),  'currency' => $this->input->post('ccurrency'),
                               'notes' => $this->input->post('tnote'), 'user' => $this->user->get_userid($this->session->userdata('username')),
                               'staff' => $this->input->post('tuser') ,'log' => $this->session->userdata('log'));
@@ -396,6 +420,7 @@ class Contract extends MX_Controller
         $data['code'] = $po;
         $data['user'] = $this->session->userdata("username");
         $data['phase'] = combo_number();
+        $data['ctype'] = $this->ctype->combo();
 
         $contract = $this->Contract_model->get_contract_by_no($po)->row();
 
@@ -411,6 +436,7 @@ class Contract extends MX_Controller
         $data['default']['amount'] = $contract->amount;
         $data['default']['tax'] = $contract->tax;
         $data['default']['balance'] = $contract->balance;
+        $data['default']['ctype'] = $contract->contract_type;
         
         //        ============================ Phase Item  =========================================
         $items = $this->pm->get_last($po)->result();
@@ -555,6 +581,9 @@ class Contract extends MX_Controller
        $data['user'] = $this->user->get_username($ap->user);
        $data['currency'] = $ap->currency;
        $data['log'] = $this->session->userdata('log');
+       
+       $npwp = $this->customer->get_customer_details($ap->customer);
+       $data['npwp'] = $npwp->npwp;
 
        $data['tax'] = $ap->tax;
        $data['amount'] = $ap->amount;
@@ -596,10 +625,11 @@ class Contract extends MX_Controller
         $this->form_validation->set_rules('ccurrency', 'Currency', 'required');
         $this->form_validation->set_rules('tnote', 'Note', 'required');
         $this->form_validation->set_rules('tuser', 'User', 'required');
+        $this->form_validation->set_rules('ctype', 'Contract Type', 'required');
 
         if ($this->form_validation->run($this) == TRUE && $this->valid_void($po) == TRUE)
         {
-            $contract = array('customer' => $this->customer->get_customer_id($this->input->post('tcust')),
+            $contract = array('customer' => $this->customer->get_customer_id($this->input->post('tcust')), 'contract_type' => $this->input->post('cctype'),
                               'type' => $this->input->post('ctype'), 'docno' => $this->input->post('tdocno'),
                               'deal_dates' => $this->input->post('tdealdate'), 'dates' => $this->input->post('tdate'), 'due' => $this->input->post('tdue'),  'currency' => $this->input->post('ccurrency'),
                               'amount' => $this->input->post('tamount'), 'tax' => $this->input->post('ttax'), 'balance' => $this->input->post('tbalance'),

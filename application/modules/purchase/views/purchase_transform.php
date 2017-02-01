@@ -132,6 +132,12 @@ $atts1 = array(
 				           <img src="<?php echo base_url();?>/jdtp-images/cal.gif" onClick="javascript:NewCssCal('d1','yyyymmdd')" style="cursor:pointer"/> &nbsp; <br />
 						</td>
 					</tr>
+                    
+                    <tr> 
+					<td> <label for="tvendor"> FPB </label> </td> <td>:</td>
+<td> <input type="text" class="required" name="tdemand" id="tdemand" size="5" title="Name" readonly
+     value="<?php echo set_value('tdemand', isset($default['demand']) ? $default['demand'] : ''); ?>" /> </td>
+					</tr>
 					
 					<tr>
 						<td> <label for="tdocno"> Document No </label> </td>  <td>:</td>

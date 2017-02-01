@@ -63,6 +63,12 @@ $atts1 = array(
 	     <td> <input type="text" class="required" name="tno" id="tno" size="4" title="Name" onkeyup="checkdigit(this.value, 'tno')"
 		       value="<?php echo isset($code) ? $code : ''; ?>" /> &nbsp; <br /> </td>
 					</tr>
+                    
+                    <tr> 
+						<td> <label for="tvendor"> FPB </label> </td> <td>:</td>
+						<td> <input type="text" class="required" name="tdemand" id="tdemand" size="5" title="Name" /> &nbsp; 
+						<?php echo anchor_popup(site_url("demand/get_list/"), '[ ... ]', $atts1); ?>
+					</tr>
 					
 					<tr>	
 						 <td> <label for="tdate"> Invoice Date </label> </td> <td>:</td>
