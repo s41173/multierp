@@ -292,8 +292,8 @@ class Contract extends MX_Controller
         $dpid = $this->journalgl->get_journal_id('CO','0'.$ap1->no);
         
 //        if ($ap1->tax > 0){ $this->journalgl->add_trans($dpid,$tax,0,$ap1->tax); } // hutang ppn
-        $this->journalgl->add_trans($dpid,$sales,0,$ap1->balance); // penjualan
         $this->journalgl->add_trans($dpid,$ar,$ap1->balance,0); // piutang / kas
+        $this->journalgl->add_trans($dpid,$sales,0,$ap1->balance); // penjualan
         
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE){ return FALSE; }else { return TRUE; }

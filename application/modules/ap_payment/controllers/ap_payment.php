@@ -160,7 +160,7 @@ class Ap_payment extends MX_Controller
     
     public function chart($cur='IDR')
     {
-        $fusion = new Fusioncharts();
+        $fusion = $this->load->library('fusioncharts');
         $chart  = base_url().'public/flash/Column3D.swf';
         
         $ps = new Period();
@@ -272,10 +272,10 @@ class Ap_payment extends MX_Controller
                
                $ap   = $cm->get_id(11);
                $cost = $cm->get_id(5); // biaya denda
-               $discount = $cm->get_id(3); // biaya denda
+               $discount = $cm->get_id(3); // potongan pembelian
                
-               $this->journalgl->new_journal('00'.$appayment->no,$appayment->dates,'CD',$appayment->currency, 'Payment for : '.$this->get_trans_code($appayment->no).' - '.$appayment->prefix.' '.$appayment->name.' - '.$this->acc($appayment->acc), $appayment->amount, $this->session->userdata('log'));
-               $dpid = $this->journalgl->get_journal_id('CD','00'.$appayment->no);
+               $this->journalgl->new_journal('0'.$appayment->no,$appayment->dates,'CD',$appayment->currency, 'Payment for : '.$this->get_trans_code($appayment->no).' - '.$appayment->prefix.' '.$appayment->name.' - '.$this->acc($appayment->acc), $appayment->amount, $this->session->userdata('log'));
+               $dpid = $this->journalgl->get_journal_id('CD','0'.$appayment->no);
                
                // cash ledger
                $this->ledger->add($appayment->acc, "CD-00".$appayment->no, $appayment->currency, $appayment->dates, 0, $appayment->amount);
@@ -496,7 +496,7 @@ class Ap_payment extends MX_Controller
     {
        $this->unsettled_po($po,$code);
 //       $this->unsettled_pr($po);
-       $this->journalgl->remove_journal('CD', '00'.$po);
+       $this->journalgl->remove_journal('CD', '0'.$po);
        $this->journalgl->remove_journal('PD', '0'.$po);
        
        // rollback kartu hutang 

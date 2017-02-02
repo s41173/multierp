@@ -52,7 +52,7 @@ class Controlc extends MX_Controller
         $offset = $this->uri->segment($uri_segment);
 
 	// ---------------------------------------- //
-        $controls = $this->model->get($this->modul['limit'], $offset);
+        $controls = $this->model->order_by('no','asc')->get($this->modul['limit'], $offset);
         $num_rows = $this->model->count();
 //        $cl = $accounts->classification->get_iterated();
 

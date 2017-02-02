@@ -117,7 +117,7 @@ class Apc extends MX_Controller
 
     public function chart($cur='IDR')
     {
-        $fusion = new Fusioncharts();
+        $fusion = $this->load->library('fusioncharts');
         $chart  = base_url().'public/flash/Column3D.swf';
         
         $ps = new Period();
@@ -761,6 +761,7 @@ class Apc extends MX_Controller
        $data['currency'] = $ap->currency;
        $data['docno'] = $ap->docno;
        $data['log'] = $this->session->userdata('log');
+       $data['account'] = $this->account->get_code($ap->account).' : '. $this->account->get_name($ap->account);
 
        $data['amount'] = $ap->amount;
        $terbilang = $this->load->library('terbilang');

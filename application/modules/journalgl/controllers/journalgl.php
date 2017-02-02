@@ -599,7 +599,7 @@ class Journalgl extends MX_Controller
         $data['balances'] = number_format($res[2]);
 
 //        ============================ Item  =========================================
-        $data['items'] = $this->mitem->where('gl_id', $journal->id)->get();
+        $data['items'] = $this->mitem->where('gl_id', $journal->id)->order_by('id', 'asc')->get();
 
         $this->load->view('journal_invoice', $data);
 

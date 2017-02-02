@@ -398,6 +398,7 @@ class Purchase extends MX_Controller
 
     private function create_po_journal($pid,$date,$currency,$code,$codetrans,$no,$type,$amount,$p1,$p2)
     {
+        $this->db->trans_start();
         $cm = new Control_model();
         
         $landed   = $cm->get_id(1); // biaya pengiriman barang
@@ -407,6 +408,7 @@ class Purchase extends MX_Controller
         $bank     = $cm->get_id(12); // bank
         $kas      = $cm->get_id(13); // kas
         $kaskecil = $cm->get_id(14); // kas kecil
+        $hpp      = $cm->get_id(59); // hpp billboard
         $account = 0;
         
         $purchase = $this->Purchase_model->get_purchase_by_id($pid)->row();
@@ -415,16 +417,18 @@ class Purchase extends MX_Controller
         if ($p1 > 0)
         {  
            // create journal- GL
-           $this->journalgl->new_journal('0'.$no,$date,'PJ',$currency,$code,$amount, $this->session->userdata('log'));
-           $this->journalgl->new_journal('0'.$no,$date,'CD',$currency,'DP Payment : PJ-00'.$no,$p1, $this->session->userdata('log'));
+           $this->journalgl->new_journal('0'.$no,$date,'PO',$currency,$code,$amount, $this->session->userdata('log'));
+           $this->journalgl->new_journal('0'.$no,$date,'DP',$currency,'DP Payment : PO-00'.$no,$p1, $this->session->userdata('log'));
            
-           $jid = $this->journalgl->get_journal_id('PJ','0'.$purchase->no);
-           $dpid = $this->journalgl->get_journal_id('CD','0'.$purchase->no);
+           $jid = $this->journalgl->get_journal_id('PO','0'.$purchase->no);
+           $dpid = $this->journalgl->get_journal_id('DP','0'.$purchase->no);
            
-           $this->journalgl->add_trans($jid,$stock,$purchase->total-$purchase->tax-$purchase->discount-$purchase->over_amount,0); // tambah persediaan
-           $this->journalgl->add_trans($jid,$ap,0,$purchase->p1+$purchase->p2); // hutang usaha
+//           $this->journalgl->add_trans($jid,$stock,$purchase->total-$purchase->tax-$purchase->discount-$purchase->over_amount,0); // tambah persediaan
+           
+           $this->journalgl->add_trans($jid,$hpp,$purchase->total-$purchase->tax-$purchase->discount-$purchase->over_amount,0); // tambah hpp
            if ($purchase->tax > 0){ $this->journalgl->add_trans($jid,$tax,$purchase->tax,0); } // pajak pembelian
            if ($purchase->costs > 0){ $this->journalgl->add_trans($jid,$landed,$purchase->costs,0); } // landed costs
+           $this->journalgl->add_trans($jid,$ap,0,$purchase->p1+$purchase->p2); // hutang usaha
            
            //DP proses
            $this->journalgl->add_trans($dpid,$ap,$purchase->p1,0); // potongan hutang usaha
@@ -433,15 +437,19 @@ class Purchase extends MX_Controller
         }
         else 
         { 
-           $this->journalgl->new_journal('0'.$no,$date,'PJ',$currency,$code,$amount, $this->session->userdata('log'));
+           $this->journalgl->new_journal('0'.$no,$date,'PO',$currency,$code,$amount, $this->session->userdata('log'));
            
-           $jid = $this->journalgl->get_journal_id('PJ','0'.$purchase->no);
+           $jid = $this->journalgl->get_journal_id('PO','0'.$purchase->no);
             
-           $this->journalgl->add_trans($jid,$stock,$purchase->total-$purchase->tax-$purchase->discount-$purchase->over_amount,0); // tambah persediaan
-           $this->journalgl->add_trans($jid,$ap,0,$purchase->p1+$purchase->p2); // hutang usaha
+//           $this->journalgl->add_trans($jid,$stock,$purchase->total-$purchase->tax-$purchase->discount-$purchase->over_amount,0); // tambah persediaan
+           
+           $this->journalgl->add_trans($jid,$hpp,$purchase->total-$purchase->tax-$purchase->discount-$purchase->over_amount,0); // tambah hpp
            if ($purchase->tax > 0){ $this->journalgl->add_trans($jid,$tax,$purchase->tax,0); } // pajak pembelian
            if ($purchase->costs > 0){ $this->journalgl->add_trans($jid,$landed,$purchase->costs,0); } // landed costs
+           $this->journalgl->add_trans($jid,$ap,0,$purchase->p1+$purchase->p2); // hutang usaha
         }
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){ return FALSE; }else { return TRUE; }
     }
 
     function delete($uid,$po)
@@ -459,8 +467,8 @@ class Purchase extends MX_Controller
     
     private function rollback($uid,$po)
     {
-      $this->journalgl->remove_journal('PJ', '0'.$po); // journal gl
-      $this->journalgl->remove_journal('CD', '0'.$po);   
+      $this->journalgl->remove_journal('PO', '0'.$po); // journal gl
+      $this->journalgl->remove_journal('DP', '0'.$po);   
       $this->over_status($po, 1);
       
       // rollback kartu piutang

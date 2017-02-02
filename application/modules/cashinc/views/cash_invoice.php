@@ -41,7 +41,7 @@
 	
 	<div style="width:200px; border:0px solid red; float:right;">
 		<table style="font-size:11px;">
-            <tr> <td> No </td> <td>:</td> <td> <?php echo 'CR-000'.$pono; ?> </td> </tr>
+            <tr> <td> No </td> <td>:</td> <td> <?php echo 'CIN-00'.$pono; ?> </td> </tr>
 			<tr> <td> Dates </td> <td>:</td> <td> <?php echo $podate; ?> </td> </tr>
 		</table>
 	</div>

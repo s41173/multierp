@@ -46,7 +46,7 @@
 		<table style="font-size:11px;">
 			<tr> <td> Date </td> <td>:</td> <td> <?php echo $podate; ?> </td> </tr>
             <tr> <td> Type </td> <td>:</td> <td> <?php echo $type; ?> / <?php echo $voucherno; ?> </td> </tr>
-			<tr> <td> Account </td> <td>:</td> <td> <?php echo $acc; ?> </td> </tr>
+			<tr> <td> Account </td> <td>:</td> <td> <?php echo $bank; ?> </td> </tr>
 			<tr> <td> Notes </td> <td>:</td> <td> <?php echo $notes; ?> </td> </tr>
             <tr> <td> Status </td> <td>:</td> <td> <?php echo $stts; ?> </td> </tr>
 		</table>

@@ -120,7 +120,7 @@ class Ap extends MX_Controller
 
     public function chart($cur='IDR')
     {
-        $fusion = new Fusioncharts();
+        $fusion = $this->load->library('fusioncharts');
         $chart  = base_url().'public/flash/Column3D.swf';
         
         $ps = new Period();
@@ -287,7 +287,7 @@ class Ap extends MX_Controller
                 
                 $this->journalgl->add_trans($dpid,$account,0,$ap1->amount); // kas, bank, kas kecil
 
-               $this->session->set_flashdata('message', "$this->title GJ-00$ap1->no confirmed..!"); // set flash data message dengan session
+               $this->session->set_flashdata('message', "$this->title DJ-00$ap1->no confirmed..!"); // set flash data message dengan session
                redirect($this->title);
             }
         }
@@ -827,7 +827,7 @@ class Ap extends MX_Controller
        $data['log'] = $this->session->userdata('log');
        
        $data['check'] = $ap->check_no; 
-       $data['bank']  = $this->account->get_name($ap->account);
+       $data['bank']  = $this->account->get_code($ap->account).' : '.$this->account->get_name($ap->account);
        $data['due']   = $ap->due;
        
        $data['type'] = $ap->type;

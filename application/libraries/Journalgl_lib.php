@@ -6,9 +6,10 @@ class Journalgl_lib {
     {
         $this->ci = & get_instance();
         $this->le = new Ledger_lib();
+        $this->period = new Period_lib();
     }
 
-    private $ci;
+    private $ci,$period;
     private $le,$currency;
 
     // no, dates, code, currency, notes, balance, log
@@ -67,19 +68,23 @@ class Journalgl_lib {
     function remove_journal($codetrans,$no)
     {
         // ============ update transaction ===================
+        $year = $this->period->get('year');
+        
         $this->ci->db->where('no', $no);
         $this->ci->db->where('code', $codetrans);
+        $this->ci->db->where('YEAR(dates)', $year);
+        
         $jid = $this->ci->db->get('gls')->row();
         // ====================================================
         
         if ($jid)
         {
-          $this->ci->db->where('gl_id', $jid->id);
-          $this->ci->db->delete('transactions');
+            $this->ci->db->where('gl_id', $jid->id);
+            $this->ci->db->delete('transactions');
 
-          $this->ci->db->where('id', $jid->id);
-          $this->ci->db->delete('gls');
-          $this->le->set_profit_loss($this->currency);   
+            $this->ci->db->where('id', $jid->id);
+            $this->ci->db->delete('gls');
+            $this->le->set_profit_loss($this->currency);   
         }
     }
     

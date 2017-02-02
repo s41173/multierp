@@ -196,8 +196,8 @@ class Transfer extends MX_Controller
                 $this->journalgl->new_journal('0'.$transfer->no,$transfer->dates,'TR',$transfer->currency, 'Transfer from : '.$this->acc_type($transfer->from).' to '.$this->acc_type($transfer->to), $transfer->amount, $this->session->userdata('log'));
                 $dpid = $this->journalgl->get_journal_id('TR','0'.$transfer->no);
                 
-                $this->journalgl->add_trans($dpid,$from,0,$transfer->amount); // from
                 $this->journalgl->add_trans($dpid,$to,$transfer->amount,0); // to
+                $this->journalgl->add_trans($dpid,$from,0,$transfer->amount); // from
 
                $this->session->set_flashdata('message', "$this->title TR-00$transfer->no confirmed..!"); // set flash data message dengan session
                redirect($this->title);

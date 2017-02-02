@@ -84,7 +84,7 @@ class Cashinc extends MX_Controller
                 
                 $this->table->add_row
                 (
-                    ++$i, 'CR-000'.$cash->no, $cash->currency, tglin($cash->dates), $this->customer->get_customer_name($cash->customer), $cash->notes, $this->get_acc($cash->acc), number_format($cash->amount),
+                    ++$i, 'CIN-00'.$cash->no, $cash->currency, tglin($cash->dates), $this->customer->get_customer_name($cash->customer), $cash->notes, $this->get_acc($cash->acc), number_format($cash->amount),
                     anchor($this->title.'/confirmation/'.$cash->id,'<span>update</span>',array('class' => $this->post_status($cash->approved), 'title' => 'edit / update')).' '.
                     anchor_popup($this->title.'/invoice/'.$cash->no,'<span>print</span>',$this->atts).' '.
                     anchor($this->title.'/add_trans/'.$cash->no.'/'.$cash->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
@@ -142,7 +142,7 @@ class Cashinc extends MX_Controller
 
             $this->table->add_row
             (
-                ++$i, 'CR-000'.$cash->no, $cash->currency, tglin($cash->dates), $this->customer->get_customer_name($cash->customer), $cash->notes, $this->get_acc($cash->acc), number_format($cash->amount),
+                ++$i, 'CIN-00'.$cash->no, $cash->currency, tglin($cash->dates), $this->customer->get_customer_name($cash->customer), $cash->notes, $this->get_acc($cash->acc), number_format($cash->amount),
                 anchor($this->title.'/confirmation/'.$cash->id,'<span>update</span>',array('class' => $this->post_status($cash->approved), 'title' => 'edit / update')).' '.
                 anchor_popup($this->title.'/invoice/'.$cash->no,'<span>print</span>',$this->atts).' '.
                 anchor($this->title.'/add_trans/'.$cash->no.'/'.$cash->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
@@ -187,8 +187,8 @@ class Cashinc extends MX_Controller
             
              $cm = new Control_model();
         
-             $this->journalgl->new_journal('000'.$cash1->no, $cash1->dates,'CR', $cash1->currency, 'Payment from : '.$this->customer->get_customer_name($cash1->customer), $cash1->amount, $this->session->userdata('log'));
-             $dpid = $this->journalgl->get_journal_id('CR','000'.$cash1->no);
+             $this->journalgl->new_journal('0'.$cash1->no, $cash1->dates,'CIN', $cash1->currency, 'Payment from : '.$this->customer->get_customer_name($cash1->customer), $cash1->amount, $this->session->userdata('log'));
+             $dpid = $this->journalgl->get_journal_id('CIN','0'.$cash1->no);
                
              foreach ($transs as $trans) 
              {
@@ -222,7 +222,7 @@ class Cashinc extends MX_Controller
            if ($val->approved == 1)
            {
              $this->ledger->remove($val->dates, "CR-000".$po); // cash ledger      
-             $this->journalgl->remove_journal('CR', '000'.$po);
+             $this->journalgl->remove_journal('CIN', '0'.$po);
              $val->approved = 0;
              $val->save();
              $this->session->set_flashdata('message', "1 $this->title successfully rollback..!");

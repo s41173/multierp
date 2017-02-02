@@ -188,40 +188,49 @@ class Nar_payment extends MX_Controller
 //                redirect($this->title);
 //            }
             else
-            {
-                $this->settled_so($appayment->no,$appayment->dates); // fungsi untuk mensettled kan semua po
-//              
-                // fungsi kartu piutang
-                $this->trans->add($appayment->acc, 'NCR', $appayment->no, $appayment->currency, $appayment->dates, 0, $appayment->amount, $appayment->customer, 'AR');
+            {   
+                // create jurnal
+                if ($this->create_journal($pid) == TRUE){
+                    
+                  $this->settled_so($appayment->no,$appayment->dates); // fungsi untuk mensettled kan semua po
                 
-                $data = array('approved' => 1);
-                $this->Narpayment_model->update_id($pid, $data);
-//
-                //  create journal
-                
-               $cm = new Control_model();
-        
-               $ar         = $cm->get_id(55);
-               $pph        = $cm->get_id(18);
-               $cost       = $cm->get_id(53);
-               $account    = $appayment->account;
-               
-               $sum = $this->Payment_trans_model->total($appayment->no);
-               
-               $this->journalgl->new_journal('00'.$appayment->no,$appayment->dates,'NSO',$appayment->currency, 'Customer payment for : '.$this->get_trans_code($appayment->no).' - '.$appayment->prefix.' '.$appayment->name, $appayment->amount, $this->session->userdata('log'));
-               $dpid = $this->journalgl->get_journal_id('NSO','00'.$appayment->no);
-                
-               $this->journalgl->add_trans($dpid,$ar,0,$appayment->amount); // kredit piutang
-               $this->journalgl->add_trans($dpid,$account,intval($sum['amount']),0); // bank masuk
-               
-               if ($sum['tax'] > 0){ $this->journalgl->add_trans($dpid,$pph,$sum['tax'],0); }
-               if ($sum['cost'] > 0){ $this->journalgl->add_trans($dpid,$cost,$sum['cost'],0); }
-
-               $this->session->set_flashdata('message', "$this->title NCR-00$appayment->no confirmed..!"); // set flash data message dengan session
-               redirect($this->title);
+                  // fungsi kartu piutang
+                  $this->trans->add($appayment->acc, 'NCR', $appayment->no, $appayment->currency, $appayment->dates, 0, $appayment->amount, $appayment->customer, 'AR');
+                    
+                   $data = array('approved' => 1);
+                   $this->Narpayment_model->update_id($pid, $data);
+                   $this->session->set_flashdata('message', "$this->title NCR-00$appayment->no confirmed..!");
+                }
+                else{ $this->session->set_flashdata('message', "$this->title NCR-00$appayment->no can't confirmed..!"); }
             }
         }
+        redirect($this->title);
+    }
+    
+    private function create_journal($pid)
+    {
+       $this->db->trans_start();
+       
+       $appayment = $this->Narpayment_model->get_nar_payment_by_id($pid)->row();
+       
+       //  create journal
+       $cm = new Control_model();
 
+       $ar         = $cm->get_id(55); // piutang non ppn
+       $cost       = $cm->get_id(53); // biaya trf
+       $account    = $appayment->account;
+
+       $sum = $this->Payment_trans_model->total($appayment->no);
+
+       $this->journalgl->new_journal('0'.$appayment->no,$appayment->dates,'NCR',$appayment->currency, 'Customer payment for : '.$this->get_trans_code($appayment->no).' - '.$appayment->prefix.' '.$appayment->name, $appayment->amount, $this->session->userdata('log'));
+       $dpid = $this->journalgl->get_journal_id('NCR','0'.$appayment->no);
+
+       $this->journalgl->add_trans($dpid,$account,intval($sum['amount']+$sum['tax']),0); // bank masuk
+       if ($sum['cost'] > 0){ $this->journalgl->add_trans($dpid,$cost,$sum['cost'],0); }
+       $this->journalgl->add_trans($dpid,$ar,0,$appayment->amount); // kredit piutang
+        
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){ return FALSE; }else { return TRUE; }
     }
 
     private function get_trans_code($po)
@@ -384,7 +393,9 @@ class Nar_payment extends MX_Controller
         $this->journalgl->remove_journal('NSO', '00'.$po); // delete journal gl
         
         // hapus kartu piutang
-       $this->trans->remove($appayment->dates, 'NCR', $appayment->no);
+        $this->trans->remove($appayment->dates, 'NCR', $appayment->no);
+        
+        $this->journalgl->remove_journal('NCR', '0'.$po); // delete journal gl
         
         $data = array('approved' => 0);
         $this->Narpayment_model->update_id($uid, $data);
@@ -750,14 +761,14 @@ class Nar_payment extends MX_Controller
        $data['ven_bank'] = $this->customer->get_customer_bank($appayment->customer);
        
        $amt = $this->Payment_trans_model->total($po);
-       $data['amount'] = number_format(intval($amt['amount']+$amt['tax']));
+       $data['amount'] = number_format(intval($amt['amount']+$amt['tax']+$amt['cost']));
 //
        $data['items'] = $this->Payment_trans_model->get_details_based_id($po)->result();
 
        $terbilang = $this->load->library('terbilang');
        if ($appayment->currency == 'IDR')
-       { $data['terbilang'] = ucwords($terbilang->baca(intval($amt['amount']+$amt['tax']))).' Rupiah'; }
-       else { $data['terbilang'] = ucwords($terbilang->baca(intval($amt['amount']+$amt['tax']))); }
+       { $data['terbilang'] = ucwords($terbilang->baca(intval($amt['amount']+$amt['tax']+$amt['cost']))).' Rupiah'; }
+       else { $data['terbilang'] = ucwords($terbilang->baca(intval($amt['amount']+$amt['tax']+$amt['cost']))); }
 
        
 //

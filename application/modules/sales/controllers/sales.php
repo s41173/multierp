@@ -20,6 +20,7 @@ class Sales extends MX_Controller
         $this->user     = new Admin_lib();
         $this->tax      = new Tax_lib();
         $this->journal  = new Journal_lib();
+        $this->journalgl = new Journalgl_lib();
         $this->ar       = new Ar_payment();
         $this->contract = new Contract_lib();
         $this->trans    = new Trans_ledger_lib();
@@ -30,7 +31,7 @@ class Sales extends MX_Controller
     }
 
     private $properti, $modul, $title, $currency, $trans;
-    private $customer,$user,$tax,$journal,$ar,$contract;
+    private $customer,$user,$tax,$journal,$ar,$contract,$journalgl;
 
     function index()
     {
@@ -297,6 +298,7 @@ class Sales extends MX_Controller
             }
             else
             {
+                $this->db->trans_start();
                 // update contract balance 
                 $this->contract->update_balance($sales->contract_no, $sales->total, 0);
                 
@@ -307,10 +309,12 @@ class Sales extends MX_Controller
                 $this->Sales_model->update_id($pid, $data);
 
                 //  create journal
-//                $this->create_po_journal($sales->dates, $sales->currency, 'SO-00'.$sales->no.'-'.$sales->notes, 'SJ',
-//                                         $sales->no, 'AR', $sales->total + $sales->costs, $sales->p1,$sales->p2);
-
-               $this->session->set_flashdata('message', "$this->title SO-00$sales->no confirmed..!"); // set flash data message dengan session
+                $this->create_journal($pid);
+                
+                $this->db->trans_complete();
+                if ($this->db->trans_status() === FALSE){ 
+                $this->session->set_flashdata('message', "$this->title SO-00$sales->no can't confirmed..!"); }
+                else { $this->session->set_flashdata('message', "$this->title SO-00$sales->no confirmed..!"); }
             }
         }
         redirect($this->title);
@@ -337,14 +341,31 @@ class Sales extends MX_Controller
     }
 //    ===================== approval ===========================================
 
-    private function create_po_journal($date,$currency,$code,$codetrans,$no,$type,$amount,$p1,$p2)
+    private function create_journal($sid)
     {
-        if ($p1 > 0)
-        {
-           $this->journal->create_journal($date,$currency,$code,$codetrans,$no,$type,$amount);
-           $this->journal->create_journal($date,$currency,$code.' (Cash) ','DS',$no,'AR', $p1);
-        }
-        else { $this->journal->create_journal($date,$currency,$code,$codetrans,$no,$type,$amount); }
+        $this->db->trans_start();
+        
+        $ap1 = $this->Sales_model->get_sales_by_id($sid)->row();
+        //  create journal gl
+                
+        $cm = new Control_model();
+        
+        $ar = $cm->get_id(17); // piutang dagang
+        $tax   = $cm->get_id(18); // tax
+        $ar_contract = $cm->get_id(56); // piutang kontrak tax
+        $cost = $cm->get_id(58); // pendapatan lain-lain (materai, etc)
+        
+        
+        $this->journalgl->new_journal('0'.$ap1->no,$ap1->dates,'SO',$ap1->currency,$ap1->notes,$ap1->total, $this->session->userdata('log'));
+        $dpid = $this->journalgl->get_journal_id('SO','0'.$ap1->no);
+        
+        $this->journalgl->add_trans($dpid,$ar,$ap1->p2,0); // piutang dagang ppn
+        $this->journalgl->add_trans($dpid,$ar_contract,0,intval($ap1->total-$ap1->tax)); // piutang kontrak tax
+        if ($ap1->tax > 0){ $this->journalgl->add_trans($dpid,$tax,0,$ap1->tax); } // hutang ppn
+        if ($ap1->costs > 0){ $this->journalgl->add_trans($dpid,$cost,0,$ap1->costs); } // pendapatan materai
+        
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){ return FALSE; }else { return TRUE; }
     }
 
     function delete($uid,$po)
@@ -369,6 +390,9 @@ class Sales extends MX_Controller
         
       // rollback kartu piutang
       $this->trans->remove($sales->dates, 'SO', $sales->no);
+      
+      // hapus jurnal
+      $this->journalgl->remove_journal('SO', '0'.$sales->no); // journal gl  
       
       $data = array('approved' => 0);
       $this->Sales_model->update_id($uid, $data);  
