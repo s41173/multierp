@@ -16,7 +16,7 @@ class Journalgl extends MX_Controller
         $this->currency = $this->load->library('currency_lib');
         $this->user = $this->load->library('admin_lib');
         $this->journal = $this->load->library('journal_lib');
-        $this->journaltype = $this->load->library('journaltype_lib');
+        $this->journaltype = new Journaltype_lib();
         $this->account = $this->load->library('account_lib');
         $this->classi = $this->load->library('classification_lib');
         $this->ledger = new Ledger_lib();

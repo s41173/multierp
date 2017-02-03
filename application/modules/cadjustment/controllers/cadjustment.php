@@ -21,13 +21,14 @@ class Cadjustment extends MX_Controller
         $this->journal  = new Journal_lib();
         $this->ar       = new Ar_payment();
         $this->contract = new Contract_lib();
+        $this->journalgl = new Journalgl_lib();
 
         $this->load->library('fusioncharts');
         $this->swfCharts  = base_url().'public/flash/Column3D.swf';
 
     }
 
-    private $properti, $modul, $title, $currency;
+    private $properti, $modul, $title, $currency, $journalgl;
     private $customer,$user,$tax,$journal,$ar,$contract;
 
     function index()
@@ -244,21 +245,41 @@ class Cadjustment extends MX_Controller
             }
             else
             {
-                // update contract balance 
-                $this->contract->update_balance($cadjustment->contract_no, $cadjustment->total, 0);
-                
-                $data = array('approved' => 1);
-                $this->Cadjustment_model->update_id($pid, $data);
-
                 //  create journal
-//                $this->create_po_journal($cadjustment->dates, $cadjustment->currency, 'SO-00'.$cadjustment->no.'-'.$cadjustment->notes, 'SJ',
-//                                         $cadjustment->no, 'AR', $cadjustment->total + $cadjustment->costs, $cadjustment->p1,$cadjustment->p2);
-
-               $this->session->set_flashdata('message', "$this->title COA-00$cadjustment->no confirmed..!"); // set flash data message dengan session
+                if ($this->create_journal($pid) == TRUE){
+                   // update contract balance 
+                   $this->contract->update_balance($cadjustment->contract_no, $cadjustment->total, 0);
+                
+                   $data = array('approved' => 1);
+                   $this->Cadjustment_model->update_id($pid, $data);
+                   $this->session->set_flashdata('message', "$this->title COA-00$cadjustment->no confirmed..!");
+                }else{$this->session->set_flashdata('message', "$this->title COA-00$cadjustment->no can't confirmed..!"); }
                redirect($this->title);
             }
         }
 
+    }
+    
+    private function create_journal($pid)
+    {
+        $this->db->trans_start();
+        $cadjustment = $this->Cadjustment_model->get_contract_adjustment_by_id($pid)->row(); 
+        $contract = $this->contract->get_contract_details($cadjustment->contract_no);
+        
+        //  create journal        
+        $cm = new Control_model();
+        
+        if ($contract->type == 'tax'){ $ar = $cm->get_id(56); }else{ $ar = $cm->get_id(57); } 
+        $discount = $cm->get_id(4);
+
+        $this->journalgl->new_journal('0'.$cadjustment->no,$cadjustment->dates,'COA',$contract->currency, 'Contract Adjustment : CO-00'.$contract->no, $cadjustment->total, $this->session->userdata('log'));
+        $dpid = $this->journalgl->get_journal_id('COA','0'.$cadjustment->no);
+
+        $this->journalgl->add_trans($dpid,$discount,$cadjustment->total,0); // diskon D
+        $this->journalgl->add_trans($dpid,$ar,0,$cadjustment->total); // piutang kontrak tax / non
+        
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE){ return FALSE; }else { return TRUE; }
     }
 
     private function cek_journal($date,$currency)
@@ -296,7 +317,9 @@ class Cadjustment extends MX_Controller
       // upgrade contract balance
       $cadjustment = $this->Cadjustment_model->get_contract_adjustment_by_id($uid)->row();
       $this->contract->update_balance($cadjustment->contract_no, $cadjustment->total, 1);  
-        
+      
+      $this->journalgl->remove_journal('COA', '0'.$po); // journal gl  
+     
       $data = array('approved' => 0);
       $this->Cadjustment_model->update_id($uid, $data);  
       

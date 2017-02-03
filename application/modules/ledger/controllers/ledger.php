@@ -98,7 +98,7 @@ class Ledger extends MX_Controller
                 (
                     ++$i, $ledger->code.'-00'.$ledger->no, $ledger->currency, tglin($ledger->dates), $this->cek_space($ledger->notes), number_format($ledger->debit), number_format($ledger->credit),
                     anchor('journalgl/add_trans/'.$ledger->no.'/'.$ledger->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
-                    anchor_popup($this->title.'/voucher/'.$ledger->no,'<span>print</span>',$atts)
+                    anchor_popup($this->title.'/voucher/'.$ledger->code.'/'.$ledger->no,'<span>print</span>',$atts)
                 );
             }
 
@@ -163,9 +163,9 @@ class Ledger extends MX_Controller
 
                 $this->table->add_row
                 (
-                    ++$i, 'JT-00'.$ledger->no, $ledger->currency, tglin($ledger->dates), $this->cek_space($ledger->notes), number_format($ledger->debit), number_format($ledger->credit),
-                    anchor('journalgl/add_trans/'.$ledger->no,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
-                    anchor_popup($this->title.'/voucher/'.$ledger->no,'<span>print</span>',$atts)
+                    ++$i, $ledger->code.'-0'.$ledger->no, $ledger->currency, tglin($ledger->dates), $this->cek_space($ledger->notes), number_format($ledger->debit), number_format($ledger->credit),
+                    anchor('journalgl/add_trans/'.$ledger->no.'/'.$ledger->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
+                    anchor_popup($this->title.'/voucher/'.$ledger->code.'/'.$ledger->no,'<span>print</span>',$atts)
                 );
             }
 
@@ -271,14 +271,14 @@ class Ledger extends MX_Controller
 
 // ===================================== PRINT ===========================================
 
-   function voucher($no=0)
+   function voucher($code=null,$no=0)
    {
        $this->acl->otentikasi2($this->title);
 
        $data['h2title'] = 'Print Voucher'.$this->modul['title'];
        
        $gl = new Gl();
-       $gl->where('no', $no)->get();
+       $gl->where('code',$code)->where('no',$no)->get();
        
        $data['code']    = $gl->no;
        $data['dates']  = $gl->dates;
@@ -291,9 +291,8 @@ class Ledger extends MX_Controller
        $data['user'] = $this->session->userdata("username");
        
        $data['items'] = $gl->order_by('id', 'desc')->transaction->get();
-       $data['account'] = $this->account;
-
-       // property display
+       $data['account'] = $this->account; 
+      // property display
        $data['p_name'] = $this->properti['name'];
        $data['logo'] = $this->properti['logo'];
        $data['paddress'] = $this->properti['address'];

@@ -8,11 +8,13 @@ class Journaltype_lib {
     }
 
     private $ci;
-	private $table = 'journaltypes';
+	private $table = 'gls';
 
     function combo()
     {
-        $this->ci->db->select('id, name, code');
+        $this->ci->db->select('code');
+        $this->ci->db->order_by('code', 'asc'); 
+        $this->ci->db->distinct();
         $val = $this->ci->db->get($this->table)->result();
         foreach($val as $row){$data['options'][$row->code] = $row->code;}
         return $data;
@@ -20,7 +22,9 @@ class Journaltype_lib {
 
     function combo_all()
     {
-        $this->ci->db->select('id, name, code');
+        $this->ci->db->select('code');
+        $this->ci->db->order_by('code', 'asc'); 
+        $this->ci->db->distinct();
         $val = $this->ci->db->get($this->table)->result();
         $data['options'][''] = '-- All --';
         foreach($val as $row){$data['options'][$row->code] = $row->code;}

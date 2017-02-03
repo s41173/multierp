@@ -89,8 +89,8 @@ class Accountc extends MX_Controller
                 $this->table->add_row
                 (
                     ++$i, $account->currency, $account->code, $account->name, $account->classification->name, $account->classification->type,
-                    anchor($this->title.'/cost/'.$account->id,'<span>cost</span>',array('class' => 'cost', 'title' => '')).' '.
                     anchor('ledger/get/'.$account->code,'<span>invoice</span>',array('class' => 'invoice', 'title' => '')).' '.
+                    anchor($this->title.'/cost/'.$account->id,'<span>cost</span>',array('class' => 'cost', 'title' => '')).' '.
                     anchor($this->title.'/update/'.$account->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                     anchor($this->title.'/delete/'.$account->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
                 );
@@ -146,7 +146,7 @@ class Accountc extends MX_Controller
             $this->table->add_row
             (
                 ++$i, $account->currency, $account->code, $account->name, $account->classification->name, $account->classification->type,
-                anchor($this->title.'/ledger/'.$account->code,'<span>invoice</span>',array('class' => 'invoice', 'title' => '')).' '.
+                anchor('ledger/get/'.$account->code,'<span>invoice</span>',array('class' => 'invoice', 'title' => '')).' '.
                 anchor($this->title.'/cost/'.$account->id,'<span>cost</span>',array('class' => 'cost', 'title' => '')).' '.
                 anchor($this->title.'/update/'.$account->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                 anchor($this->title.'/delete/'.$account->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
