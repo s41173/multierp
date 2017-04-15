@@ -80,6 +80,20 @@ class Ledger_model extends CI_Model
         $this->db->from('transactions, accounts');
         $this->db->where('transactions.account_id = accounts.id');
         $this->cek_between_acc($acc1, $acc2);
+        $this->db->order_by('accounts.code', 'asc');
+        $this->db->group_by("transactions.account_id"); 
+        return $this->db->get();
+    }
+    
+    function report_between($acc1=0, $acc2=0, $start=null, $end=null)
+    {
+        $this->db->select('accounts.id, accounts.name, accounts.code,
+                           transactions.debit, transactions.credit, transactions.vamount');
+        
+        $this->db->from('transactions, accounts');
+        $this->db->where('transactions.account_id = accounts.id');
+        $this->cek_between_acc($acc1, $acc2);
+        $this->db->order_by('accounts.code', 'asc');
         $this->db->group_by("transactions.account_id"); 
         return $this->db->get();
     }

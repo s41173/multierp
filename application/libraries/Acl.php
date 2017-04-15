@@ -28,7 +28,9 @@ class Acl {
         $mod = $mod->role;
         $mod = explode(",", $mod);
 
-        foreach ($mod as $row) { if ($row == $this->ci->session->userdata('role')) {$val = TRUE; break;} else {$val = FALSE;} }
+        foreach ($mod as $row) { 
+            if ($row == $this->ci->session->userdata('role')) {$val = TRUE; break;} else {$val = FALSE;} 
+        }
 
         if ($val != TRUE)
         {

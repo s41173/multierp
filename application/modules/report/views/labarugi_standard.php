@@ -129,7 +129,7 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$em,$ey)->row();
-		return intval($res->vamount);
+		return floatval($res->vamount);
 	}
 	
 ?>
@@ -195,7 +195,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totincome = $totincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totincome = $totincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -227,7 +227,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totfrontincome = $totfrontincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totfrontincome = $totfrontincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -273,7 +273,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$tothpp = $tothpp + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothpp = $tothpp + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!-- Looping -->
@@ -302,7 +302,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totothercost = $totothercost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totothercost = $totothercost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Looping-->
@@ -354,7 +354,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totoperationalcost = $totoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoperationalcost = $totoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Loop-->
@@ -426,7 +426,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totnonoperationalcost = $totnonoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totnonoperationalcost = $totnonoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Loop-->
@@ -471,7 +471,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s8"> Operating Profit </td><td></td><td></td><td></td><td></td><td></td>
-<td class="s9"><?php $lroperasi = $lrkotor - $totoperationalcost + $totnonoperationalcost; echo num_format($lroperasi); ?></td><td></td>
+<td class="s9"><?php $lroperasi = $lrkotor - $totoperationalcost - $totnonoperationalcost; echo num_format($lroperasi); ?></td><td></td>
 </tr>
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -500,7 +500,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totoutincome = $totoutincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoutincome = $totoutincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!-- Loop -->
@@ -539,7 +539,7 @@
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totoutcost = $totoutcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoutcost = $totoutcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!-- Loop -->

@@ -140,7 +140,7 @@ class Account_model extends CI_Model
         $this->cek_null($cla,"classifications.id");
         $this->db->where('gls.approved', 1);
         $res = $this->db->get()->row(); 
-        return intval($res->vamount);
+        return floatval($res->vamount);
     }
     
     function get_start_balance_by_classification($cur='IDR',$cla=null,$start=null)
@@ -163,7 +163,7 @@ class Account_model extends CI_Model
         $this->db->where('gls.approved', 1);
 
         $res = $this->db->get()->row(); 
-        if ($res){ return intval($res->vamount);  }else { return 0; }
+        if ($res){ return floatval($res->vamount);  }else { return 0; }
     }
     
     function get_begining_balance_classification($cur='IDR',$cla=null,$start=null)
@@ -178,7 +178,7 @@ class Account_model extends CI_Model
         $this->db->where('balances.month', date('n',  strtotime($start)));
         $this->db->where('balances.year', date('Y',  strtotime($start)));
         $res = $this->db->get()->row(); 
-        return intval($res->beginning);
+        return floatval($res->beginning);
     }
     
     function get_begining_balance_classification_by_month($cur='IDR',$cla=null,$month=null,$year)
@@ -193,7 +193,7 @@ class Account_model extends CI_Model
         $this->db->where('balances.month', $month);
         $this->db->where('balances.year', $year);
         $res = $this->db->get()->row(); 
-        return intval($res->beginning);
+        return floatval($res->beginning);
     }
     
     function get_end_balance_classification($cur='IDR',$cla=null,$month=null,$year=null)
@@ -208,7 +208,7 @@ class Account_model extends CI_Model
         $this->db->where('balances.month', $month);
         $this->db->where('balances.year', $year);
         $res = $this->db->get()->row(); 
-        return intval($res->end);
+        return floatval($res->end);
     }
     
     function get_start_balance($cur='IDR',$acc=null,$month=null,$year=null)
@@ -220,7 +220,7 @@ class Account_model extends CI_Model
         $this->db->where('balances.month', $month);
         $this->db->where('balances.year', $year);
         $res = $this->db->get()->row(); 
-        return intval($res->beginning);
+        return floatval($res->beginning);
     }
     
     function get_end_balance($cur='IDR',$acc=null,$month=null,$year=null)
@@ -232,7 +232,7 @@ class Account_model extends CI_Model
         $this->db->where('balances.month', $month);
         $this->db->where('balances.year', $year);
         $res = $this->db->get()->row(); 
-        return intval($res->end);
+        return floatval($res->end);
     }
     
     function get_cash_flow_acc($cur='IDR',$cla=null,$start=null,$end=null)

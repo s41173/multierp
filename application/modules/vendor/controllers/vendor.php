@@ -407,6 +407,23 @@ class Vendor extends MX_Controller
             $this->load->view('vendor_update', $data);
         }
     }
+    
+    function report()
+    {
+        $this->acl->otentikasi2($this->title);
+        $data['title'] = $this->properti['name'].' | Report '.ucwords($this->modul['title']);
+
+        $data['rundate'] = tgleng(date('Y-m-d'));
+        $data['log'] = $this->session->userdata('log');
+
+//        Property Details
+        $data['company'] = $this->properti['name'];
+
+        $data['results'] = $this->model->get(); 
+        $page = 'vendor_report'; 
+        
+        $this->load->view($page, $data);
+    }
 
 }
 

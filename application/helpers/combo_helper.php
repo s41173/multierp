@@ -43,7 +43,7 @@ if (! function_exists('num_format'))
 {
     function num_format($val)
     {
-       return number_format($val,0,',','.');
+       return number_format($val,2,',','.');
     }
 }
 

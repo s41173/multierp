@@ -83,7 +83,7 @@ class Cashoutc extends MX_Controller
                 
                 $this->table->add_row
                 (
-                    ++$i, 'CD-0000'.$cash->no, $cash->currency, tgleng($cash->dates), $this->vendor->get_vendor_name($cash->vendor), $cash->notes, $this->get_acc($cash->acc), number_format($cash->amount),
+                    ++$i, 'CD-0000'.$cash->no, $cash->currency, tgleng($cash->dates), $this->vendor->get_vendor_name($cash->vendor), $cash->notes, $this->get_acc($cash->acc), num_format($cash->amount),
                     anchor($this->title.'/confirmation/'.$cash->id,'<span>update</span>',array('class' => $this->post_status($cash->approved), 'title' => 'edit / update')).' '.
                     anchor_popup($this->title.'/invoice/'.$cash->no,'<span>print</span>',$this->atts).' '.
                     anchor($this->title.'/add_trans/'.$cash->no.'/'.$cash->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
@@ -342,7 +342,7 @@ class Cashoutc extends MX_Controller
             
             $this->table->add_row
             (
-                ++$i, $this->account->get_name($item->account_id), number_format($item->balance),
+                ++$i, $this->account->get_name($item->account_id), num_format($item->balance),
                 anchor($this->title.'/delete_item/'.$item->id.'/'.$po.'/'.$cash->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
         }
@@ -497,8 +497,8 @@ class Cashoutc extends MX_Controller
        $data['log'] = $this->session->userdata('log');
        $data['amount'] = $cash->amount;
        
-       if ($cash->currency == 'IDR'){ $data['terbilang'] = $this->terbilang->baca($cash->amount).' Rupiah'; }
-       else { $data['terbilang'] = $this->terbilang->baca($cash->amount); }
+       if ($cash->currency == 'IDR'){ $data['terbilang'] = $this->terbilang->baca(intval($cash->amount)).' Rupiah'; }
+       else { $data['terbilang'] = $this->terbilang->baca(intval($cash->amount)); }
 
        $data['items'] = $this->transmodel->get_last_item($cash->id)->result();
 

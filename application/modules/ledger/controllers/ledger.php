@@ -16,7 +16,7 @@ class Ledger extends MX_Controller
 
         $this->currency   = $this->load->library('currency_lib');
         $this->user       = $this->load->library('admin_lib');
-        $this->account    = $this->load->library('account_lib');
+        $this->account    = new Account_lib();
 
         $this->load->library('fusioncharts');
         $this->swfCharts  = base_url().'public/flash/Column3D.swf';
@@ -26,10 +26,7 @@ class Ledger extends MX_Controller
     private $properti, $modul, $title, $currency, $account;
     private $user;
 
-    function index()
-    {
-        $this->start();
-    }
+    function index(){ $this->start(); }
     
     function start()
     {
@@ -237,8 +234,9 @@ class Ledger extends MX_Controller
         $arpData = null;
         $result = $bl->beginning; 
         
-        foreach ($gl as $value)
-        {
+        if ($gl){
+          foreach ($gl as $value)
+          {
             $res = $this->lm->get_balance($acc,$value->no)->row_array();
             $res[$i] = $result;
 
@@ -246,10 +244,12 @@ class Ledger extends MX_Controller
             $arpData[$i][$k] = $result + intval($res['vamount']);
             $result = $res[$i];
             $i++;
-        }
+          }
 
-        $strXML1        = $this->fusioncharts->setDataXML($arpData,'','') ;
-        $graph = $this->fusioncharts->renderChart($this->swfCharts,'',$strXML1,"Csales", "98%", 400, false, false) ;
+          $strXML1        = $this->fusioncharts->setDataXML($arpData,'','') ;
+          $graph = $this->fusioncharts->renderChart($this->swfCharts,'',$strXML1,"Csales", "98%", 400, false, false) ;  
+        }else { $graph = null; }
+        
         return $graph;
     }
 
@@ -343,7 +343,7 @@ class Ledger extends MX_Controller
 
     //        Property Details
         $data['company'] = $this->properti['name'];
-        $data['accounts'] = $this->lm->report($accstart,$accend)->result();
+        $data['accounts'] = $this->lm->report($this->account->get_id_code($accstart),$this->account->get_id_code($accend))->result();
 
         $this->load->view('journal_invoice', $data);
         

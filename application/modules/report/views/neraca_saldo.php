@@ -215,7 +215,7 @@ table td{ padding:2px 3px 2px 0;}
 		
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$m,$y)->row();
-		$res = intval($res->vamount + $bl->beginning);
+		$res = floatval($res->vamount + $bl->beginning);
 		
 		$debit = 0;
 		$credit = 0;
@@ -292,12 +292,12 @@ table td{ padding:2px 3px 2px 0;}
         </tr>
 		";
 		
-		$totbegin_d = intval($totbegin_d + get_begin_balance($res->id,$res->classification_id,$months,$years,'debit'));
-		$totbegin_c = intval($totbegin_c + get_begin_balance($res->id,$res->classification_id,$months,$years,'credit'));
-		$tottrans_d = intval($tottrans_d + get_trans($currency,$res->id,$months,$years,$res->classification_id,'debit'));
-		$tottrans_c = intval($tottrans_c + get_trans($currency,$res->id,$months,$years,$res->classification_id,'credit'));
-		$totend_d = intval($totend_d + get_end_balance($currency,$res->id,$months,$years,$res->classification_id,'debit'));
-		$totend_c = intval($totend_c + get_end_balance($currency,$res->id,$months,$years,$res->classification_id,'credit'));
+		$totbegin_d = floatval($totbegin_d + get_begin_balance($res->id,$res->classification_id,$months,$years,'debit'));
+		$totbegin_c = floatval($totbegin_c + get_begin_balance($res->id,$res->classification_id,$months,$years,'credit'));
+		$tottrans_d = floatval($tottrans_d + get_trans($currency,$res->id,$months,$years,$res->classification_id,'debit'));
+		$tottrans_c = floatval($tottrans_c + get_trans($currency,$res->id,$months,$years,$res->classification_id,'credit'));
+		$totend_d = floatval($totend_d + get_end_balance($currency,$res->id,$months,$years,$res->classification_id,'debit'));
+		$totend_c = floatval($totend_c + get_end_balance($currency,$res->id,$months,$years,$res->classification_id,'credit'));
 	}
 	
 ?>

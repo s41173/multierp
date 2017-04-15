@@ -124,14 +124,14 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$m,$y)->row();
-		return intval($res->vamount);
+		return floatval($res->vamount);
 	}
 	
 	function get_acc_budget($cur='IDR',$acc,$m=0,$y=0)
 	{
 		$am = new Account_model();
 		$res = $am->get_budget($cur,$acc,$m,$y)->row();
-		return intval($res->budget);
+		return floatval($res->budget);
 	}
 	
 ?>
@@ -189,11 +189,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totincome = $totincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totincome_budget = $totincome_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totincome = $totincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totincome_budget = $totincome_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totincome2 = $totincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totincome2_budget = $totincome2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totincome2 = $totincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totincome2_budget = $totincome2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -233,11 +233,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totfrontincome = $totfrontincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totfrontincome_budget = $totfrontincome_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totfrontincome = $totfrontincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totfrontincome_budget = $totfrontincome_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totfrontincome2 = $totfrontincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totfrontincome2_budget = $totfrontincome2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totfrontincome2 = $totfrontincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totfrontincome2_budget = $totfrontincome2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -296,11 +296,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$tothpp = $tothpp + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$tothpp_budget = $tothpp_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$tothpp = $tothpp + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$tothpp_budget = $tothpp_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$tothpp2 = $tothpp2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $tothpp2_budget = $tothpp2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$tothpp2 = $tothpp2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $tothpp2_budget = $tothpp2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -340,11 +340,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totothercost = $totothercost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totothercost_budget = $totothercost_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totothercost = $totothercost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totothercost_budget = $totothercost_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totothercost2 = $totothercost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totothercost2_budget = $totothercost2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totothercost2 = $totothercost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totothercost2_budget = $totothercost2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -419,11 +419,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totoperationalcost = $totoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoperationalcost_budget = $totoperationalcost_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totoperationalcost = $totoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoperationalcost_budget = $totoperationalcost_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totoperationalcost2 = $totoperationalcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totoperationalcost2_budget = $totoperationalcost2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totoperationalcost2 = $totoperationalcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totoperationalcost2_budget = $totoperationalcost2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -482,11 +482,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totoperationalcost = $totoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoperationalcost_budget = $totoperationalcost_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totoperationalcost = $totoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoperationalcost_budget = $totoperationalcost_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totoperationalcost2 = $totoperationalcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totoperationalcost2_budget = $totoperationalcost2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totoperationalcost2 = $totoperationalcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totoperationalcost2_budget = $totoperationalcost2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -559,11 +559,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totoutincome = $totoutincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoutincome_budget = $totoutincome_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totoutincome = $totoutincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoutincome_budget = $totoutincome_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totoutincome2 = $totoutincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totoutincome2_budget = $totoutincome2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totoutincome2 = $totoutincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totoutincome2_budget = $totoutincome2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->
@@ -625,11 +625,11 @@
 			  <td colspan=\"2\" class=\"s1\">".num_format(get_acc_budget($currency,$res->id,$emonths,$eyears))."</td>
 			  </tr>";
 		
-		$totoutcost = $totoutcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoutcost_budget = $totoutcost_budget + intval(get_acc_budget($currency,$res->id,$months,$years));
+		$totoutcost = $totoutcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoutcost_budget = $totoutcost_budget + floatval(get_acc_budget($currency,$res->id,$months,$years));
 		
-		$totoutcost2 = $totoutcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
-   	    $totoutcost2_budget = $totoutcost2_budget + intval(get_acc_budget($currency,$res->id,$emonths,$eyears));
+		$totoutcost2 = $totoutcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+   	    $totoutcost2_budget = $totoutcost2_budget + floatval(get_acc_budget($currency,$res->id,$emonths,$eyears));
 	}
 ?>
 <!-- Looping -->

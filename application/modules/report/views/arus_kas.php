@@ -180,11 +180,11 @@
 		$am = new Account_model();
 		$start_kas = $am->get_start_balance_by_classification($cur,7,$start);
 		$start_bank = $am->get_start_balance_by_classification($cur,8,$start);
-		$start_saldo = intval($start_kas + $start_bank);
+		$start_saldo = floatval($start_kas + $start_bank);
 		
 		$beginning_kas = $am->get_begining_balance_classification($cur,7,$start);
 		$beginning_bank = $am->get_begining_balance_classification($cur,8,$start);
-		$beginning_saldo = intval($beginning_kas + $beginning_bank);
+		$beginning_saldo = floatval($beginning_kas + $beginning_bank);
 		return $start_saldo + $beginning_saldo;	
 		return $beginning_bank;
 	}
@@ -531,7 +531,7 @@
 
 <?php
 
-	$tot_operating_activies = intval($tot_piutang_usaha + $tot_piutang_non_usaha + $tot_persediaan + $tot_hutang_usaha + $tot_pendapatan_dimuka + 
+	$tot_operating_activies = floatval($tot_piutang_usaha + $tot_piutang_non_usaha + $tot_persediaan + $tot_hutang_usaha + $tot_pendapatan_dimuka + 
 	$tot_pendapatan_usaha + $tot_pendapatan_usaha_lain + $tot_biaya_usaha + $tot_biaya_usaha_lain + $tot_biaya_adm);
 ?>
 
@@ -740,7 +740,7 @@
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 </tr>
 
-<?php $tot_investing = intval($tot_biaya_dimuka + $tot_investasi_panjang + $tot_harta_berwujud + $tot_harta_tak_berwujud + $tot_harta_lain + $tot_biaya_non_operasional); ?>
+<?php $tot_investing = floatval($tot_biaya_dimuka + $tot_investasi_panjang + $tot_harta_berwujud + $tot_harta_tak_berwujud + $tot_harta_lain + $tot_biaya_non_operasional); ?>
 
 <tr style="height:17px">
 <td></td><td></td><td></td><td colspan="12" rowspan="2" class="s5"> Investing Activities Total :</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan="2" class="s9"> <?php echo num_format($tot_investing); ?> </td><td></td><td></td>
@@ -981,7 +981,7 @@
 
 <?php
 
-	$tot_financing = intval($tot_hutang_panjang + $tot_hutang_non_usaha + $tot_hutang_lain + $tot_modal + $tot_laba + $tot_pendapatan_luar_usaha + $tot_pengeluaran_luar_usaha);
+	$tot_financing = floatval($tot_hutang_panjang + $tot_hutang_non_usaha + $tot_hutang_lain + $tot_modal + $tot_laba + $tot_pendapatan_luar_usaha + $tot_pengeluaran_luar_usaha);
 	
 ?>
 

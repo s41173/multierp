@@ -71,8 +71,8 @@
 						<td> ".$i." </td>
 						<td class=\"left\"> ".$acc->get_code($res->account_id)." </td>
 						<td class=\"left\"> ".$acc->get_name($res->account_id)." </td>
-						<td class=\"right\"> ".number_format($res->debit)." </td> 
-						<td class=\"right\"> ".number_format($res->credit)." </td>  
+						<td class=\"right\"> ".number_format($res->debit,2)." </td> 
+						<td class=\"right\"> ".number_format($res->credit,2)." </td>  
 					 </tr>
 					
 					"; $i++;
@@ -83,8 +83,8 @@
 		 
 		 
 		<tr> <td></td> <td colspan="1"></td> <td class="right"> <b> Total : </b> </td>
-             <td class="right"> <b> <?php echo number_format($debit); ?> </b> </td>
-             <td class="right"> <b> <?php echo number_format($credit); ?> </b> </td> 
+             <td class="right"> <b> <?php echo number_format($debit,2); ?> </b> </td>
+             <td class="right"> <b> <?php echo number_format($credit,2); ?> </b> </td> 
         </tr>
 			
 		</table>

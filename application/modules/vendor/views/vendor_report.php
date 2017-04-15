@@ -9,11 +9,11 @@
 	table{ font-family:"Arial", Times, serif; font-size:11px;}
 	h4{ font-family:"Arial", Times, serif; font-size:14px; font-weight:600;}
 	.clear{clear:both;}
-	table th{ background-color:#EFEFEF; padding:4px 0px 4px 0px; border-top:1px solid #000000; border-bottom:1px solid #000000;}
+	table th{ background-color:#EFEFEF; padding:4px 0px 4px 0px; border-top:1px solid #000000; border-bottom:0px solid #000000;}
     p{ font-family:"Arial", Times, serif; font-size:12px; margin:0; padding:0;}
 	legend{font-family:"Arial", Times, serif; font-size:13px; margin:0; padding:0; font-weight:600;}
 	.tablesum{ font-size:13px;}
-	.strongs{ font-weight:normal; font-size:12px; border-top:1px dotted #000000; }
+	.strongs{ font-weight:normal; font-size:12px; border-top:0px dotted #000000; }
 	.poder{ border-bottom:0px solid #000000; color:#0000FF;}
 </style>
 
@@ -39,7 +39,7 @@
     <script type="text/javascript" src="<?php echo base_url().'js/jxgrid/' ?>js/jqxdata.export.js"></script>
 	<script type="text/javascript" src="<?php echo base_url().'js/jxgrid/' ?>js/jqxgrid.export.js"></script>
     
-     <script type="text/javascript">
+    <script type="text/javascript">
 	
         $(document).ready(function () {
           
@@ -65,14 +65,19 @@
                     datafields:
                     [
                         { name: "No", type: "string" },
-						{ name: "Code", type: "string" },
-						{ name: "Date", type: "string" },
-						{ name: "Cur", type: "string" },
 						{ name: "Vendor", type: "string" },
-						{ name: "Notes", type: "string" },
-						{ name: "Acc", type: "string" },
-						{ name: "Balance", type: "number" },
-						{ name: "Log", type: "string" }
+                        { name: "Type", type: "string" },
+						{ name: "Contact", type: "string" },
+						{ name: "NPWP", type: "string" },
+						{ name: "Address", type: "string" },
+                        { name: "Phone", type: "string" },
+						{ name: "Fax", type: "string" },
+						{ name: "Mobile", type: "string" },
+						{ name: "Email", type: "string" },
+                        { name: "City", type: "string" },
+                        { name: "Acc Name", type: "string" },
+                        { name: "Acc No", type: "string" },
+                        { name: "Bank", type: "string" }
                     ]
                 };
 			
@@ -96,26 +101,31 @@
 				autoshowfiltericon: false,
                 columns: [
                   { text: 'No', dataField: 'No', width: 50 },
-   				  { text: 'Code', dataField: 'Code', width : 100 },
-				  { text: 'Date', dataField: 'Date', width : 130 },
-				  { text: 'Cur', dataField: 'Cur', width : 120 },
-				  { text: 'Vendor', dataField: 'Vendor', width : 250 },
-				  { text: 'Notes', dataField: 'Notes' },
-				  { text: 'Acc', dataField: 'Acc' },
-{ text: 'Balance', datafield: 'Balance', width: 200, cellsalign: 'right', cellsformat: 'F2', aggregates: ['sum'] },
- 				  { text: 'Log', datafield: 'Log', width: 90, cellsalign: 'center'}
+				  { text: 'Vendor', dataField: 'Vendor', width : 175 },
+  				  { text: 'Type', dataField: 'Type', width : 100 },
+				  { text: 'Contact', dataField: 'Contact', width : 150 },
+				  { text: 'NPWP', dataField: 'NPWP', width : 150 },
+				  { text: 'Address', datafield: 'Address', width: 200, cellsalign: 'center' },
+				  { text: 'Phone', datafield: 'Phone', width: 200, cellsalign: 'center'},
+                  { text: 'Fax', datafield: 'Fax', width: 130, cellsalign: 'center'},
+                  { text: 'Mobile', datafield: 'Mobile', width: 130, cellsalign: 'center'},
+                  { text: 'Email', datafield: 'Email', width: 150, cellsalign: 'center'},
+                  { text: 'City', datafield: 'City', width: 90, cellsalign: 'center'},
+                  { text: 'Acc Name', datafield: 'Acc Name', width: 130, cellsalign: 'center'},
+				  { text: 'Acc No', datafield: 'Acc No', width: 120, cellsalign: 'center'},
+                  { text: 'Bank', datafield: 'Bank', width: 150, cellsalign: 'center'}
                 ]
             });
 			
-			$('#jqxgrid').jqxGrid({ pagesizeoptions: ['10', '20', '30', '40', '50', '100', '200', '300']}); 
+			$('#jqxgrid').jqxGrid({ pagesizeoptions: ['100', '300', '500', '1000', '2000', '3000']}); 
 			
 			$("#bexport").click(function() {
 				
 				var type = $("#crtype").val();	
-				if (type == 0){ $("#jqxgrid").jqxGrid('exportdata', 'html', 'Cash-OUT-Summary'); }
-				else if (type == 1){ $("#jqxgrid").jqxGrid('exportdata', 'xls', 'Cash-OUT-Summary'); }
-				else if (type == 2){ $("#jqxgrid").jqxGrid('exportdata', 'pdf', 'Cash-OUT-Summary'); }
-				else if (type == 3){ $("#jqxgrid").jqxGrid('exportdata', 'csv', 'Cash-OUT-Summary'); }
+				if (type == 0){ $("#jqxgrid").jqxGrid('exportdata', 'html', 'Vendor-Summary'); }
+				else if (type == 1){ $("#jqxgrid").jqxGrid('exportdata', 'xls', 'Vendor-Summary'); }
+				else if (type == 2){ $("#jqxgrid").jqxGrid('exportdata', 'pdf', 'Vendor-Summary'); }
+				else if (type == 3){ $("#jqxgrid").jqxGrid('exportdata', 'csv', 'Vendor-Summary'); }
 			});
 			
 			$('#jqxgrid').on('celldoubleclick', function (event) {
@@ -123,16 +133,16 @@
 				var value = args.value;
 				var res;
 			
-				if (col == 'Code')
+				if (col == 'Order No')
 				{ 			
-				   res = value.split("CR-000");
+				   res = value.split("DJC-00");
 				   openwindow(res[1]);
 				}
  			});
 			
 			function openwindow(val)
 			{
-				var site = "<?php echo site_url('cashinc/invoice/');?>";
+				var site = "<?php echo site_url('apc/invoice/');?>";
 				window.open(site+"/"+val, "", "width=800, height=600"); 
 				//alert(site+"/"+val);
 			}
@@ -143,6 +153,7 @@
         });
     </script>
 
+
 </head>
 
 <body>
@@ -151,8 +162,6 @@
 	
 	<div style="border:0px solid red; float:left;">
 		<table border="0">
-    		<tr> <td> Currency </td> <td> : </td> <td> <?php echo $currency; ?> </td> </tr>
-			<tr> <td> Period </td> <td> : </td> <td> <?php echo tglin($start); ?> to <?php echo tglin($end); ?> </td> </tr>
 			<tr> <td> Run Date </td> <td> : </td> <td> <?php echo $rundate; ?> </td> </tr>
 			<tr> <td> Log </td> <td> : </td> <td> <?php echo $log; ?> </td> </tr>
 		</table>
@@ -160,15 +169,15 @@
 
 	<center>
 	   <div style="border:0px solid green; width:230px;">	
-	       <h4> <?php echo isset($company) ? $company : ''; ?> <br> Cash - Out Report </h4>
+	       <h4> <?php echo isset($company) ? $company : ''; ?> <br> Vendor - Report </h4>
 	   </div>
 	</center>
 	
 	<div class="clear"></div>
 	
-	<div style="width:100%; border:0px solid brown; margin-top:20px; border-bottom:1px dotted #000000; ">
-		
-        <div id='jqxWidget'>
+	<div style="width:100%; border:0px solid brown; margin-top:20px; border-bottom:0px dotted #000000; ">
+	
+    	<div id='jqxWidget'>
         <div style='margin-top: 10px;' id="jqxgrid"> </div>
         
         <table style="float:right; margin:5px;">
@@ -182,52 +191,53 @@
         </tr>
         </table>
         
-        </div>
-        
-		<table id="table" border="0" width="100%">
-        
-           <thead>
-		   <tr> <th> No </th> <th> Date </th> <th> Cur </th> <th> Code </th> <th> Vendor </th> <th> Notes </th> <th> Acc </th> <th> Balance </th> <th> Log </th> </tr>
-           </thead>
-		   
-          <tbody> 		   
-		  <?php 
-		  	
-			  function get_acc($val)
-			  {
-				  $acc = new Account_lib();
-				  return $acc->get_code($val).' : '.$acc->get_name($val);
-			  }
-		  
-		      $i=1; 
-			  $cust = new Vendor_lib();
-			  $t=0;
-			  if ($reports)
-			  {
-				foreach ($reports as $report)
-				{	
-				   echo " 
-				   <tr> 
-				       <td class=\"strongs\">".$i."</td> 
-					   <td class=\"strongs\">".tglin($report->dates)."</td> 
-					   <td class=\"strongs\">".$report->currency."</td> 
-					   <td class=\"strongs\"> CD-0000".$report->no."</td> 
-					   <td class=\"strongs\">".$cust->get_vendor_name($report->vendor)."</td> 
-					   <td class=\"strongs\">".$report->notes."</td>
-					   <td class=\"strongs\">".get_acc($report->acc)."</td> 
-					   <td class=\"strongs\" align=\"right\">".$report->amount."</td> 
-					   <td class=\"strongs\" align=\"right\">".$report->log."</td> 
-				   </tr>";
-				   $t = intval($t+$report->amount);
-				   $i++;
-				}
-			  }  
-		  ?>
-		  </tbody> 
-		</table>
+        </div>        
 	</div>
 
 </div>
+
+<table id="table" border="0" width="100%">
+<thead>
+<tr>
+<th> No </th> <th> Vendor </th> <th> Type </th> <th> Contact </th> <th> NPWP </th> <th> Address </th> <th> Phone </th>
+<th> Fax </th> <th> Mobile </th> <th> Email </th> <th> City </th> <th> Acc Name </th> <th> Acc No </th> 
+<th> Bank </th>
+</tr>
+</thead>
+
+<tbody>
+
+<?php 
+
+  $i=1; 
+  if ($results)
+  {
+    foreach ($results as $res)
+    {	
+       echo " 
+       <tr> 
+           <td class=\"strongs\">".$i."</td> 
+           <td class=\"strongs\">".$res->prefix.' '.$res->name."</td> 
+           <td class=\"strongs\">".$res->type."</td> 
+           <td class=\"strongs\">".$res->cp1."</td> 
+           <td class=\"strongs\">".$res->npwp."</td> 
+           <td class=\"strongs\">".$res->address."</td> 
+           <td class=\"strongs\">".$res->phone1.' / '.$res->phone2."</td> 
+           <td class=\"strongs\">".$res->fax."</td> 
+           <td class=\"strongs\">".$res->hp."</td> 
+           <td class=\"strongs\">".$res->email."</td>
+           <td class=\"strongs\">".$res->city."</td> 
+           <td class=\"strongs\">".$res->acc_name."</td> 
+           <td class=\"strongs\">".$res->acc_no."</td> 
+           <td class=\"strongs\">".$res->bank."</td> 
+       </tr>";
+       $i++;
+    }
+  }  
+?>
+</tbody>
+
+</table>
 
 </body>
 </html>

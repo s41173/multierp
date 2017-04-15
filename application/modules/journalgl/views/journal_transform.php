@@ -133,15 +133,15 @@ $atts1 = array(
 				     <?php echo anchor_popup(site_url("accountc/get_list/"), '[ ... ]', $atts1); ?> &nbsp;
                 </td>
 								
-				<td>  
-					<label for="tdebit"> Debit : </label> <br />
-					<input type="text" name="tdebit" id="tdebit" size="10" title="Debit" onKeyUp="checkdigit(this.value, 'tdebit')" /> &nbsp;
-				</td>
+        <td>  
+            <label for="tdebit"> Debit : </label> <br />
+            <input type="text" name="tdebit" id="tdebit" size="10" title="Debit" onKeyUp="" /> &nbsp;
+        </td>
                 
-                <td>  
-					<label for="tcredit"> Credit : </label> <br />
-					<input type="text" name="tcredit" id="tcredit" size="10" title="Credit" onKeyUp="checkdigit(this.value, 'tcredit')" /> &nbsp;
-				</td>
+        <td>  
+            <label for="tcredit"> Credit : </label> <br />
+            <input type="text" name="tcredit" id="tcredit" size="10" title="Credit" onKeyUp="" /> &nbsp;
+        </td>
 				
 				<td> <br />
 					<input type="submit" name="submit" class="button" title="POST" value="POST" /> 

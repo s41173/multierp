@@ -219,7 +219,6 @@ class Demand extends MX_Controller
            $this->session->set_flashdata('message', "$this->title FPB-00$demand->no confirmed..!");
            redirect($this->title);
         }
-
     }
     
     function release($pid)
@@ -262,15 +261,23 @@ class Demand extends MX_Controller
         $val = $this->Demand_model->get_demand_by_id($uid)->row();
         
         if ($this->purchase->cek_relation($po, 'demand') == TRUE)
-        {
-          $this->Demand_item_model->delete_po($po);
-          $this->Demand_model->delete($uid);
-
-          $this->session->set_flashdata('message', "1 $this->title successfully removed..!");
-        }
+        { if ($val->approved == 1){ $this->rollback($uid, $po); }else{ $this->remove($uid, $po); } }
         else { $this->session->set_flashdata('message', "1 $this->title related to purchase module..!"); }
-        
         redirect($this->title);
+    }
+    
+    private function rollback($uid,$po)
+    {
+       $demand = array('approved' => 0);
+       $this->Demand_model->update_id($uid, $demand);
+       $this->session->set_flashdata('message', "1 $this->title successfully rollback..!");
+    }
+    
+    private function remove($uid,$po)
+    {
+       $this->Demand_item_model->delete_po($po);
+       $this->Demand_model->delete($uid); 
+       $this->session->set_flashdata('message', "1 $this->title successfully removed..!");
     }
 
     function add()

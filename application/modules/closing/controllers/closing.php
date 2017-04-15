@@ -69,7 +69,7 @@ class Closing extends MX_Controller
        $this->db->where('MONTH(dates)', $month);
        $this->db->where('YEAR(dates)', $year);
        $val = $this->db->get($table)->num_rows();
-       if (intval($val) > 0){ return 0; }else{ return 1; }
+       if (floatval($val) > 0){ return 0; }else{ return 1; }
     }
     
 
@@ -167,22 +167,23 @@ class Closing extends MX_Controller
         $ps->get();
         
         $res = null;
+        $next = $this->next_period();  
+        
         foreach ($accounts as $account)
         {    
            // tambahkan sebuah fungsi untuk hitung laba tahun berjalan 
 //           if ($account->id == 21 || $account->id == 22)
 //           {
-            $next = $this->next_period();  
 
             $res_trans = $this->am->get_balance($account->id,$ps->month,$ps->year)->row_array(); 
-            $res_trans = intval($res_trans['vamount']);
+            $res_trans = floatval($res_trans['vamount']);
 
             $bl->where('month', $ps->month);
             $bl->where('year', $ps->year);
             $bl->where('account_id', $account->id)->get();
-            $res1 = intval($bl->beginning + $res_trans);
+            $res1 = floatval($bl->beginning + $res_trans + $bl->vamount);
 
-            $this->balancelib->create($account->id, $ps->month, $ps->year, intval($bl->beginning), $res1); // create end saldo this month
+            $this->balancelib->create($account->id, $ps->month, $ps->year, floatval($bl->beginning), $res1); // create end saldo this month
             $this->balancelib->create($account->id, $next[0], $next[1], $res1, 0); // create beginning saldo next month
             $bl->clear();               
         }
@@ -207,15 +208,15 @@ class Closing extends MX_Controller
             $next = $this->next_period();  
 
             $res_trans = $this->am->get_balance($account->id,$ps->month,$ps->year)->row_array(); 
-            $res_trans = intval($res_trans['vamount']);
+            $res_trans = floatval($res_trans['vamount']);
 
             $bl->where('month', $ps->month);
             $bl->where('year', $ps->year);
             $bl->where('account_id', $account->id)->get();
-//            $res1 = intval($bl->beginning + $bl->vamount + $res_trans);
-            $res1 = intval($bl->beginning + $res_trans);
+            $res1 = floatval($bl->beginning + $bl->vamount + $res_trans);
+//            $res1 = floatval($bl->beginning + $res_trans);
 
-            $this->balancelib->create($account->id, $ps->month, $ps->year, intval($bl->beginning), $res1); // create end saldo this month
+            $this->balancelib->create($account->id, $ps->month, $ps->year, floatval($bl->beginning), $res1); // create end saldo this month
             $this->balancelib->create($account->id, $next[0], $next[1], $res1, 0); // create beginning saldo next month
             $bl->clear();               
         }
@@ -225,7 +226,8 @@ class Closing extends MX_Controller
         $stock->closing();
 
          // update periode akuntansi
-         $ps->month = $ps->month + 1;
+         $ps->month = $next[0];
+         $ps->year = $next[1];
          $ps->save();
 ////
          $this->session->set_flashdata('message', "Monthly End Sucessed..!");
@@ -276,7 +278,7 @@ class Closing extends MX_Controller
               $bl->where('account_id', $account->id)->get();
               
               $res_trans = $this->am->get_balance($account->id,$ps->month,$ps->year)->row_array(); 
-              $res_trans = intval($res_trans['vamount']);
+              $res_trans = floatval($res_trans['vamount']);
               
               $res1 = $bl->beginning + $res_trans;
               
@@ -317,7 +319,7 @@ class Closing extends MX_Controller
               $bl->where('month', $ps->month);
               $bl->where('year', $ps->year);
               $bl->where('account_id', $account->id)->get();
-              $res = intval($res['vamount']) + intval($bl->beginning) + intval($bl->vamount); // saldo akhir bulan ini
+              $res = floatval($res['vamount']) + floatval($bl->beginning) + floatval($bl->vamount); // saldo akhir bulan ini
 
               // update end saldo bulan ini
 //              $bl->end = $res;

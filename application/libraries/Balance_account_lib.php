@@ -56,6 +56,52 @@ class Balance_account_lib {
           $this->ci->db->insert($this->table, $trans); 
        }
     }
+    
+    /// ========================= vamount ======================================
+    
+    function create_vamount($acc,$month=0,$year=0,$amt=0)
+    {
+       $this->ci->db->where('account_id',$acc);
+       $this->ci->db->where('month',$month);
+       $this->ci->db->where('year',$year);
+       $query = $this->ci->db->get($this->table)->num_rows();
+//       echo $acc.' : '.$month.'-'.$year.' -- '.$query.'<br>';
+       
+       if ($query == 0)
+       {
+//           
+//            echo $query.' insert <br>';
+           $this->fill_vamount($acc, $month, $year, $amt);
+       }
+       else
+       {
+          $this->edit_vamount($acc, $month, $year, $amt);
+////           echo 'edit <br>';
+       }
+    }
+    
+    private function edit_vamount($acc,$month=0,$year=0,$amt=0)
+    {
+       $trans = array('vamount' => $amt);
+       $this->ci->db->where('account_id', $acc);
+       $this->ci->db->where('month', $month);
+       $this->ci->db->where('year', $year);
+       $this->ci->db->update($this->table, $trans); 
+    }
+    
+    function fill_vamount($acc,$month,$year,$amt=0)
+    {
+       $this->ci->db->where('account_id',$acc);
+       $this->ci->db->where('month',$month);
+       $this->ci->db->where('year',$year);
+       $num = $this->ci->db->get($this->table)->num_rows();
+       
+       if ($num == 0)
+       {
+          $trans = array('account_id' => $acc, 'month' => $month, 'year' => $year, 'vamount' => $amt);
+          $this->ci->db->insert($this->table, $trans); 
+       }
+    }
 
 
 

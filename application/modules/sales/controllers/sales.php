@@ -199,22 +199,28 @@ class Sales extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-         $this->table->set_heading('No', 'Code', 'Cur', 'Date', 'Customer', 'Notes', 'Total', 'Balance', '#', 'Action');
+        $this->table->set_heading('No', 'Code', 'Cur', 'Date', 'Customer', 'Notes', 'Total', 'Balance', '#', 'Action');
 
-         $i = 0;
-         foreach ($saless as $sales)
-         {
+        $i = 0;
+        foreach ($saless as $sales)
+        {
             $datax = array('name'=> 'cek[]','id'=> 'cek'.$i,'value'=> $sales->id,'checked'=> FALSE, 'style'=> 'margin:0px');
+
+            $atts1 = array('width'=> '450','height'=> '300',
+                  'scrollbars' => 'yes','status'=> 'yes',
+                  'resizable'=> 'yes','screenx'=> '0','screenx' => '\'+((parseInt(screen.width) - 450)/2)+\'',
+                  'screeny'=> '0','class'=> $this->realize_status($sales->tax_status),'title'=> 'tax status', 'screeny' => '\'+((parseInt(screen.height) - 300)/2)+\'');
 
             $this->table->add_row
             (
                 ++$i, 'SO-00'.$sales->no, $sales->currency, tglin($sales->dates), $sales->prefix.' '.$sales->name, $this->cek_space($sales->notes), number_format($sales->total + $sales->costs), number_format($sales->p2), $this->status($sales->status),
+                anchor_popup($this->title.'/tax_status/'.$sales->id,'<span>print</span>',$atts1).' &nbsp; | &nbsp; '.
                 anchor($this->title.'/confirmation/'.$sales->id,'<span>update</span>',array('class' => $this->post_status($sales->approved), 'title' => 'edit / update')).' '.
                 anchor_popup($this->title.'/invoice/'.$sales->id,'<span>print</span>',$atts).' '.
                 anchor($this->title.'/add_trans/'.$sales->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                 anchor($this->title.'/delete/'.$sales->id.'/'.$sales->no,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
-         }
+        }
 
         $data['table'] = $this->table->generate();
         $this->load->view('template', $data);

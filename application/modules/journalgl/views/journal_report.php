@@ -101,7 +101,7 @@
   				  { text: 'Code', dataField: 'Code', width : 70 },
 				  { text: 'TransNo', dataField: 'TransNo', width : 80 },
 				  { text: 'Notes', dataField: 'Notes' },
-				  { text: 'Balance', datafield: 'Balance', width: 200, cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] }
+{ text: 'Balance', datafield: 'Balance', width: 200, cellsalign: 'right', cellsformat: 'F2', aggregates: ['sum'] }
 				  
                 ]
             });
@@ -188,7 +188,7 @@
 
 </div>
 
-<table id="table" border="0" width="100%" style="visibility:hidden;">
+<table id="table" border="0" width="100%">
 <thead>
 <tr>
 <th> No </th> <th> Currency </th> <th> Order-No </th> <th> Date </th> <th> Code </th> <th> TransNo </th> <th> Notes </th> <th> Balance </th>

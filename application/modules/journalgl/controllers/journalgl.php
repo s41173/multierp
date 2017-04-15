@@ -88,7 +88,7 @@ class Journalgl extends MX_Controller
                 
                 $this->table->add_row
                 (
-                    ++$i, $journal->code.'-'.$journal->no, $journal->currency, tglin($journal->dates), $journal->notes, number_format($journal->balance),
+                    ++$i, $journal->code.'-'.$journal->no, $journal->currency, tglin($journal->dates), $journal->notes, number_format($journal->balance,2),
                     anchor($this->title.'/confirmation/'.$journal->id,'<span>update</span>',array('class' => $this->post_status($journal->approved), 'title' => 'edit / update')).' '.
                     anchor_popup($this->title.'/invoice/'.$journal->no.'/'.$journal->code,'<span>print</span>',$this->atts).' '.
                     anchor($this->title.'/add_trans/'.$journal->no.'/'.$journal->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
@@ -112,7 +112,7 @@ class Journalgl extends MX_Controller
         if ($no){ $this->model->where('no', $no); }
         elseif ($ref){ $this->model->where('code', $ref); }
         elseif ($dates) { $this->model->where('dates', $dates); }
-        return $this->model->get();
+        return $this->model->order_by('dates','desc')->get();
     }
 
     function search()
@@ -218,7 +218,7 @@ class Journalgl extends MX_Controller
 
         if ($journal->approved == 1) { $this->session->set_flashdata('message', "$this->title already approved..!"); }
         elseif ($journal->balance == 0){ $this->session->set_flashdata('message', "$this->title has no value..!"); }
-        elseif ($this->valid_period($journal->dates) == FALSE ){ $this->session->set_flashdata('message', "$this->title has invalid period..!"); }
+//        elseif ($this->valid_period($journal->dates) == FALSE ){ $this->session->set_flashdata('message', "$this->title has invalid period..!"); }
         else
         {
             if ($this->cek_cf($pid) == TRUE){$this->model->cf = 1;}else{$this->model->cf = 0;}
@@ -249,8 +249,8 @@ class Journalgl extends MX_Controller
         $val = $this->model->where('id', $uid)->get();
         $cur = $this->model->currency;
 
-        if ( $this->valid_period($this->model->dates) == TRUE )
-        { 
+//        if ( $this->valid_period($this->model->dates) == TRUE )
+//        { 
            if ($val->approved == 1) 
            {
                $val->approved = 0;
@@ -265,8 +265,8 @@ class Journalgl extends MX_Controller
               $val->delete();
               $this->session->set_flashdata('message', "1 $this->title successfully removed..!"); 
            }
-        }
-        else{ $this->session->set_flashdata('message', "1 $this->title can't removed, invalid period..!");} 
+//        }
+//        else{ $this->session->set_flashdata('message', "1 $this->title can't removed, invalid period..!");} 
         
         redirect($this->title);
     }
@@ -312,7 +312,8 @@ class Journalgl extends MX_Controller
 
 	// Form validation
         $this->form_validation->set_rules('tno', 'No', 'required|numeric|callback_valid_no');
-        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
+//        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
+        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required');
         $this->form_validation->set_rules('ccurrency', 'Currency', 'required');
         $this->form_validation->set_rules('tnote', 'Note', 'required');
 
@@ -380,15 +381,15 @@ class Journalgl extends MX_Controller
             
             $this->table->add_row
             (
-                ++$i, $this->account->get_name($item->account_id), number_format($item->debit), number_format($item->credit),
+                ++$i, $this->account->get_name($item->account_id), number_format($item->debit,2), number_format($item->credit,2),
                 anchor($this->title.'/delete_item/'.$item->id.'/'.$po.'/'.$journal->id.'/'.$code,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
         }
 
         $res = $this->get_debit_credit($journal->id);
-        $data['debit']   = number_format($res[0]);
-        $data['credit']  = number_format($res[1]);
-        $data['balance'] = number_format($res[2]);
+        $data['debit']   = number_format($res[0],2);
+        $data['credit']  = number_format($res[1],2);
+        $data['balance'] = number_format($res[2],2);
 
         $data['table'] = $this->table->generate();
         
@@ -468,8 +469,8 @@ class Journalgl extends MX_Controller
         $this->mitem->select_sum('debit');
         $this->mitem->select_sum('credit');
         $this->mitem->where('gl_id',$id)->get();
-        $debit = intval($this->mitem->debit);
-        $credit = intval($this->mitem->credit);
+        $debit = $this->mitem->debit;
+        $credit = $this->mitem->credit;
 
         $res = null;
         $res[0] = $debit;
@@ -505,7 +506,8 @@ class Journalgl extends MX_Controller
 	$data['link'] = array('link_back' => anchor('journal/','<span>back</span>', array('class' => 'back')));
 
 	// Form validation
-        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
+//        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
+        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required');
         $this->form_validation->set_rules('tnote', 'Note', 'required');
 
         if ($this->form_validation->run($this) == TRUE && $this->valid_confirmation($jid) == TRUE)
@@ -596,7 +598,7 @@ class Journalgl extends MX_Controller
         $res = $this->get_debit_credit($journal->id);
         $data['debit']   = $res[0];
         $data['credit']  = $res[1];
-        $data['balances'] = number_format($res[2]);
+        $data['balances'] = number_format($res[2],2);
 
 //        ============================ Item  =========================================
         $data['items'] = $this->mitem->where('gl_id', $journal->id)->order_by('id', 'asc')->get();

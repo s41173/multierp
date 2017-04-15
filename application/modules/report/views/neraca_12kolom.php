@@ -152,7 +152,7 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$m,$y)->row();
-		return intval($res->vamount + get_beginning($cur,$acc,$m,$y));
+		return floatval($res->vamount + get_beginning($cur,$acc,$m,$y));
 	}
 	
 	function get_vamount_balance($cur='IDR',$acc,$m=0,$y=0,$em=0,$ey=0)
@@ -168,8 +168,8 @@
 		$res = $am->get_period_vamount($cur,$acc,$m,$y,$m,$y)->row();	
         $res_trans = $am->get_period_balance($cur,$acc,$m,$y,$em,$ey)->row();
 		
-//		return intval($bl->beginning + $res->vamount + $res_trans->vamount);
-     	return intval($bl->end + $res_trans->vamount);
+//		return floatval($bl->beginning + $res->vamount + $res_trans->vamount);
+     	return floatval($bl->end + $res_trans->vamount);
 	}
 	
 	function get_beginning($cur='IDR',$acc,$m=0,$y=0)
@@ -178,7 +178,7 @@
 		$bl->where('account_id', $acc);
         $bl->where('month', $m);
         $bl->where('year', $y)->get();
-		return intval($bl->beginning);
+		return floatval($bl->beginning);
 	}
 	
 	function get_end($cur='IDR',$acc,$m=0,$y=0)
@@ -187,7 +187,7 @@
 		$bl->where('account_id', $acc);
         $bl->where('month', $m);
         $bl->where('year', $y)->get();
-		return intval($bl->end);
+		return floatval($bl->end);
 	}
 	
 ?>
@@ -286,18 +286,18 @@
 		";
 		
 		
-		$totkas[0]  = $totkas[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totkas[1]  = $totkas[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totkas[2]  = $totkas[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totkas[3]  = $totkas[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totkas[4]  = $totkas[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totkas[5]  = $totkas[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totkas[6]  = $totkas[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totkas[7]  = $totkas[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totkas[8]  = $totkas[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totkas[9]  = $totkas[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totkas[10] = $totkas[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totkas[11] = $totkas[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totkas[0]  = $totkas[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totkas[1]  = $totkas[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totkas[2]  = $totkas[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totkas[3]  = $totkas[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totkas[4]  = $totkas[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totkas[5]  = $totkas[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totkas[6]  = $totkas[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totkas[7]  = $totkas[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totkas[8]  = $totkas[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totkas[9]  = $totkas[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totkas[10] = $totkas[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totkas[11] = $totkas[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -365,18 +365,18 @@
 		</tr>
 		";
 		
-		$totbank[0]  = $totbank[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totbank[1]  = $totbank[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totbank[2]  = $totbank[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totbank[3]  = $totbank[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totbank[4]  = $totbank[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totbank[5]  = $totbank[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totbank[6]  = $totbank[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totbank[7]  = $totbank[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totbank[8]  = $totbank[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totbank[9]  = $totbank[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totbank[10] = $totbank[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totbank[11] = $totbank[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totbank[0]  = $totbank[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totbank[1]  = $totbank[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totbank[2]  = $totbank[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totbank[3]  = $totbank[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totbank[4]  = $totbank[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totbank[5]  = $totbank[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totbank[6]  = $totbank[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totbank[7]  = $totbank[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totbank[8]  = $totbank[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totbank[9]  = $totbank[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totbank[10] = $totbank[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totbank[11] = $totbank[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -445,18 +445,18 @@
 		</tr>
 		";
 		
-		$totpiutangusaha[0]  = $totpiutangusaha[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totpiutangusaha[1]  = $totpiutangusaha[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totpiutangusaha[2]  = $totpiutangusaha[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totpiutangusaha[3]  = $totpiutangusaha[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totpiutangusaha[4]  = $totpiutangusaha[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totpiutangusaha[5]  = $totpiutangusaha[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totpiutangusaha[6]  = $totpiutangusaha[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totpiutangusaha[7]  = $totpiutangusaha[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totpiutangusaha[8]  = $totpiutangusaha[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totpiutangusaha[9]  = $totpiutangusaha[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totpiutangusaha[10] = $totpiutangusaha[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totpiutangusaha[11] = $totpiutangusaha[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totpiutangusaha[0]  = $totpiutangusaha[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totpiutangusaha[1]  = $totpiutangusaha[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totpiutangusaha[2]  = $totpiutangusaha[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totpiutangusaha[3]  = $totpiutangusaha[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totpiutangusaha[4]  = $totpiutangusaha[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totpiutangusaha[5]  = $totpiutangusaha[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totpiutangusaha[6]  = $totpiutangusaha[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totpiutangusaha[7]  = $totpiutangusaha[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totpiutangusaha[8]  = $totpiutangusaha[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totpiutangusaha[9]  = $totpiutangusaha[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totpiutangusaha[10] = $totpiutangusaha[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totpiutangusaha[11] = $totpiutangusaha[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -525,18 +525,18 @@
 		</tr>
 		";
 		
-		$totpiutangnonusaha[0]  = $totpiutangnonusaha[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totpiutangnonusaha[1]  = $totpiutangnonusaha[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totpiutangnonusaha[2]  = $totpiutangnonusaha[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totpiutangnonusaha[3]  = $totpiutangnonusaha[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totpiutangnonusaha[4]  = $totpiutangnonusaha[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totpiutangnonusaha[5]  = $totpiutangnonusaha[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totpiutangnonusaha[6]  = $totpiutangnonusaha[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totpiutangnonusaha[7]  = $totpiutangnonusaha[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totpiutangnonusaha[8]  = $totpiutangnonusaha[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totpiutangnonusaha[9]  = $totpiutangnonusaha[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totpiutangnonusaha[10] = $totpiutangnonusaha[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totpiutangnonusaha[11] = $totpiutangnonusaha[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totpiutangnonusaha[0]  = $totpiutangnonusaha[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totpiutangnonusaha[1]  = $totpiutangnonusaha[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totpiutangnonusaha[2]  = $totpiutangnonusaha[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totpiutangnonusaha[3]  = $totpiutangnonusaha[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totpiutangnonusaha[4]  = $totpiutangnonusaha[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totpiutangnonusaha[5]  = $totpiutangnonusaha[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totpiutangnonusaha[6]  = $totpiutangnonusaha[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totpiutangnonusaha[7]  = $totpiutangnonusaha[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totpiutangnonusaha[8]  = $totpiutangnonusaha[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totpiutangnonusaha[9]  = $totpiutangnonusaha[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totpiutangnonusaha[10] = $totpiutangnonusaha[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totpiutangnonusaha[11] = $totpiutangnonusaha[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -605,18 +605,18 @@
 		</tr>
 		";
 		
-		$totpersediaan[0]  = $totpersediaan[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totpersediaan[1]  = $totpersediaan[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totpersediaan[2]  = $totpersediaan[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totpersediaan[3]  = $totpersediaan[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totpersediaan[4]  = $totpersediaan[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totpersediaan[5]  = $totpersediaan[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totpersediaan[6]  = $totpersediaan[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totpersediaan[7]  = $totpersediaan[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totpersediaan[8]  = $totpersediaan[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totpersediaan[9]  = $totpersediaan[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totpersediaan[10] = $totpersediaan[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totpersediaan[11] = $totpersediaan[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totpersediaan[0]  = $totpersediaan[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totpersediaan[1]  = $totpersediaan[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totpersediaan[2]  = $totpersediaan[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totpersediaan[3]  = $totpersediaan[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totpersediaan[4]  = $totpersediaan[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totpersediaan[5]  = $totpersediaan[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totpersediaan[6]  = $totpersediaan[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totpersediaan[7]  = $totpersediaan[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totpersediaan[8]  = $totpersediaan[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totpersediaan[9]  = $totpersediaan[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totpersediaan[10] = $totpersediaan[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totpersediaan[11] = $totpersediaan[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -685,18 +685,18 @@
 		</tr>
 		";
 		
-		$totbiayadimuka[0]  = $totbiayadimuka[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totbiayadimuka[1]  = $totbiayadimuka[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totbiayadimuka[2]  = $totbiayadimuka[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totbiayadimuka[3]  = $totbiayadimuka[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totbiayadimuka[4]  = $totbiayadimuka[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totbiayadimuka[5]  = $totbiayadimuka[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totbiayadimuka[6]  = $totbiayadimuka[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totbiayadimuka[7]  = $totbiayadimuka[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totbiayadimuka[8]  = $totbiayadimuka[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totbiayadimuka[9]  = $totbiayadimuka[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totbiayadimuka[10] = $totbiayadimuka[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totbiayadimuka[11] = $totbiayadimuka[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totbiayadimuka[0]  = $totbiayadimuka[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totbiayadimuka[1]  = $totbiayadimuka[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totbiayadimuka[2]  = $totbiayadimuka[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totbiayadimuka[3]  = $totbiayadimuka[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totbiayadimuka[4]  = $totbiayadimuka[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totbiayadimuka[5]  = $totbiayadimuka[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totbiayadimuka[6]  = $totbiayadimuka[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totbiayadimuka[7]  = $totbiayadimuka[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totbiayadimuka[8]  = $totbiayadimuka[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totbiayadimuka[9]  = $totbiayadimuka[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totbiayadimuka[10] = $totbiayadimuka[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totbiayadimuka[11] = $totbiayadimuka[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -765,18 +765,18 @@
 		</tr>
 		";
 		
-		$totinvestasi[0]  = $totinvestasi[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totinvestasi[1]  = $totinvestasi[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totinvestasi[2]  = $totinvestasi[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totinvestasi[3]  = $totinvestasi[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totinvestasi[4]  = $totinvestasi[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totinvestasi[5]  = $totinvestasi[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totinvestasi[6]  = $totinvestasi[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totinvestasi[7]  = $totinvestasi[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totinvestasi[8]  = $totinvestasi[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totinvestasi[9]  = $totinvestasi[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totinvestasi[10] = $totinvestasi[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totinvestasi[11] = $totinvestasi[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totinvestasi[0]  = $totinvestasi[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totinvestasi[1]  = $totinvestasi[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totinvestasi[2]  = $totinvestasi[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totinvestasi[3]  = $totinvestasi[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totinvestasi[4]  = $totinvestasi[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totinvestasi[5]  = $totinvestasi[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totinvestasi[6]  = $totinvestasi[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totinvestasi[7]  = $totinvestasi[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totinvestasi[8]  = $totinvestasi[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totinvestasi[9]  = $totinvestasi[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totinvestasi[10] = $totinvestasi[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totinvestasi[11] = $totinvestasi[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -845,18 +845,18 @@
 		</tr>
 		";
 		
-		$tothartawujud[0]  = $tothartawujud[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothartawujud[1]  = $tothartawujud[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothartawujud[2]  = $tothartawujud[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothartawujud[3]  = $tothartawujud[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothartawujud[4]  = $tothartawujud[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothartawujud[5]  = $tothartawujud[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothartawujud[6]  = $tothartawujud[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothartawujud[7]  = $tothartawujud[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothartawujud[8]  = $tothartawujud[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothartawujud[9]  = $tothartawujud[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothartawujud[10] = $tothartawujud[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothartawujud[11] = $tothartawujud[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothartawujud[0]  = $tothartawujud[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothartawujud[1]  = $tothartawujud[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothartawujud[2]  = $tothartawujud[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothartawujud[3]  = $tothartawujud[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothartawujud[4]  = $tothartawujud[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothartawujud[5]  = $tothartawujud[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothartawujud[6]  = $tothartawujud[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothartawujud[7]  = $tothartawujud[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothartawujud[8]  = $tothartawujud[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothartawujud[9]  = $tothartawujud[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothartawujud[10] = $tothartawujud[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothartawujud[11] = $tothartawujud[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -925,18 +925,18 @@
 		</tr>
 		";
 		
-		$tothartatakwujud[0]  = $tothartatakwujud[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothartatakwujud[1]  = $tothartatakwujud[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothartatakwujud[2]  = $tothartatakwujud[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothartatakwujud[3]  = $tothartatakwujud[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothartatakwujud[4]  = $tothartatakwujud[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothartatakwujud[5]  = $tothartatakwujud[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothartatakwujud[6]  = $tothartatakwujud[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothartatakwujud[7]  = $tothartatakwujud[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothartatakwujud[8]  = $tothartatakwujud[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothartatakwujud[9]  = $tothartatakwujud[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothartatakwujud[10] = $tothartatakwujud[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothartatakwujud[11] = $tothartatakwujud[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothartatakwujud[0]  = $tothartatakwujud[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothartatakwujud[1]  = $tothartatakwujud[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothartatakwujud[2]  = $tothartatakwujud[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothartatakwujud[3]  = $tothartatakwujud[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothartatakwujud[4]  = $tothartatakwujud[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothartatakwujud[5]  = $tothartatakwujud[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothartatakwujud[6]  = $tothartatakwujud[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothartatakwujud[7]  = $tothartatakwujud[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothartatakwujud[8]  = $tothartatakwujud[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothartatakwujud[9]  = $tothartatakwujud[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothartatakwujud[10] = $tothartatakwujud[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothartatakwujud[11] = $tothartatakwujud[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -1005,18 +1005,18 @@
 		</tr>
 		";
 		
-		$tothartalain[0]  = $tothartalain[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothartalain[1]  = $tothartalain[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothartalain[2]  = $tothartalain[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothartalain[3]  = $tothartalain[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothartalain[4]  = $tothartalain[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothartalain[5]  = $tothartalain[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothartalain[6]  = $tothartalain[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothartalain[7]  = $tothartalain[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothartalain[8]  = $tothartalain[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothartalain[9]  = $tothartalain[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothartalain[10] = $tothartalain[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothartalain[11] = $tothartalain[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothartalain[0]  = $tothartalain[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothartalain[1]  = $tothartalain[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothartalain[2]  = $tothartalain[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothartalain[3]  = $tothartalain[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothartalain[4]  = $tothartalain[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothartalain[5]  = $tothartalain[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothartalain[6]  = $tothartalain[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothartalain[7]  = $tothartalain[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothartalain[8]  = $tothartalain[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothartalain[9]  = $tothartalain[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothartalain[10] = $tothartalain[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothartalain[11] = $tothartalain[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 		
 	}
 ?>
@@ -1117,18 +1117,18 @@
 		";
 		
 		
-		$tothutangusaha[0]  = $tothutangusaha[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothutangusaha[1]  = $tothutangusaha[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothutangusaha[2]  = $tothutangusaha[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothutangusaha[3]  = $tothutangusaha[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothutangusaha[4]  = $tothutangusaha[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothutangusaha[5]  = $tothutangusaha[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothutangusaha[6]  = $tothutangusaha[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothutangusaha[7]  = $tothutangusaha[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothutangusaha[8]  = $tothutangusaha[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothutangusaha[9]  = $tothutangusaha[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothutangusaha[10] = $tothutangusaha[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothutangusaha[11] = $tothutangusaha[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothutangusaha[0]  = $tothutangusaha[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothutangusaha[1]  = $tothutangusaha[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothutangusaha[2]  = $tothutangusaha[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothutangusaha[3]  = $tothutangusaha[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothutangusaha[4]  = $tothutangusaha[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothutangusaha[5]  = $tothutangusaha[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothutangusaha[6]  = $tothutangusaha[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothutangusaha[7]  = $tothutangusaha[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothutangusaha[8]  = $tothutangusaha[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothutangusaha[9]  = $tothutangusaha[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothutangusaha[10] = $tothutangusaha[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothutangusaha[11] = $tothutangusaha[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -1197,18 +1197,18 @@
 		";
 		
 		
-		$totpendapatandimuka[0]  = $totpendapatandimuka[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totpendapatandimuka[1]  = $totpendapatandimuka[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totpendapatandimuka[2]  = $totpendapatandimuka[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totpendapatandimuka[3]  = $totpendapatandimuka[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totpendapatandimuka[4]  = $totpendapatandimuka[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totpendapatandimuka[5]  = $totpendapatandimuka[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totpendapatandimuka[6]  = $totpendapatandimuka[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totpendapatandimuka[7]  = $totpendapatandimuka[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totpendapatandimuka[8]  = $totpendapatandimuka[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totpendapatandimuka[9]  = $totpendapatandimuka[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totpendapatandimuka[10] = $totpendapatandimuka[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totpendapatandimuka[11] = $totpendapatandimuka[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totpendapatandimuka[0]  = $totpendapatandimuka[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totpendapatandimuka[1]  = $totpendapatandimuka[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totpendapatandimuka[2]  = $totpendapatandimuka[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totpendapatandimuka[3]  = $totpendapatandimuka[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totpendapatandimuka[4]  = $totpendapatandimuka[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totpendapatandimuka[5]  = $totpendapatandimuka[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totpendapatandimuka[6]  = $totpendapatandimuka[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totpendapatandimuka[7]  = $totpendapatandimuka[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totpendapatandimuka[8]  = $totpendapatandimuka[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totpendapatandimuka[9]  = $totpendapatandimuka[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totpendapatandimuka[10] = $totpendapatandimuka[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totpendapatandimuka[11] = $totpendapatandimuka[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -1277,18 +1277,18 @@
 		";
 		
 		
-		$tothutangpanjang[0]  = $tothutangpanjang[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothutangpanjang[1]  = $tothutangpanjang[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothutangpanjang[2]  = $tothutangpanjang[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothutangpanjang[3]  = $tothutangpanjang[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothutangpanjang[4]  = $tothutangpanjang[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothutangpanjang[5]  = $tothutangpanjang[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothutangpanjang[6]  = $tothutangpanjang[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothutangpanjang[7]  = $tothutangpanjang[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothutangpanjang[8]  = $tothutangpanjang[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothutangpanjang[9]  = $tothutangpanjang[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothutangpanjang[10] = $tothutangpanjang[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothutangpanjang[11] = $tothutangpanjang[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothutangpanjang[0]  = $tothutangpanjang[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothutangpanjang[1]  = $tothutangpanjang[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothutangpanjang[2]  = $tothutangpanjang[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothutangpanjang[3]  = $tothutangpanjang[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothutangpanjang[4]  = $tothutangpanjang[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothutangpanjang[5]  = $tothutangpanjang[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothutangpanjang[6]  = $tothutangpanjang[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothutangpanjang[7]  = $tothutangpanjang[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothutangpanjang[8]  = $tothutangpanjang[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothutangpanjang[9]  = $tothutangpanjang[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothutangpanjang[10] = $tothutangpanjang[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothutangpanjang[11] = $tothutangpanjang[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -1357,18 +1357,18 @@
 		";
 		
 		
-		$tothutangnonusaha[0]  = $tothutangnonusaha[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothutangnonusaha[1]  = $tothutangnonusaha[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothutangnonusaha[2]  = $tothutangnonusaha[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothutangnonusaha[3]  = $tothutangnonusaha[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothutangnonusaha[4]  = $tothutangnonusaha[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothutangnonusaha[5]  = $tothutangnonusaha[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothutangnonusaha[6]  = $tothutangnonusaha[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothutangnonusaha[7]  = $tothutangnonusaha[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothutangnonusaha[8]  = $tothutangnonusaha[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothutangnonusaha[9]  = $tothutangnonusaha[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothutangnonusaha[10] = $tothutangnonusaha[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothutangnonusaha[11] = $tothutangnonusaha[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothutangnonusaha[0]  = $tothutangnonusaha[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothutangnonusaha[1]  = $tothutangnonusaha[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothutangnonusaha[2]  = $tothutangnonusaha[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothutangnonusaha[3]  = $tothutangnonusaha[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothutangnonusaha[4]  = $tothutangnonusaha[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothutangnonusaha[5]  = $tothutangnonusaha[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothutangnonusaha[6]  = $tothutangnonusaha[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothutangnonusaha[7]  = $tothutangnonusaha[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothutangnonusaha[8]  = $tothutangnonusaha[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothutangnonusaha[9]  = $tothutangnonusaha[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothutangnonusaha[10] = $tothutangnonusaha[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothutangnonusaha[11] = $tothutangnonusaha[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -1437,18 +1437,18 @@
 		";
 		
 		
-		$tothutanglain[0]  = $tothutanglain[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothutanglain[1]  = $tothutanglain[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothutanglain[2]  = $tothutanglain[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothutanglain[3]  = $tothutanglain[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothutanglain[4]  = $tothutanglain[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothutanglain[5]  = $tothutanglain[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothutanglain[6]  = $tothutanglain[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothutanglain[7]  = $tothutanglain[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothutanglain[8]  = $tothutanglain[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothutanglain[9]  = $tothutanglain[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothutanglain[10] = $tothutanglain[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothutanglain[11] = $tothutanglain[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothutanglain[0]  = $tothutanglain[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothutanglain[1]  = $tothutanglain[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothutanglain[2]  = $tothutanglain[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothutanglain[3]  = $tothutanglain[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothutanglain[4]  = $tothutanglain[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothutanglain[5]  = $tothutanglain[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothutanglain[6]  = $tothutanglain[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothutanglain[7]  = $tothutanglain[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothutanglain[8]  = $tothutanglain[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothutanglain[9]  = $tothutanglain[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothutanglain[10] = $tothutanglain[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothutanglain[11] = $tothutanglain[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -1545,18 +1545,18 @@
 		";
 		
 		
-		$totmodal[0]  = $totmodal[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totmodal[1]  = $totmodal[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totmodal[2]  = $totmodal[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totmodal[3]  = $totmodal[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totmodal[4]  = $totmodal[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totmodal[5]  = $totmodal[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totmodal[6]  = $totmodal[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totmodal[7]  = $totmodal[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totmodal[8]  = $totmodal[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totmodal[9]  = $totmodal[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totmodal[10] = $totmodal[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totmodal[11] = $totmodal[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totmodal[0]  = $totmodal[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totmodal[1]  = $totmodal[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totmodal[2]  = $totmodal[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totmodal[3]  = $totmodal[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totmodal[4]  = $totmodal[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totmodal[5]  = $totmodal[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totmodal[6]  = $totmodal[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totmodal[7]  = $totmodal[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totmodal[8]  = $totmodal[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totmodal[9]  = $totmodal[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totmodal[10] = $totmodal[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totmodal[11] = $totmodal[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -1625,18 +1625,18 @@
 		";
 		
 		
-		$totlaba[0]  = $totlaba[0] + intval(get_vamount_balance($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totlaba[1]  = $totlaba[1] + intval(get_vamount_balance($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totlaba[2]  = $totlaba[2] + intval(get_vamount_balance($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totlaba[3]  = $totlaba[3] + intval(get_vamount_balance($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totlaba[4]  = $totlaba[4] + intval(get_vamount_balance($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totlaba[5]  = $totlaba[5] + intval(get_vamount_balance($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totlaba[6]  = $totlaba[6] + intval(get_vamount_balance($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totlaba[7]  = $totlaba[7] + intval(get_vamount_balance($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totlaba[8]  = $totlaba[8] + intval(get_vamount_balance($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totlaba[9]  = $totlaba[9] + intval(get_vamount_balance($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totlaba[10] = $totlaba[10] + intval(get_vamount_balance($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totlaba[11] = $totlaba[11] + intval(get_vamount_balance($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totlaba[0]  = $totlaba[0] + floatval(get_vamount_balance($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totlaba[1]  = $totlaba[1] + floatval(get_vamount_balance($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totlaba[2]  = $totlaba[2] + floatval(get_vamount_balance($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totlaba[3]  = $totlaba[3] + floatval(get_vamount_balance($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totlaba[4]  = $totlaba[4] + floatval(get_vamount_balance($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totlaba[5]  = $totlaba[5] + floatval(get_vamount_balance($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totlaba[6]  = $totlaba[6] + floatval(get_vamount_balance($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totlaba[7]  = $totlaba[7] + floatval(get_vamount_balance($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totlaba[8]  = $totlaba[8] + floatval(get_vamount_balance($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totlaba[9]  = $totlaba[9] + floatval(get_vamount_balance($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totlaba[10] = $totlaba[10] + floatval(get_vamount_balance($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totlaba[11] = $totlaba[11] + floatval(get_vamount_balance($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 

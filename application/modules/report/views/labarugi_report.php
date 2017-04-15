@@ -129,7 +129,7 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$em,$ey)->row();
-		return intval($res->vamount);
+		return floatval($res->vamount);
 	}
 	
 ?>
@@ -193,9 +193,9 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totincome = $totincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totincome = $totincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -203,7 +203,7 @@
 
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Pendapatan Usaha</td><td></td><td></td><td></td><td></td>
-<td class="s7"><?php echo number_format($totincome); ?></td><td></td>
+<td class="s7"><?php echo num_format($totincome); ?></td><td></td>
 </tr>
 <!--Pendapatan Usaha-->
 
@@ -225,9 +225,9 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totfrontincome = $totfrontincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totfrontincome = $totfrontincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -235,7 +235,7 @@
 
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Pendapatan Terima Dimuka </td><td></td><td></td><td></td><td></td>
-<td class="s7"><?php echo number_format($totfrontincome); ?></td><td></td>
+<td class="s7"><?php echo num_format($totfrontincome); ?></td><td></td>
 </tr>
 <!--Pendapatan Terima Dimuka-->
 
@@ -244,7 +244,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s6">Total Pendapatan</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s7"><?php $pendapatan = $totincome + $totfrontincome;  echo number_format($pendapatan); ?></td><td></td>
+<td class="s7"><?php $pendapatan = $totincome + $totfrontincome;  echo num_format($pendapatan); ?></td><td></td>
 </tr>
 <!-- Pendapatan -->
 
@@ -271,15 +271,15 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$tothpp = $tothpp + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothpp = $tothpp + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!-- Looping -->
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Biaya Usaha</td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($tothpp); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($tothpp); ?> </td><td></td>
 </tr>
 <!-- Biaya Usaha -->
 
@@ -300,15 +300,15 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totothercost = $totothercost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totothercost = $totothercost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Looping-->
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Biaya Usaha Lainnya</td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totothercost); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totothercost); ?> </td><td></td>
 </tr>
 <!-- Biaya Usaha Lainnya -->
 
@@ -325,15 +325,15 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totfrontcost = $totfrontcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totfrontcost = $totfrontcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Looping-->
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6"> Total Biaya Dibayar Dimuka </td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totfrontcost); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totfrontcost); ?> </td><td></td>
 </tr>
 <!-- Biaya Dibayar Dimuka -->
 
@@ -342,14 +342,14 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s6">Total Biaya atas Pendapatan</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php $biayaataspendapatan = $tothpp + $totothercost + $totfrontcost; echo number_format($biayaataspendapatan); ?> </td><td></td>
+<td class="s7"> <?php $biayaataspendapatan = $tothpp + $totothercost + $totfrontcost; echo num_format($biayaataspendapatan); ?> </td><td></td>
 </tr>
 <tr style="height:8px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s8">Laba/Rugi Kotor</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s9"> <?php $lrkotor = $pendapatan - $biayaataspendapatan; echo number_format($lrkotor); ?> </td><td></td>
+<td class="s9"> <?php $lrkotor = $pendapatan - $biayaataspendapatan; echo num_format($lrkotor); ?> </td><td></td>
 </tr>
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -377,16 +377,16 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totoperationalcost = $totoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoperationalcost = $totoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Loop-->
 
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Biaya Administrasi &amp; Umum</td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totoperationalcost); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totoperationalcost); ?> </td><td></td>
 </tr>
 <!-- Biaya Adm&Umum -->
 
@@ -420,7 +420,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s6">Total Pengeluaran Operasional</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s7"><?php echo number_format($totoperationalcost); ?></td><td></td>
+<td class="s7"><?php echo num_format($totoperationalcost); ?></td><td></td>
 </tr>
 <!-- Pengeluaran Operasional -->
 
@@ -451,16 +451,16 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totnonoperationalcost = $totnonoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totnonoperationalcost = $totnonoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!--Loop-->
 
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Biaya Non Operasional </td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totnonoperationalcost); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totnonoperationalcost); ?> </td><td></td>
 </tr>
 <!-- Biaya Non Operasional -->
 
@@ -492,7 +492,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s6">Total Pengeluaran Non Operasional</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s7"><?php echo number_format($totnonoperationalcost); ?></td><td></td>
+<td class="s7"><?php echo num_format($totnonoperationalcost); ?></td><td></td>
 </tr>
 <!-- Pengeluaran Non Operasional -->
 
@@ -501,7 +501,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s8">Laba/Rugi Operasi</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s9"><?php $lroperasi = $lrkotor - $totoperationalcost + $totnonoperationalcost; echo number_format($lroperasi); ?></td><td></td>
+<td class="s9"><?php $lroperasi = $lrkotor - $totoperationalcost + $totnonoperationalcost; echo num_format($lroperasi); ?></td><td></td>
 </tr>
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -528,15 +528,15 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totoutincome = $totoutincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoutincome = $totoutincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!-- Loop -->
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Pendapatan Luar Usaha</td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totoutincome); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totoutincome); ?> </td><td></td>
 </tr>
 <!-- Pendapatan Luar Usaha -->
 <tr style="height:8px">
@@ -544,7 +544,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s6">Total Pendapatan Lain</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totoutincome); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totoutincome); ?> </td><td></td>
 </tr>
 <!--Pendapatan Lain-->
 
@@ -567,22 +567,22 @@
 	{
 		echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
-			  <td class=\"s1\"> ".number_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
+			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		$totoutcost = $totoutcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoutcost = $totoutcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 <!-- Loop -->
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td colspan="7" class="s6">Total Pengeluaran Luar Usaha</td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totoutcost); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totoutcost); ?> </td><td></td>
 </tr>
 <tr style="height:8px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s6">Total Pengeluaran Lain</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s7"> <?php echo number_format($totoutcost); ?> </td><td></td>
+<td class="s7"> <?php echo num_format($totoutcost); ?> </td><td></td>
 </tr>
 <!--Pengeluaran Lain-->
 
@@ -591,7 +591,7 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s8">Laba/Rugi Bersih</td><td></td><td></td><td></td><td></td><td></td>
-<td class="s9"> <?php $lrbersih = $lroperasi + $totoutincome - $totoutcost; echo number_format($lrbersih); ?> </td><td></td>
+<td class="s9"> <?php $lrbersih = $lroperasi + $totoutincome - $totoutcost; echo num_format($lrbersih); ?> </td><td></td>
 </tr>
 <tr style="height:10px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>

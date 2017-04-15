@@ -248,7 +248,7 @@ class Cashinc extends MX_Controller
         if ( $this->model->count() > 0 )
         {
            $this->model->select_max('no')->get();
-           $res = $this->model->no + 1;
+           $res = intval($this->model->no+1);
         }
         else{ $res = 1; }
         return $res;
@@ -308,7 +308,7 @@ class Cashinc extends MX_Controller
         }
         else
         {
-              $this->load->view('journal_form', $data);
+              $this->load->view('cash_form', $data);
 //            echo validation_errors();
         }
 

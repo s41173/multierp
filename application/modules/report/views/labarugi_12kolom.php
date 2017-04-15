@@ -140,7 +140,7 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$m,$y)->row();
-		return intval($res->vamount);
+		return floatval($res->vamount);
 	}
 	
 ?>
@@ -239,18 +239,18 @@
 		";
 		
 		
-		$totincome[0]  = $totincome[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totincome[1]  = $totincome[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totincome[2]  = $totincome[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totincome[3]  = $totincome[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totincome[4]  = $totincome[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totincome[5]  = $totincome[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totincome[6]  = $totincome[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totincome[7]  = $totincome[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totincome[8]  = $totincome[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totincome[9]  = $totincome[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totincome[10] = $totincome[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totincome[11] = $totincome[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totincome[0]  = $totincome[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totincome[1]  = $totincome[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totincome[2]  = $totincome[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totincome[3]  = $totincome[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totincome[4]  = $totincome[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totincome[5]  = $totincome[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totincome[6]  = $totincome[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totincome[7]  = $totincome[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totincome[8]  = $totincome[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totincome[9]  = $totincome[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totincome[10] = $totincome[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totincome[11] = $totincome[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -319,18 +319,18 @@
 		";
 		
 		
-		$totfrontincome[0]  = $totfrontincome[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totfrontincome[1]  = $totfrontincome[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totfrontincome[2]  = $totfrontincome[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totfrontincome[3]  = $totfrontincome[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totfrontincome[4]  = $totfrontincome[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totfrontincome[5]  = $totfrontincome[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totfrontincome[6]  = $totfrontincome[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totfrontincome[7]  = $totfrontincome[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totfrontincome[8]  = $totfrontincome[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totfrontincome[9]  = $totfrontincome[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totfrontincome[10] = $totfrontincome[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totfrontincome[11] = $totfrontincome[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totfrontincome[0]  = $totfrontincome[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totfrontincome[1]  = $totfrontincome[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totfrontincome[2]  = $totfrontincome[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totfrontincome[3]  = $totfrontincome[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totfrontincome[4]  = $totfrontincome[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totfrontincome[5]  = $totfrontincome[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totfrontincome[6]  = $totfrontincome[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totfrontincome[7]  = $totfrontincome[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totfrontincome[8]  = $totfrontincome[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totfrontincome[9]  = $totfrontincome[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totfrontincome[10] = $totfrontincome[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totfrontincome[11] = $totfrontincome[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -428,18 +428,18 @@
 		";
 		
 		
-		$tothpp[0]  = $tothpp[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$tothpp[1]  = $tothpp[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$tothpp[2]  = $tothpp[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$tothpp[3]  = $tothpp[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$tothpp[4]  = $tothpp[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$tothpp[5]  = $tothpp[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$tothpp[6]  = $tothpp[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$tothpp[7]  = $tothpp[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$tothpp[8]  = $tothpp[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$tothpp[9]  = $tothpp[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$tothpp[10] = $tothpp[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$tothpp[11] = $tothpp[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$tothpp[0]  = $tothpp[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$tothpp[1]  = $tothpp[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$tothpp[2]  = $tothpp[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$tothpp[3]  = $tothpp[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$tothpp[4]  = $tothpp[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$tothpp[5]  = $tothpp[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$tothpp[6]  = $tothpp[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$tothpp[7]  = $tothpp[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$tothpp[8]  = $tothpp[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$tothpp[9]  = $tothpp[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$tothpp[10] = $tothpp[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$tothpp[11] = $tothpp[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -508,18 +508,18 @@
 		";
 		
 		
-		$totothercost[0]  = $totothercost[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totothercost[1]  = $totothercost[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totothercost[2]  = $totothercost[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totothercost[3]  = $totothercost[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totothercost[4]  = $totothercost[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totothercost[5]  = $totothercost[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totothercost[6]  = $totothercost[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totothercost[7]  = $totothercost[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totothercost[8]  = $totothercost[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totothercost[9]  = $totothercost[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totothercost[10] = $totothercost[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totothercost[11] = $totothercost[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totothercost[0]  = $totothercost[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totothercost[1]  = $totothercost[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totothercost[2]  = $totothercost[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totothercost[3]  = $totothercost[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totothercost[4]  = $totothercost[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totothercost[5]  = $totothercost[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totothercost[6]  = $totothercost[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totothercost[7]  = $totothercost[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totothercost[8]  = $totothercost[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totothercost[9]  = $totothercost[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totothercost[10] = $totothercost[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totothercost[11] = $totothercost[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -641,18 +641,18 @@
 		";
 		
 		
-		$totoperationalcost[0]  = $totoperationalcost[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totoperationalcost[1]  = $totoperationalcost[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totoperationalcost[2]  = $totoperationalcost[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totoperationalcost[3]  = $totoperationalcost[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totoperationalcost[4]  = $totoperationalcost[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totoperationalcost[5]  = $totoperationalcost[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totoperationalcost[6]  = $totoperationalcost[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totoperationalcost[7]  = $totoperationalcost[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totoperationalcost[8]  = $totoperationalcost[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totoperationalcost[9]  = $totoperationalcost[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totoperationalcost[10] = $totoperationalcost[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totoperationalcost[11] = $totoperationalcost[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totoperationalcost[0]  = $totoperationalcost[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totoperationalcost[1]  = $totoperationalcost[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totoperationalcost[2]  = $totoperationalcost[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totoperationalcost[3]  = $totoperationalcost[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totoperationalcost[4]  = $totoperationalcost[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totoperationalcost[5]  = $totoperationalcost[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totoperationalcost[6]  = $totoperationalcost[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totoperationalcost[7]  = $totoperationalcost[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totoperationalcost[8]  = $totoperationalcost[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totoperationalcost[9]  = $totoperationalcost[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totoperationalcost[10] = $totoperationalcost[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totoperationalcost[11] = $totoperationalcost[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -749,18 +749,18 @@
 		";
 		
 		
-		$totnonoperationalcost[0]  = $totnonoperationalcost[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totnonoperationalcost[1]  = $totnonoperationalcost[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totnonoperationalcost[2]  = $totnonoperationalcost[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totnonoperationalcost[3]  = $totnonoperationalcost[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totnonoperationalcost[4]  = $totnonoperationalcost[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totnonoperationalcost[5]  = $totnonoperationalcost[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totnonoperationalcost[6]  = $totnonoperationalcost[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totnonoperationalcost[7]  = $totnonoperationalcost[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totnonoperationalcost[8]  = $totnonoperationalcost[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totnonoperationalcost[9]  = $totnonoperationalcost[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totnonoperationalcost[10] = $totnonoperationalcost[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totnonoperationalcost[11] = $totnonoperationalcost[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totnonoperationalcost[0]  = $totnonoperationalcost[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totnonoperationalcost[1]  = $totnonoperationalcost[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totnonoperationalcost[2]  = $totnonoperationalcost[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totnonoperationalcost[3]  = $totnonoperationalcost[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totnonoperationalcost[4]  = $totnonoperationalcost[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totnonoperationalcost[5]  = $totnonoperationalcost[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totnonoperationalcost[6]  = $totnonoperationalcost[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totnonoperationalcost[7]  = $totnonoperationalcost[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totnonoperationalcost[8]  = $totnonoperationalcost[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totnonoperationalcost[9]  = $totnonoperationalcost[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totnonoperationalcost[10] = $totnonoperationalcost[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totnonoperationalcost[11] = $totnonoperationalcost[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -882,18 +882,18 @@
 		";
 		
 		
-		$totoutincome[0]  = $totoutincome[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totoutincome[1]  = $totoutincome[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totoutincome[2]  = $totoutincome[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totoutincome[3]  = $totoutincome[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totoutincome[4]  = $totoutincome[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totoutincome[5]  = $totoutincome[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totoutincome[6]  = $totoutincome[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totoutincome[7]  = $totoutincome[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totoutincome[8]  = $totoutincome[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totoutincome[9]  = $totoutincome[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totoutincome[10] = $totoutincome[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totoutincome[11] = $totoutincome[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totoutincome[0]  = $totoutincome[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totoutincome[1]  = $totoutincome[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totoutincome[2]  = $totoutincome[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totoutincome[3]  = $totoutincome[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totoutincome[4]  = $totoutincome[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totoutincome[5]  = $totoutincome[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totoutincome[6]  = $totoutincome[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totoutincome[7]  = $totoutincome[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totoutincome[8]  = $totoutincome[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totoutincome[9]  = $totoutincome[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totoutincome[10] = $totoutincome[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totoutincome[11] = $totoutincome[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 
@@ -989,18 +989,18 @@
 		";
 		
 		
-		$totoutcost[0]  = $totoutcost[0] + intval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
-		$totoutcost[1]  = $totoutcost[1] + intval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
-		$totoutcost[2]  = $totoutcost[2] + intval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
-		$totoutcost[3]  = $totoutcost[3] + intval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
-		$totoutcost[4]  = $totoutcost[4] + intval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
-		$totoutcost[5]  = $totoutcost[5] + intval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
-		$totoutcost[6]  = $totoutcost[6] + intval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
-		$totoutcost[7]  = $totoutcost[7] + intval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
-		$totoutcost[8]  = $totoutcost[8] + intval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
-		$totoutcost[9]  = $totoutcost[9] + intval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
-		$totoutcost[10] = $totoutcost[10] + intval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
-		$totoutcost[11] = $totoutcost[11] + intval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
+		$totoutcost[0]  = $totoutcost[0] + floatval(get_acc_amount($currency,$res->id,$mo[1][0],$mo[1][1]));
+		$totoutcost[1]  = $totoutcost[1] + floatval(get_acc_amount($currency,$res->id,$mo[2][0],$mo[2][1]));
+		$totoutcost[2]  = $totoutcost[2] + floatval(get_acc_amount($currency,$res->id,$mo[3][0],$mo[3][1]));
+		$totoutcost[3]  = $totoutcost[3] + floatval(get_acc_amount($currency,$res->id,$mo[4][0],$mo[4][1]));
+		$totoutcost[4]  = $totoutcost[4] + floatval(get_acc_amount($currency,$res->id,$mo[5][0],$mo[5][1]));
+		$totoutcost[5]  = $totoutcost[5] + floatval(get_acc_amount($currency,$res->id,$mo[6][0],$mo[6][1]));
+		$totoutcost[6]  = $totoutcost[6] + floatval(get_acc_amount($currency,$res->id,$mo[7][0],$mo[7][1]));
+		$totoutcost[7]  = $totoutcost[7] + floatval(get_acc_amount($currency,$res->id,$mo[8][0],$mo[8][1]));
+		$totoutcost[8]  = $totoutcost[8] + floatval(get_acc_amount($currency,$res->id,$mo[9][0],$mo[9][1]));
+		$totoutcost[9]  = $totoutcost[9] + floatval(get_acc_amount($currency,$res->id,$mo[10][0],$mo[10][1]));
+		$totoutcost[10] = $totoutcost[10] + floatval(get_acc_amount($currency,$res->id,$mo[11][0],$mo[11][1]));
+		$totoutcost[11] = $totoutcost[11] + floatval(get_acc_amount($currency,$res->id,$mo[12][0],$mo[12][1]));
 	}
 ?>
 

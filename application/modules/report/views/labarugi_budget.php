@@ -125,14 +125,14 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$em,$ey)->row();
-		return intval($res->vamount);
+		return floatval($res->vamount);
 	}
 	
 	function get_acc_budget($cur='IDR',$acc,$m=0,$y=0,$em=0,$ey=0)
 	{
 		$am = new Account_model();
 		$res = $am->get_period_budget($cur,$acc,$m,$y,$em,$ey)->row();
-		return intval($res->budget);
+		return floatval($res->budget);
 	}
 	
 ?>
@@ -194,8 +194,8 @@
         </tr>
 		";
 		
-		$totincome = $totincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
-		$totincome2 = $totincome2 + intval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totincome = $totincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
+		$totincome2 = $totincome2 + floatval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -236,8 +236,8 @@
         </tr>
 		";
 		
-		$totfrontincome = $totfrontincome + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
-		$totfrontincome2 = $totfrontincome2 + intval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totfrontincome = $totfrontincome + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
+		$totfrontincome2 = $totfrontincome2 + floatval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -297,8 +297,8 @@
         </tr>
 		";
 		
-		$tothpp = $tothpp + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
-		$tothpp2 = $tothpp2 + intval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothpp = $tothpp + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
+		$tothpp2 = $tothpp2 + floatval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -339,8 +339,8 @@
         </tr>
 		";
 		
-		$totothercost = $totothercost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
-		$totothercost2 = $totothercost2 + intval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totothercost = $totothercost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
+		$totothercost2 = $totothercost2 + floatval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -406,8 +406,8 @@
         </tr>
 		";
 		
-		$totoperationalcost = $totoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
-		$totoperationalcost2 = $totoperationalcost2 + intval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totoperationalcost = $totoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
+		$totoperationalcost2 = $totoperationalcost2 + floatval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -470,8 +470,8 @@
         </tr>
 		";
 		
-		$totnonoperationalcost = $totnonoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
-		$totnonoperationalcost2 = $totnonoperationalcost2 + intval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totnonoperationalcost = $totnonoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));
+		$totnonoperationalcost2 = $totnonoperationalcost2 + floatval(get_acc_budget($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -540,8 +540,8 @@
         </tr>
 		";
 		
-		$totoutincome  = $totoutincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoutincome2 = $totoutincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totoutincome  = $totoutincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoutincome2 = $totoutincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -598,8 +598,8 @@
         </tr>
 		";
 		
-		$totoutcost  = $totoutcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoutcost2 = $totoutcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totoutcost  = $totoutcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoutcost2 = $totoutcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 

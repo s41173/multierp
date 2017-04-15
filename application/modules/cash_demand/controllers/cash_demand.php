@@ -128,7 +128,7 @@ class Cash_demand extends MX_Controller
         $data['title'] = $this->properti['name'].' | Administrator Find '.ucwords($this->modul['title']);
         $data['h2title'] = 'Find '.$this->modul['title'];
         $data['main_view'] = 'cash_demand_view';
-	    $data['form_action'] = site_url($this->title.'/search');
+	$data['form_action'] = site_url($this->title.'/search');
         $data['link'] = array('link_back' => anchor($this->title,'<span>back</span>', array('class' => 'back')));
         $data['currency'] = $this->currency->combo();
 //        $data['year'] = $this->financial->combo_active();

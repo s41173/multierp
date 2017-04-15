@@ -125,7 +125,7 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$m,$y)->row();
-		return intval($res->vamount);
+		return floatval($res->vamount);
 	}
 	
 ?>
@@ -187,8 +187,8 @@
         </tr>
 		";
 		
-		$totincome = $totincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totincome2 = $totincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totincome = $totincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totincome2 = $totincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -229,8 +229,8 @@
         </tr>
 		";
 		
-		$totfrontincome = $totfrontincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totfrontincome2 = $totfrontincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totfrontincome = $totfrontincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totfrontincome2 = $totfrontincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -290,8 +290,8 @@
         </tr>
 		";
 		
-		$tothpp  = $tothpp + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$tothpp2 = $tothpp2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$tothpp  = $tothpp + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$tothpp2 = $tothpp2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -332,8 +332,8 @@
         </tr>
 		";
 		
-		$totothercost  = $totothercost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totothercost2 = $totothercost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totothercost  = $totothercost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totothercost2 = $totothercost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -399,8 +399,8 @@
         </tr>
 		";
 		
-		$totoperationalcost  = $totoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoperationalcost2 = $totoperationalcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totoperationalcost  = $totoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoperationalcost2 = $totoperationalcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -463,8 +463,8 @@
         </tr>
 		";
 		
-		$totnonoperationalcost  = $totnonoperationalcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totnonoperationalcost2 = $totnonoperationalcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totnonoperationalcost  = $totnonoperationalcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totnonoperationalcost2 = $totnonoperationalcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -495,8 +495,8 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s7">Operating Profit</td><td></td><td></td><td></td>
-<td colspan="4" class="s8"><?php $lroperasi = $lrkotor - $totoperationalcost + $totnonoperationalcost; echo num_format($lroperasi); ?></td><td></td>
-<td class="s8"><?php $lroperasi2 = $lrkotor2 - $totoperationalcost2 + $totnonoperationalcost2; echo num_format($lroperasi2); ?></td><td></td>
+<td colspan="4" class="s8"><?php $lroperasi = $lrkotor - $totoperationalcost - $totnonoperationalcost; echo num_format($lroperasi); ?></td><td></td>
+<td class="s8"><?php $lroperasi2 = $lrkotor2 - $totoperationalcost2 - $totnonoperationalcost2; echo num_format($lroperasi2); ?></td><td></td>
 </tr>
 <tr style="height:18px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -533,8 +533,8 @@
         </tr>
 		";
 		
-		$totoutincome  = $totoutincome + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoutincome2 = $totoutincome2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totoutincome  = $totoutincome + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoutincome2 = $totoutincome2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -591,8 +591,8 @@
         </tr>
 		";
 		
-		$totoutcost  = $totoutcost + intval(get_acc_amount($currency,$res->id,$months,$years));
-		$totoutcost2 = $totoutcost2 + intval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
+		$totoutcost  = $totoutcost + floatval(get_acc_amount($currency,$res->id,$months,$years));
+		$totoutcost2 = $totoutcost2 + floatval(get_acc_amount($currency,$res->id,$emonths,$eyears));  
 	}
 ?>
 
@@ -619,8 +619,8 @@
 </tr>
 <tr style="height:18px">
 <td></td><td colspan="9" class="s7">Net Profit</td><td></td><td></td><td></td>
-<td colspan="4" class="s8"><?php $lrbersih = $lroperasi + $totoutincome - $totoutcost; echo num_format($lrbersih); ?></td><td></td>
-<td class="s8"><?php $lrbersih2 = $lroperasi2 + $totoutincome2 - $totoutcost2; echo num_format($lrbersih2); ?></td><td></td>
+<td colspan="4" class="s8"><?php $lrbersih = $lroperasi - $totoutincome - $totoutcost; echo num_format($lrbersih); ?></td><td></td>
+<td class="s8"><?php $lrbersih2 = $lroperasi2 - $totoutincome2 - $totoutcost2; echo num_format($lrbersih2); ?></td><td></td>
 </tr>
 <tr style="height:23px">
 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>

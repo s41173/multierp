@@ -9,6 +9,8 @@ class Report_reference extends MX_Controller
         $this->load->model('Main_model', '', TRUE);
         
         $this->load->library('property');
+        $this->acl->otentikasi();
+        
         $this->customer = $this->load->library('customer_lib');
         $this->vendor = $this->load->library('vendor_lib');
         $this->load->library('user_agent');
@@ -16,11 +18,9 @@ class Report_reference extends MX_Controller
 
         $this->load->library('fusioncharts');
         $this->swfCharts  = base_url().'public/flash/Column3D.swf';
-
-        $this->acl->otentikasi();
     }
 
-    var $title = 'main';
+    var $title = 'report_reference';
     var $limit = null;
     private $properti,$vendor,$customer;
 
@@ -31,6 +31,8 @@ class Report_reference extends MX_Controller
 
     function main_panel()
     {
+       $this->acl->otentikasi1($this->title); 
+       
        $data['name'] = $this->properti['name'];
        $data['title'] = $this->properti['name'].' | Administrator  '.ucwords('Main Panel');
        $data['h2title'] = "Financial Statement Reference";

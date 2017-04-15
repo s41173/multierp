@@ -140,7 +140,7 @@
 	{
 		$am = new Account_model();
 		$res = $am->get_period_balance($cur,$acc,$m,$y,$em,$ey)->row();
-		return intval($res->vamount + get_beginning($cur,$acc,$m,$y));
+		return floatval($res->vamount + get_beginning($cur,$acc,$m,$y));
 	}
 	
 	function get_vamount_balance($cur='IDR',$acc,$m=0,$y=0,$em=0,$ey=0)
@@ -156,8 +156,8 @@
 		$res = $am->get_period_vamount($cur,$acc,$m,$y,$em,$ey)->row();
 	    $res_trans = $am->get_period_balance($cur,$acc,$m,$y,$em,$ey)->row();
 		
-	//	return intval($bl->beginning + $res->vamount + $res_trans->vamount);
-     	return intval($bl->end + $res_trans->vamount);
+//     	return floatval($bl->end + $res_trans->vamount);
+        return floatval($bl->end);
 	}
 	
 	function get_beginning($cur='IDR',$acc,$m=0,$y=0)
@@ -166,7 +166,7 @@
 		$bl->where('account_id', $acc);
         $bl->where('month', $m);
         $bl->where('year', $y)->get();
-		return intval($bl->beginning);
+		return floatval($bl->beginning);
 	}
 	
 	function get_end($cur='IDR',$acc,$m=0,$y=0)
@@ -175,7 +175,7 @@
 		$bl->where('account_id', $acc);
         $bl->where('month', $m);
         $bl->where('year', $y)->get();
-		return intval($bl->end);
+		return floatval($bl->end);
 	}
 	
 ?>
@@ -245,7 +245,7 @@
            </tr>";
 	    }
 		
-    	$totkas = $totkas + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears)); 
+    	$totkas = $totkas + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears)); 
 	}
 ?>
 
@@ -284,7 +284,7 @@
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
 		}
-		$totbank = $totbank + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totbank = $totbank + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -323,7 +323,7 @@
 			  <td class=\"s1\"> ".num_format(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
 		}
-		$totpiutangusaha = $totpiutangusaha + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totpiutangusaha = $totpiutangusaha + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -363,7 +363,7 @@
               </tr>";
 		}
 		
-		$totpiutangnonusaha = $totpiutangnonusaha + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totpiutangnonusaha = $totpiutangnonusaha + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears)); 
 	}
 ?>
 
@@ -403,7 +403,7 @@
               </tr>";
 		}
 		
-		$totpersediaan = $totpersediaan + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totpersediaan = $totpersediaan + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -443,7 +443,7 @@
               </tr>";
 		}
 		
-		$totbiayadimuka = $totbiayadimuka + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totbiayadimuka = $totbiayadimuka + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -483,7 +483,7 @@
               </tr>";
 		}
 		
-		$totinvestasi = $totinvestasi + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totinvestasi = $totinvestasi + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -523,7 +523,7 @@
               </tr>";
 		}
 		
-		$tothartawujud = $tothartawujud + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothartawujud = $tothartawujud + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -563,7 +563,7 @@
               </tr>";
 		}
 		
-		$tothartatakwujud = $tothartatakwujud + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothartatakwujud = $tothartatakwujud + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -603,7 +603,7 @@
               </tr>";
 		}
 		
-		$tothartalain = $tothartalain + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothartalain = $tothartalain + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -667,7 +667,7 @@
               </tr>";
 		}
 		
-		$tothutangusaha = $tothutangusaha + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothutangusaha = $tothutangusaha + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -707,7 +707,7 @@
               </tr>";
 		}
 		
-		$totpendapatandimuka = $totpendapatandimuka + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totpendapatandimuka = $totpendapatandimuka + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -747,7 +747,7 @@
               </tr>";
 		}
 		
-		$tothutangpanjang = $tothutangpanjang + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothutangpanjang = $tothutangpanjang + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -787,7 +787,7 @@
               </tr>";
 		}
 		
-		$tothutangnonusaha = $tothutangnonusaha + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothutangnonusaha = $tothutangnonusaha + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -827,7 +827,7 @@
               </tr>";
 		}
 		
-		$tothutanglain = $tothutanglain + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$tothutanglain = $tothutanglain + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -892,7 +892,7 @@
               </tr>";
 		}
 		
-		$totmodal = $totmodal + intval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
+		$totmodal = $totmodal + floatval(get_acc_amount($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 
@@ -924,14 +924,14 @@
 <?php 
 	foreach($laba as $res)
 	{
-		if (get_vamount_balance($currency,$res->id,$months,$years,$emonths,$eyears) != 0)
-		{
+//		if (get_vamount_balance($currency,$res->id,$months,$years,$emonths,$eyears) != 0)
+//		{
 			echo "<tr style=\"height:15px\"> <td></td><td></td><td></td><td></td><td></td>
 		      <td colspan=\"3\" class=\"s0\">".$res->code."</td> <td></td> <td colspan=\"5\" class=\"s0\"> ".$res->name." </td> <td></td> 
 			  <td class=\"s1\"> ".num_format(get_vamount_balance($currency,$res->id,$months,$years,$emonths,$eyears))." </td><td></td>
               </tr>";
-		}
-		$totlaba = $totlaba + intval(get_vamount_balance($currency,$res->id,$months,$years,$emonths,$eyears));  
+//		}
+		$totlaba = $totlaba + floatval(get_vamount_balance($currency,$res->id,$months,$years,$emonths,$eyears));  
 	}
 ?>
 

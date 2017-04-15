@@ -133,6 +133,7 @@ class Stock_adjustment_temp_lib {
         $num = $this->ci->db->get('stock')->num_rows();
         if ($num > 0)
         {
+            $this->ci->db->where('product_id', $pid);
             $this->ci->db->order_by('dates', 'asc');
             $this->ci->db->order_by('id', 'asc');
             $this->ci->db->limit(1);

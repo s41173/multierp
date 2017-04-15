@@ -69,7 +69,7 @@
 					 <tr> 
 						<td class=\"left\"> ".$acc->get_code($res->account_id)." </td>
 						<td class=\"left\"> ".$acc->get_name($res->account_id)." </td> 
-						<td class=\"right\"> ".number_format($res->balance)." </td>  
+						<td class=\"right\"> ".num_format($res->balance)." </td>  
 					 </tr>
 					
 					"; $i++;
@@ -79,7 +79,7 @@
 		 ?>
 		 
 		 
-		 <tr> <td></td> <td class="right"> <b> Total : </b> </td> <td class="right"> <b> <?php echo number_format($amount); ?> </b> </td> </tr>
+		 <tr> <td></td> <td class="right"> <b> Total : </b> </td> <td class="right"> <b> <?php echo num_format($amount); ?> </b> </td> </tr>
 			
 		</table>
 		
