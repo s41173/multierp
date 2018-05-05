@@ -109,12 +109,10 @@ class Product extends MX_Controller
 
             //Set heading untuk table
             $this->table->set_heading('#','No', 'Code', 'Brand', 'Category', 'Cur', 'Type', 'Model', 'Name', 'Qty', 'Unit', 'Price', 'Total', 'Action');
-
             $i = 0 + $offset;
             foreach ($products as $product)
             {
                 $datax = array('name'=> 'cek[]','id'=> 'cek'.$i,'value'=> $product->id,'checked'=> FALSE, 'style'=> 'margin:0px');
-                
                 $this->table->add_row
                 (
                     form_checkbox($datax), ++$i, 'PRO-0'.$product->id, $this->brand->get_name($product->brand), $this->category->get_name($product->category), $product->currency, ucfirst($product->type), $product->model, $product->name, $product->qty.' '.$product->unit, number_format($this->get_unit_cost($product->id)), number_format($product->price), number_format($this->get_unit_cost($product->id)*$product->qty),

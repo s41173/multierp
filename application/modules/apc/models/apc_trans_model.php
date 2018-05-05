@@ -9,18 +9,22 @@ class Apc_trans_model extends CI_Model
     
     var $table = 'apc_trans';
     
-    function get_last_item($po)
+    function get_last_item($po,$type=null)
     {
-        $this->db->select('id, apc_id, cost, notes, staff, amount');
+        $this->db->select('id, apc_id, type, trans_no, cost, notes, staff, amount');
         $this->db->from($this->table);
         $this->db->where('apc_id', $po);
+        $this->cek_null($type,"type");
         $this->db->order_by('id', 'asc'); 
         return $this->db->get(); 
     }
     
+    private function cek_null($val,$field)
+    { if (isset($val)){ return $this->db->where($field, $val); } }
+    
     function get_by_id($id)
     {
-        $this->db->select('id, apc_id, cost, notes, staff, amount');
+        $this->db->select('id, apc_id, type, trans_no, cost, notes, staff, amount');
         $this->db->from($this->table);
         $this->db->where('id', $id);
         return $this->db->get()->row(); 

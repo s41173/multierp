@@ -12,7 +12,7 @@
 	#kolkiri{ width:3cm; height:13cm; border:0pt solid red; float:left; margin:0.3cm 0 0cm 0.5cm;}
 	#kolkanan{ height:13cm; width:13.5cm; border:0pt solid blue; float:right; margin:0.8cm 1.1cm 0cm 0cm;}
 
-	.tab1 { margin:0cm 0 0 3cm; border:0pt solid blue; width:11cm;}
+	.tab1 { margin:0cm 0 0 4cm; border:0pt solid blue; width:11cm;}
 	table.tab1 td { padding:0 0 0.0cm 0; margin:0; }
 	
 	.tab2 { margin:0.0cm 0 0 1.7cm; border:0pt solid red; width:12.3cm;}
@@ -32,7 +32,7 @@
 	#kolkiri{ width:3cm; height:13cm; border:0pt solid red; float:left; margin:0.3cm 0 0cm 0.5cm;}
 	#kolkanan{ height:13cm; width:13.5cm; border:0pt solid blue; float:right; margin:0.8cm 1.1cm 0cm 0cm;}
 
-	.tab1 { margin:0cm 0 0 3cm; border:0pt solid blue; width:11cm;}
+	.tab1 { margin:0cm 0 0 4cm; border:0pt solid blue; width:11cm;}
 	table.tab1 td { padding:0 0 0.0cm 0; margin:0; }
 	
 	.tab2 { margin:0.0cm 0 0 1.7cm; border:0pt solid red; width:12.3cm;}
@@ -54,51 +54,24 @@
 	
 	<div id="kolkanan"> 
 	
-<p style="padding:0.1cm 0 0.0cm 1.5cm; margin:0 0 0.3cm 0; float:left;"> <?php echo $pono; ?> </p>
+<p style="padding:0.1cm 0 0.0cm 2.5cm; margin:0 0 0.3cm 0; float:left;"> <?php echo $pono; ?> </p>
 <div class="clear"></div>
 
-<div style="border:0pt solid red; width:auto; height:5.9cm;">
+<div style="border:0pt solid red; width:auto; height:10.5cm;">
 <table class="tab1" border="0">
 <!--	<tr> <td> 07 / I / P / 2013 </td> </tr> -->
 	<tr> <td> &nbsp;&nbsp; * &nbsp; <?php echo $customer; ?> &nbsp; * </td> </tr>
 	<tr> <td> <p style="padding:0 0 0 0; margin:0.5cm 0 0 0; line-height:0.8cm; height:1.5cm;"> 
 	     # <?php echo $terbilang; ?> # </p> </td> </tr>
-	<tr> <td> <p style="padding:0.0cm 0 0 0.2cm; margin:0.5cm 0 0 0; line-height:0.6cm; border-bottom:0pt solid #000; height:1.9cm"> <?php echo $notes; ?> </p> </td> </tr>
+	<tr> <td> <p style="padding:0.0cm 0 0 0.2cm; margin:0.7cm 0 0 0; line-height:1cm; border-bottom:0pt solid #000; height:5.8cm"> <?php echo $notes; ?> </p> </td> </tr>
+	<tr> <td class=""> <p style="padding:0.6cm 0 0 7.5cm; margin:0;"> <?php echo $podate; ?> </p> </td> </tr>
 </table>
 </div>
 		
 		<div class="clear"></div>
-		
-		<table class="tab2" border="0">
-		
-			<tr> <td> 
-			     <p style="padding:0; margin:0; float:left; width:0.8cm; text-align:right;"> <?php echo $size; ?> </p> 
-				 <sup style="float:left; padding:0; margin:0; font-size:8pt;"><?php echo $sup; ?></sup>
-				 <p style="padding:0 0 0 0; margin:0 0 0 2.1cm; float:left;"> <?php echo $coloumn; ?> </p>
-				 <p style="padding:0 0 0 0; margin:0 0 0 2.5cm; float:left;"> <?php echo $price ?> ,- 
-				 <sup style="padding:0; margin:0; font-size:8pt;"> <?php echo $count; ?> </sup> </p> 
-				 </td> <td class="right"> <?php echo number_format($bruto,0,",","."); ?> ,-  </td> </tr>
-				 
-			<tr> <td> <p style="padding:0; margin:0; text-align:right; width:0.8cm;"> <?php echo $discountpercent; ?> </p> 
-			<p style="padding:0 0 0 1.5cm; margin:0; float:left;"> <?php echo $disdesc; ?> <?php echo $dp; ?> </p> </td> 
-			<td class="right"> <?php echo number_format($discount + $p1,0,",","."); ?> ,- </td> </tr>
-			
-			<tr> <td> <p style="padding:0cm; margin:0; text-align:right; width:0.8cm;"> <?php echo 100-$discountpercent; ?> </p> </td> 
-			<td class="right"> <?php echo number_format($netto,0,",","."); ?> ,- </td> </tr>
-			
-			<tr> <td> <p style="padding:0; margin:0; text-align:right; width:0.8cm;"> <?php echo $tax_percent; ?> </p> </td> 
-			      <td class="right"> <p style="padding:0.1cm 0 0.1cm 0; margin:0;"> <?php echo number_format($tax,0,",","."); ?> ,- </p> </td> </tr>
-			<tr> <td>  </td> <td class="right"> <?php echo number_format($cost,0,",","."); ?> ,- </td> </tr>
-			<tr> <td>  </td> <td class="right"> <p style="padding:0.5cm 0 0 0; margin:0;"> <?php echo number_format($total,0,",","."); ?> ,- </p> </td> </tr>
-			<tr> <td>  </td> <td class=""> <p style="padding:0.6cm 0 0 0.2cm; margin:0;"> <?php echo $podate; ?> </p> </td> </tr>
-		
-		</table>
-		
-		<p style="float:left; font-size:14pt; padding:1.2cm 0 0 2.5cm; font-weight:normal; margin:0;"> <?php echo number_format($total,0,",","."); ?> ,- </p>
+		<p style="float:left; font-size:14pt; padding:1.2cm 0 0 3.5cm; font-weight:normal; margin:0;"> <?php echo number_format($total,0,",","."); ?> ,- </p>
 		
 	</div>
-
-
 </div>
 
 </body>

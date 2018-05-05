@@ -79,13 +79,13 @@ $atts3 = array(
 		            <?php $js = 'class=""'; echo form_dropdown('ccategory', $category, isset($default['category']) ? $default['category'] : '', $js); ?> &nbsp; </td>
 					
 					<td> <label for="tname"> Vendor : </label> <br /> 
-					    <input type="text" readonly="readonly" name="tvendor" id="tcust" size="20" title="Customer" /> 
+					    <input type="text" readonly="readonly" name="tvendor" id="tcust" size="17" title="Customer" /> 
 				<!--		<a class="refresh" id="tombol" href="<?php //echo site_url("vendor/get_list/"); ?>"> [ ... ] </a> -->
 						<?php echo anchor_popup(site_url("vendor/get_list/"), '[ ... ]', $atts1); ?> &nbsp;
 					</td> 
 					
                     <td colspan="4"> Name ( Keyword ) : &nbsp; <br /> 
-					                 <input type="text" name="tsearch" size="30" id="tproductsearch" />  
+					                 <input type="text" name="tsearch" size="25" id="tproductsearch" />  
                					     <input type="submit" name="submit" class="button" title="" value="Search" /> 
 					</td>		
 					</tr>

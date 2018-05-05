@@ -74,7 +74,8 @@
 						{ name: "Acc", type: "string" },
 						{ name: "Staff", type: "string" },
 						{ name: "Approval", type: "string" },
-						{ name: "Balance", type: "number" }
+						{ name: "Balance", type: "number" },
+                        { name: "Check-No", type: "string" }
                     ]
                 };
 			
@@ -107,7 +108,8 @@
 				  { text: 'Acc', datafield: 'Acc', width: 70, cellsalign: 'center' },
 				  { text: 'Staff', datafield: 'Staff', width: 70, cellsalign: 'left' },
 				  { text: 'Approval', datafield: 'Approval', width: 90, cellsalign: 'center'},
-				  { text: 'Balance', datafield: 'Balance', cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] }
+				  { text: 'Balance', datafield: 'Balance', cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] },
+                  { text: 'Check-No', datafield: 'Balance', cellsalign: 'center' }
 				  
                 ]
             });
@@ -189,7 +191,7 @@
  <thead>
  <tr>
  <th>No</th> <th>Date</th> <th>Order No</th> <th>Vendor</th> <th> Code </th> <th>Category</th> <th>Notes</th> <th>Acc</th> 
- <th>Staff</th> <th>Approval</th> <th> Balance </th>
+ <th>Staff</th> <th>Approval</th> <th> Balance </th> <th> Check-No </th>
  </tr>
  </thead>
    
@@ -217,6 +219,7 @@
            <td class=\"strongs\" align=\"left\">".strtoupper($ap->staff)."</td> 
            <td class=\"strongs\" align=\"left\">".approval($ap->approved)."</td>
            <td class=\"strongs\" align=\"left\">".$ap->amount."</td>
+           <td class=\"strongs\" align=\"right\">".$ap->check_no."</td> 
            </tr>";
            $i++; 
         }

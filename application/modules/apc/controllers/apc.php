@@ -28,10 +28,14 @@ class Apc extends MX_Controller
         $this->ledger = new Cash_ledger_lib();
         $this->journalgl = new Journalgl_lib();
         $this->account = new Account_lib();
+        $this->purchase = new Purchase_lib();
+        $this->vinyl = new Printing_lib();
+        $this->trans = new Trans_ledger_lib();
+        $this->demand = new Cash_demand_lib();
     }
 
-    private $properti, $modul, $title, $cost, $financial,$ps, $model, $ledger, $account;
-    private $vendor,$user,$tax,$journal,$journalgl,$product,$currency,$unit,$category;
+    private $properti, $modul, $title, $cost, $financial,$ps, $model, $ledger, $account, $purchase, $vinyl;
+    private $vendor,$user,$tax,$journal,$journalgl,$product,$currency,$unit,$category,$trans,$demand;
 
     private  $atts = array('width'=> '800','height'=> '600',
                       'scrollbars' => 'yes','status'=> 'yes',
@@ -85,16 +89,18 @@ class Apc extends MX_Controller
             $this->table->set_empty("&nbsp;");
 
             //Set heading untuk table
-            $this->table->set_heading('No', 'Code', 'Cur', 'Date', 'Notes', 'Acc', 'Balance', '#', 'Action');
+            $this->table->set_heading('No', 'Code', 'Cur', 'Date', 'Type', 'Notes', 'Acc', 'Balance', '#', 'Action');
 
             $i = 0 + $offset;
             foreach ($aps as $ap)
             {
 //                $datax = array('name'=> 'cek[]','id'=> 'cek'.$i,'value'=> $ap->id,'checked'=> FALSE, 'style'=> 'margin:0px');
                 
+                if ($ap->type == 0){$type = 'General'; }elseif ($ap->type == 1){$type = 'Purchase'; }elseif ($ap->type == 2){$type = 'Printing'; }
+                
                 $this->table->add_row
                 (
-                    ++$i, 'DJC-00'.$ap->no, $ap->currency, tglin($ap->dates), $ap->notes, ucfirst($ap->acc), number_format($ap->amount), $this->status($ap->status),
+                    ++$i, 'DJC-00'.$ap->no, $ap->currency, tglin($ap->dates), $type, $ap->notes, ucfirst($ap->acc), number_format($ap->amount), $this->status($ap->status),
                     anchor($this->title.'/confirmation/'.$ap->id,'<span>update</span>',array('class' => $this->post_status($ap->approved), 'title' => 'edit / update')).' '.
                     anchor_popup($this->title.'/invoice/'.$ap->no,'<span>print</span>',$this->atts).' '.
                     anchor($this->title.'/add_trans/'.$ap->no,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
@@ -250,6 +256,8 @@ class Apc extends MX_Controller
             }
             else
             {
+                $this->settled_po($pid,$ap->type); // fungsi untuk mensettled kan semua po
+                
                 $this->model->approved = 1;
                 $this->model->status = 1;
                 $this->model->save();
@@ -261,27 +269,87 @@ class Apc extends MX_Controller
                 
                 $cm = new Control_model();
 
-                $account  = $ap1->account;                
+                $account  = $ap1->account; 
+                $hutang   = $cm->get_id(11);
                 
                 // create journal- GL
                 $this->journalgl->new_journal('0'.$ap1->no,$ap1->dates,'DJC',$ap1->currency,$ap1->notes,$ap1->amount, $this->session->userdata('log'));
-                
+
                 $transs = $this->Apc_trans_model->get_last_item($pid)->result(); 
                 $dpid = $this->journalgl->get_journal_id('DJC','0'.$ap1->no);
                 
-                foreach ($transs as $trans) 
-                {
-//                    $this->cost->get_acc($trans->cost);
-                    $this->journalgl->add_trans($dpid,$this->cost->get_acc($trans->cost),$trans->amount,0); // biaya
+                if ($ap->type == '0'){
+                    
+                    foreach ($transs as $trans) 
+                    {
+    //                    $this->cost->get_acc($trans->cost);
+                        $this->journalgl->add_trans($dpid,$this->cost->get_acc($trans->cost),$trans->amount,0); // biaya
+                    }
+                    $this->journalgl->add_trans($dpid,$account,0,$ap1->amount); // kas, bank, kas kecil
+                    
+                }else{
+                    $this->journalgl->add_trans($dpid,$hutang,intval($ap1->amount),0); // hutang usaha
+                    $this->journalgl->add_trans($dpid,$account,0,$ap1->amount); // kas, bank, kas kecil
                 }
                 
-                $this->journalgl->add_trans($dpid,$account,0,$ap1->amount); // kas, bank, kas kecil
-
                $this->session->set_flashdata('message', "$this->title DJC-00$ap1->no confirmed..!"); // set flash data message dengan session
                redirect($this->title);
             }
         }
 
+    }
+    
+    private function settled_po($pid,$type)
+    {
+        $vals = $this->Apc_trans_model->get_last_item($pid,$type)->result();
+        $ap = $this->model->where('id',$pid)->get();
+        
+        if ($type == '1')
+        {
+            foreach ($vals as $val)
+            {
+                $purchase = $this->purchase->get_po($val->trans_no);
+                $p2 = $purchase->p2;
+
+                if ($val->amount - $p2 >= 0)
+                {
+                   $data = array('status' => 1,'p2' => $p2-$val->amount);
+                   $this->purchase->settled_po($val->trans_no,$data);
+                }
+                else
+                {
+                    $datax = array('p2' => $p2-$val->amount);
+                    $this->purchase->settled_po($val->trans_no,$datax);
+                }
+                
+                // membuat kartu hutang
+                $this->trans->add($ap->acc, 'APC', $ap->no, $ap->currency, $ap->dates, intval($ap->amount), 0, $purchase->vendor, 'AP'); 
+                
+            }
+        }
+        elseif ($type == '2')
+        {
+            foreach ($vals as $val)
+            {
+                $purchase = $this->vinyl->get_po($val->trans_no);
+                $p2 = $purchase->p2;
+
+                if ($val->amount - $p2 >= 0)
+                {
+                   $data = array('status' => 1,'p2' => $p2-$val->amount);
+                   $this->vinyl->settled_po($val->trans_no,$data);
+                }
+                else
+                {
+                    $datax = array('p2' => $p2-$val->amount);
+                    $this->vinyl->settled_po($val->trans_no,$datax);
+                }
+                
+                // membuat kartu hutang
+                $this->trans->add($ap->acc, 'APC', $ap->no, $ap->currency, $ap->dates, intval($ap->amount), 0, $purchase->vendor, 'AP'); 
+            }
+        }
+        
     }
 
     private function cek_journal($date,$currency)
@@ -388,12 +456,40 @@ class Apc extends MX_Controller
         } 
     }
     
+    private function unsettled_po($pid,$type)
+    {
+        $vals = $this->Apc_trans_model->get_last_item($pid,$type)->result();
+        
+        if ($type == '1')
+        {
+            foreach ($vals as $val)
+            {
+                $p2 = $this->purchase->get_po($val->trans_no);
+                $p2 = $p2->p2;
+                $data = array('status' => 0, 'p2'=> $val->amount+$p2);
+                $this->purchase->settled_po($val->trans_no,$data);
+            }
+        }
+        elseif ($type == '2')
+        {
+            foreach ($vals as $val)
+            {
+                $p2 = $this->vinyl->get_po($val->trans_no);
+                $p2 = $p2->p2;
+                $data = array('status' => 0, 'p2'=> $val->amount+$p2);
+                $this->vinyl->settled_po($val->trans_no,$data);
+            }
+        } 
+    }
+    
     private function void($uid,$po)
     {
        $val = $this->model->where('id',$uid)->get();
        if ($this->valid_period($val->dates) == TRUE)
        {
            $this->journalgl->remove_journal('DJC', '0'.$po); // journal gl
+           $this->unsettled_po($uid,$val->type); 
+           $this->trans->remove($val->dates, 'APC', $val->no);
            
            $val->approved = 0;
            $val->status = 0;
@@ -438,14 +534,19 @@ class Apc extends MX_Controller
 
         if ($this->form_validation->run($this) == TRUE)
         {
-            $trans = array('no' => $this->input->post('tno'), 'status' => 0,
-                           'dates' => $this->input->post('tdate'), 'acc' => $this->input->post('cacc'), 
+            $trans = array('no' => $this->input->post('tno'), 'status' => 0, 'type' => $this->input->post('ctype'),
+                           'dates' => $this->input->post('tdate'), 'acc' => $this->input->post('cacc'), 'demand' => $this->input->post('tdemand'),
                            'currency' => $this->input->post('ccurrency'), 'notes' => $this->input->post('tnote'), 
                            'desc' => $this->input->post('tdesc'), 'user' => $this->user->get_userid($this->input->post('tuser')),
                            'log' => $this->session->userdata('log'));
             
             $this->Apc_model->add($trans);
-               
+            
+            // add demand trans
+            if ($this->input->post('tno') != ""){
+                $this->add_demand_trans($this->input->post('tno'));
+            }
+            
             $this->session->set_flashdata('message', "One $this->title data successfully saved!");
             redirect($this->title.'/add_trans/'.$this->input->post('tno'));
 //            echo 'true';
@@ -456,6 +557,26 @@ class Apc extends MX_Controller
 //            echo validation_errors();
         }
 
+    }
+    
+    private function add_demand_trans($no)
+    {
+        if ($no)
+        {
+          $ap = $this->model->where('no',$no)->get();
+          $result = $this->demand->get_by_no($ap->demand);
+
+          foreach ($result as $res)
+          {
+            $pitem = array('apc_id' => $ap->id, 'cost' => $res->cost, 'type' => '0',
+                       'notes' => $res->notes,
+                       'staff' => '',
+                       'amount' => $res->amount);
+
+            $this->Apc_trans_model->add($pitem);
+            $this->update_trans($ap->id);
+          }  
+        }
     }
 
     function add_trans($po=null)
@@ -475,6 +596,7 @@ class Apc extends MX_Controller
         if ($ap->acc == 'bank'){ $data['account'] = $this->account->combo_asset(); }else { $data['account'] = $this->account->combo_based_classi(7); }
         
         $data['default']['vendor'] = $this->vendor->get_vendor_shortname($ap->vendor);
+        $data['venid'] = $ap->vendor;
         $data['default']['date'] = $ap->dates;
         $data['default']['currency'] = $ap->currency;
         $data['default']['acc'] = $ap->acc;
@@ -483,8 +605,13 @@ class Apc extends MX_Controller
         $data['default']['user'] = $this->user->get_username($ap->user);
         $data['default']['docno'] = $ap->docno;
         $data['default']['account'] = $ap->account;
-
+        $data['default']['type'] = $ap->type;
+        
         $data['default']['balance'] = $ap->amount;
+        if ($ap->type == 0){ $type = 'GENERAL'; $view = 'apc_transform'; }elseif($ap->type == 1){ $type = 'PURCHASE'; $view = 'apc_transform_purchase'; }
+        elseif($ap->type == 2){ $type = 'PRINTING'; $view = 'apc_transform_purchase'; }
+        
+        $data['default']['transtype'] = $type;
 
 //        ============================ Apc Item  =========================================
         $items = $this->Apc_trans_model->get_last_item($ap->id)->result();
@@ -498,14 +625,15 @@ class Apc extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('No', 'Cost Type', 'Notes', 'Staff', 'Amount', 'Action');
+        $this->table->set_heading('No', 'Cost Type', 'Code', 'Trans No', 'Notes', 'Staff', 'Amount', 'Action');
 
         $i = 0;
         foreach ($items as $item)
         {
+            if ($item->type == 0){ $type = ''; }elseif ($item->type == 1){ $type = 'PO-00'; }elseif ($item->type == 2){ $type = 'CP-00'; }
             $this->table->add_row
             (
-                ++$i, $this->cost->get_name($item->cost), $item->notes, $item->staff, number_format($item->amount),
+                ++$i, $this->cost->get_name($item->cost), $type, $item->trans_no, $item->notes, $item->staff, number_format($item->amount),
                 anchor_popup($this->title.'/print_item/'.$item->id,'<span>print</span>',$this->atts).' '.
                 anchor_popup($this->title.'/edit_item/'.$item->id,'<span>print</span>',$this->attsupdate).' '.
                 anchor($this->title.'/delete_item/'.$item->id.'/'.$ap->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
@@ -514,7 +642,8 @@ class Apc extends MX_Controller
 
         $data['table'] = $this->table->generate();
         
-        $this->load->view('apc_transform', $data);
+        
+        $this->load->view($view, $data);
     }
 
 
@@ -524,16 +653,33 @@ class Apc extends MX_Controller
     {
 //        $this->cek_confirmation($pid,'add_trans');
         
-        $this->form_validation->set_rules('ccost', 'Cost Type', 'required');
-        $this->form_validation->set_rules('tstaff', 'Staff', 'required');
-        $this->form_validation->set_rules('tamount', 'Amount', 'required|numeric');
+        $ap = $this->model->where('no', $po)->get();
+        
+        if ($ap->type == '0'){
+            $this->form_validation->set_rules('ccost', 'Cost Type', 'required');
+            $this->form_validation->set_rules('tstaff', 'Staff', 'required');
+            $this->form_validation->set_rules('tamount', 'Amount', 'required|numeric');
+        }else{
+            $this->form_validation->set_rules('titem', 'Transaction No', 'required');
+        }
+        
 
         if ($this->form_validation->run($this) == TRUE && $this->valid_confirmation($po) == TRUE)
         {
-            $pitem = array('apc_id' => $pid, 'cost' => $this->input->post('ccost'),
+            if ($ap->type == '0'){
+                $pitem = array('apc_id' => $pid, 'cost' => $this->input->post('ccost'),
                            'notes' => $this->input->post('tnotes'),
                            'staff' => $this->input->post('tstaff'),
                            'amount' => $this->input->post('tamount'));
+            }elseif ($ap->type == '1'){
+                $purchase = $this->purchase->get_po($this->input->post('titem'));
+                $pitem = array('apc_id' => $pid, 'cost' => 0, 'trans_no' => $this->input->post('titem'),
+                           'notes' => $purchase->notes.' : '.tglin($purchase->dates),'staff' => '', 'type' => $ap->type, 'amount' =>  $purchase->p2);
+            }elseif ($ap->type == '2'){
+                $purchase = $this->vinyl->get_po($this->input->post('titem'));
+                $pitem = array('apc_id' => $pid, 'cost' => 0, 'trans_no' => $this->input->post('titem'),
+                           'notes' => $purchase->notes.' : '.tglin($purchase->dates),'staff' => '', 'type' => $ap->type, 'amount' =>  $purchase->p2);
+            }
             
             $this->Apc_trans_model->add($pitem);
             $this->update_trans($pid);
@@ -647,6 +793,7 @@ class Apc extends MX_Controller
         $this->form_validation->set_rules('tno', 'DJ - No', 'required|numeric|callback_valid_confirmation');
         $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
         $this->form_validation->set_rules('tnote', 'Note', 'required');
+        $this->form_validation->set_rules('ctype', 'Transaction Type', 'required|callback_valid_type['.$pid.']');
         $this->form_validation->set_rules('tdocno', 'Doc NO', '');
 
         if ($this->form_validation->run($this) == TRUE)
@@ -666,6 +813,7 @@ class Apc extends MX_Controller
             $this->model->notes    = $this->input->post('tnote');
             $this->model->desc     = $this->input->post('tdesc');
             $this->model->user     = $this->user->get_userid($this->input->post('tuser'));
+            $this->model->type     = $this->input->post('ctype');
             $this->model->log      = $this->session->userdata('log');
             
             
@@ -718,6 +866,21 @@ class Apc extends MX_Controller
         }
         else {  return TRUE; }
    }
+   
+   public function valid_type($type,$pid)
+    {
+        $val = $this->model->where('id',$pid)->get();
+        $numrows = $this->Apc_trans_model->get_last_item($pid)->num_rows();
+
+        if ($val->type != $type)
+        {
+            if ($numrows > 0){ 
+               $this->form_validation->set_message('valid_type', "Remove Transaction list first to update journal..!.!");
+               return FALSE;
+            }else{ return TRUE; }
+        }
+        else {  return TRUE; }
+    }
 
     public function valid_confirmation($no)
     {
@@ -748,14 +911,19 @@ class Apc extends MX_Controller
    {
        $this->acl->otentikasi2($this->title);
        $ap = $this->model->where('no', $po)->get();
-
+       $viewx = null;
        $data['h2title'] = 'Print Invoice'.$this->modul['title'];
+       
+       if ($ap->type == '0'){ $data['type'] = 'GENERAL'; $viewx = 'apc_invoice'; }
+       elseif ($ap->type == '1'){ $data['type'] = 'PURCHASE';  $viewx = 'apc_invoice_purchase'; }
+       elseif ($ap->type == '2'){ $data['type'] = 'PRINTING'; $viewx = 'apc_invoice_purchase'; }
 
        $data['pono'] = $po;
        $data['podate'] = tgleng($ap->dates);
        $data['vendor'] = "";
        $data['venbank'] = "";
        $data['notes'] = $ap->notes;
+       $data['demand'] = $ap->demand;
        $data['acc'] = ucfirst($ap->acc);
        $data['user'] = $this->user->get_username($ap->user);
        $data['currency'] = $ap->currency;
@@ -769,6 +937,7 @@ class Apc extends MX_Controller
        { $data['terbilang'] = ucwords($terbilang->baca($ap->amount)).' Rupiah'; }
        else { $data['terbilang'] = ucwords($terbilang->baca($ap->amount)); }
        
+       
        if($ap->approved == 1){ $stts = 'A'; }else{ $stts = 'NA'; }
        $data['stts'] = $stts;
 
@@ -776,10 +945,10 @@ class Apc extends MX_Controller
        
        $data['accounting'] = $this->properti['accounting'];
        $data['manager'] = $this->properti['manager'];
-
+       
 //       if ($ap->approved != 1){ $this->load->view('rejected', $data); }
 //       else { $this->load->view('apc_invoice', $data); }
-       $this->load->view('apc_invoice', $data);
+       $this->load->view($viewx, $data);
 
    }
 

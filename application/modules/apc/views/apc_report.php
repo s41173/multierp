@@ -67,6 +67,7 @@
                         { name: "No", type: "string" },
 						{ name: "Date", type: "string" },
 						{ name: "Order No", type: "string" },
+                        { name: "Type", type: "string" },
 						{ name: "Vendor", type: "string" },
 						{ name: "Notes", type: "string" },
 						{ name: "Acc", type: "string" },
@@ -97,6 +98,7 @@
                   { text: 'No', dataField: 'No', width: 50 },
 				  { text: 'Date', dataField: 'Date', width : 130 },
   				  { text: 'Order No', dataField: 'Order No', width : 100 },
+                  { text: 'Type', dataField: 'Type', width : 130 },
 				  { text: 'Vendor', dataField: 'Vendor' },
 				  { text: 'Notes', dataField: 'Notes' },
 				  { text: 'Acc', datafield: 'Acc', width: 70, cellsalign: 'center' },
@@ -201,10 +203,10 @@
 
 </div>
 
-<table id="table" border="0" width="100%" style="visibility:hidden;">
+<table id="table" border="0" width="100%">
 <thead>
 <tr>
-<th> No </th> <th> Date </th> <th> Order No </th> <th> Vendor </th> <th> Notes </th> <th> Acc </th> <th> Approval </th> <th> Balance </th>
+<th> No </th> <th> Date </th> <th> Type </th> <th> Order No </th> <th> Vendor </th> <th> Notes </th> <th> Acc </th> <th> Approval </th> <th> Balance </th>
 </tr>
 </thead>
 
@@ -220,10 +222,12 @@
   {
     foreach ($aps as $ap)
     {	
+       if ($ap->type == '0'){ $type = 'General'; }elseif ($ap->type == '1'){ $type = 'Purchase'; }elseif ($ap->type == '2'){ $type = 'Printing'; }    
        echo " 
        <tr> 
            <td class=\"strongs\">".$i."</td> 
            <td class=\"strongs\">".tglin($ap->dates)."</td> 
+           <td class=\"strongs\">".$type."</td> 
            <td class=\"strongs\"> DJC-00".$ap->no."</td> 
            <td class=\"strongs\"></td> 
            <td class=\"strongs\">".$ap->notes."</td>

@@ -68,6 +68,7 @@
 						{ name: "Date", type: "string" },
 						{ name: "Order No", type: "string" },
 						{ name: "Vendor", type: "string" },
+                        { name: "Docno", type: "string" },
 						{ name: "Acc", type: "string" },
   					    { name: "Sub Total", type: "number" },
 						{ name: "Tax", type: "number" },
@@ -107,6 +108,7 @@
 				  { text: 'Date', dataField: 'Date', width : 120 },
   				  { text: 'Order No', dataField: 'Order No', width : 100 },
 				  { text: 'Vendor', dataField: 'Vendor', width : 200 },
+                  { text: 'Docno', dataField: 'Docno', width : 200 },
   				  { text: 'Acc', datafield: 'Acc', width: 70, cellsalign: 'center' },
 				  { text: 'Sub Total', datafield: 'Sub Total', width: 130, cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] },
 				  { text: 'Tax', datafield: 'Tax', width: 130, cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] },
@@ -205,7 +207,7 @@
 		   
            <thead>
            <tr>
- 	       <th> No </th> <th> Date </th> <th> Order No </th> <th> Vendor </th> <th> Acc </th> <th> Sub Total </th> <th> Tax </th> 
+ 	       <th> No </th> <th> Date </th> <th> Order No </th> <th> Vendor </th> <th> Docno </th> <th> Acc </th> <th> Sub Total </th> <th> Tax </th> 
            <th> Costs </th> <th> Purchase Total </th> <th> Payment </th> <th> Refund </th> <th> Refund Amount </th>  <th> Balance </th> <th> Status </th> 
            <th> Stock-IN </th> <th> Sales </th> <th> Remarks </th>
 		   </tr>
@@ -257,6 +259,7 @@
 					   <td class=\"strongs\">".tglin($purchase->dates)."</td> 
 					   <td class=\"strongs\"> PO-00".$purchase->no."</td> 
 					   <td class=\"strongs\">".$purchase->prefix.' '.$purchase->name."</td> 
+                       <td class=\"strongs\">".$purchase->docno."</td> 
 					   <td class=\"strongs\">".ucfirst($purchase->acc)."</td> 
 					   <td class=\"strongs\" align=\"right\">".intval($purchase->total - $purchase->tax)."</td> 
 					   <td class=\"strongs\" align=\"right\">".$purchase->tax."</td>

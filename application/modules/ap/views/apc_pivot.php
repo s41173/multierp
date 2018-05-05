@@ -68,7 +68,7 @@
 		<table id="input" border="0" width="100%" style="visibility:hidden;">
 		 <thead>
          <tr>
- 	     <th>No</th> <th>Date</th> <th>Order No</th> <th>Vendor</th> <th>Category</th> <th>Notes</th> <th>Acc</th> <th>Staff</th> <th>Approval</th>         <th> Balance </th>
+ 	     <th>No</th> <th>Date</th> <th>Order No</th> <th>Vendor</th> <th>Category</th> <th>Notes</th> <th>Acc</th> <th>Staff</th> <th>Approval</th> <th> Balance </th> <th> Check-No </th>
 		 </tr>
          </thead>
 		   
@@ -95,6 +95,7 @@
 				   <td class=\"strongs\" align=\"left\">".strtoupper($ap->staff)."</td> 
 				   <td class=\"strongs\" align=\"left\">".approval($ap->approved)."</td>
 				   <td class=\"strongs\" align=\"left\">".$ap->amount."</td>
+                   <td class=\"strongs\" align=\"right\">".$ap->check_no."</td> 
 				   </tr>";
 				   $i++; 
 				}

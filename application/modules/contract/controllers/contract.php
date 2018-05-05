@@ -28,7 +28,6 @@ class Contract extends MX_Controller
         
         $this->load->library('fusioncharts');
         $this->swfCharts  = base_url().'public/flash/Column3D.swf';
-        
     }
 
     private $properti, $modul, $title, $phase, $journalgl, $coa, $ctype;

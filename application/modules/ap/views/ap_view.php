@@ -16,7 +16,7 @@ $atts = array(
 		
 $atts1 = array(
 	  'class'      => 'refresh',
-	  'title'      => 'Purchase Invoice',
+	  'title'      => 'Vendor List',
 	  'width'      => '600',
 	  'height'     => '400',
 	  'scrollbars' => 'no',
@@ -58,6 +58,12 @@ value="<?php echo set_value('tno', isset($default['no']) ? $default['no'] : '');
 					<td> <label for=""> Date : </label> <br />
 					     <input type="Text" name="tdate" id="d1" title="Start date" size="10" class="form_field" /> 
 				         <img src="<?php echo base_url();?>/jdtp-images/cal.gif" onclick="javascript:NewCssCal('d1','yyyymmdd')" style="cursor:pointer"/> &nbsp;
+					</td> 
+                   
+                    <td> <label for="tname"> Vendor : </label> <br />  
+					    <input type="text" readonly="readonly" name="tcust" id="tcust" size="25" title="Customer" /> 
+				<!--		<a class="refresh" id="tombol" href="<?php //echo site_url("vendor/get_list/"); ?>"> [ ... ] </a> -->
+						<?php echo anchor_popup(site_url("vendor/get_list/"), '[ ... ]', $atts1); ?> &nbsp; &nbsp;
 					</td> 
                     
                     <td> <label for=""> Type : </label> <br />

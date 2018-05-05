@@ -2,23 +2,15 @@
 <style type="text/css">@import url("<?php echo base_url() . 'development-bundle/themes/base/ui.all.css'; ?>");</style>
 <style type="text/css">@import url("<?php echo base_url() . 'css/jquery.fancybox-1.3.4.css'; ?>");</style>
 
-<script type="text/javascript" src="<?php echo base_url();?>js/register.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.3.2.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/datetimepicker_css.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>/development-bundle/ui/ui.core.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.tools.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/hoverIntent.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.fancybox-1.3.4.pack.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/complete.js"></script> 
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.tablesorter.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/sortir.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.maskedinput-1.3.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/validate.js"></script> 
-<script type='text/javascript' src='<?php echo base_url();?>js/jquery.validate.js'></script>  
+<script type="text/javascript" src="<?php echo base_url();?>js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/register.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/datetimepicker_css.js"></script>  
 
 <script type="text/javascript">
 var uri = "<?php echo site_url('ajax')."/"; ?>";
 var baseuri = "<?php echo base_url(); ?>";
+var site = "<?php echo site_url();?>";
 
 function setbr()
 {
@@ -29,6 +21,47 @@ function setbr()
 
 <script type="text/javascript">	
 	function refreshparent() { opener.location.reload(true); }
+    
+     $(document).ready(function () {
+         
+         $('#ajaxform,#ajaxform2,#ajaxform3,#ajaxform4').submit(function() {
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(data) {
+						// $('#result').html(data);
+						if (data == "true")
+						{
+							location.reload(true);
+						}
+						else
+						{
+							// alert(data);
+							document.getElementById("errorbox").innerHTML = data;
+						}
+						
+					}
+				})
+				return false;
+        });
+         
+         $('#cdisctype').change(function() {		
+             var type = $(this).val();
+             if (type == '0'){
+                $("#tdiscount").attr("readonly", false);
+                $("#tdiscountnominal").attr("readonly", true);
+                $("#tdiscountnominal").val("0");
+             }else{
+                $("#tdiscount").attr("readonly", true);
+                $("#tdiscount").val("0");
+                $("#tdiscountnominal").attr("readonly", false); 
+             }
+         });
+         
+     });
+    
+    
 </script>
 
 <style>
@@ -191,7 +224,7 @@ $atts1 = array(
 	<div class="clear"></div>
 	
 	<fieldset class="field"> <legend> Item Transaction </legend>
-	<form name="modul_form" class="myform" id="ajaxform2" method="post" action="<?php echo $form_action_item; ?>">
+	<form name="modul_form" class="myform" id="xajaxform2" method="post" action="<?php echo $form_action_item; ?>">
 		<table>
 			<tr>
 			
@@ -230,8 +263,21 @@ $atts1 = array(
 				</td>
 				
 				<td>  
-					<label for="tdiscount"> Discount (%) : </label> <br />
+					<label for="tdiscount"> Disc Type : </label> <br />
+					<select name="cdisctype" id="cdisctype">
+					    <option value="0"> (%) </option>
+					    <option value="1"> (0) </option>
+					</select>
+				</td>
+				
+				<td>  
+					<label for="tdiscount"> Disc (%) : </label> <br />
 					<input type="text" name="tdiscount" id="tdiscount" size="2" maxlength="3" value="0" title="Discount" onKeyUp="checkdigit(this.value, 'tdiscount')" /> &nbsp;
+				</td>
+				
+				<td>  
+					<label for="tdiscount"> Disc-Nominal : </label> <br />
+					<input type="text" name="tdiscountnominal" id="tdiscountnominal" readonly size="7" maxlength="9" value="0" title="Discount" onKeyUp="checkdigit(this.value, 'tdiscountnominal')" /> &nbsp;
 				</td>
 				
 				<td> <br />

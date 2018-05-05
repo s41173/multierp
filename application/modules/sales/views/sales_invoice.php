@@ -42,7 +42,7 @@
 	<td><p>= <?php echo $symbol; ?></p></td> <td align="right"><p> <?php echo number_format($bruto,0,",","."); ?> ,- </p></td> </tr>
 	<tr> <td> <p> Discount </p> </td> <td><p>:</p></td> <td><p> <?php echo $discountpercent; ?> % </p></td> <td><p>= <?php echo $symbol; ?></p></td> <td align="right"><p> 
 	<?php echo number_format($discount,0,",","."); ?> ,- </p></td> </tr>
-	<tr> <td> <p> Sisa </p> </td> <td><p>:</p></td> <td><p> 65 % </p></td> <td><p>= <?php echo $symbol; ?></p></td> 
+	<tr> <td> <p> Sisa </p> </td> <td><p>:</p></td> <td><p> <?php echo intval(100-$discountpercent); ?> % </p></td> <td><p>= <?php echo $symbol; ?></p></td> 
 	<td align="right"><p> <?php echo number_format($netto,0,",","."); ?> ,- </p></td> </tr>
 	<tr> <td> <p> PPN </p> </td> <td><p>:</p></td> <td><p> 10 % </p></td> <td><p>= <?php echo $symbol; ?></p></td> 
 	<td align="right"><p> <?php echo number_format($tax,0,",","."); ?> ,- </p></td> </tr>

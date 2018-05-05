@@ -22,14 +22,38 @@ class Journalgl_lib {
         { $this->ci->db->insert('gls', $journal); $this->currency = $currency; }
     }
     
-    private function cek_journal($no,$code,$date,$currency)
+    private function cek_journal($no=null,$code,$date,$currency='IDR')
     {
-        $this->ci->db->where('no', $no);
+        $this->cek_null($no, 'no');
         $this->ci->db->where('code', $code);
         $this->ci->db->where('dates', $date);
         $this->ci->db->where('currency', $currency);
         $num = $this->ci->db->get('gls')->num_rows();
         if ($num > 0){ return FALSE; }else { return TRUE; }
+    }
+    
+    function cek_journal_fa($date,$currency='IDR')
+    {
+        $this->ci->db->where('code', 'FA');
+        $this->ci->db->where('dates', $date);
+        $this->ci->db->where('currency', $currency);
+        $num = $this->ci->db->get('gls')->num_rows();
+        if ($num > 0){ 
+            
+            $this->ci->db->where('code', 'FA');
+            $this->ci->db->where('dates', $date);
+            $this->ci->db->where('currency', $currency);
+            $res = $this->ci->db->get('gls')->result();
+            foreach ($res as $value) {
+               $this->remove_journal("FA", $value->no);    
+            }
+        }
+    }
+    
+    private function cek_null($val,$field)
+    {
+        if ($val == null){return null;}
+        else {return $this->ci->db->where($field, $val);}
     }
     
     public function add_trans($gl,$acc,$debit=0,$credit=0)
@@ -61,6 +85,16 @@ class Journalgl_lib {
         $jid = $this->ci->db->get('gls')->row();
         $jid = $jid->id;
         return $jid;
+    }
+    
+    public function counter($code)
+    {
+        $this->ci->db->select_max('no');
+        $this->ci->db->where('code', $code);
+        $test = $this->ci->db->get('gls')->row_array();
+        $userid=@intval($test['no']);
+	$userid = $userid+1;
+	return $userid;
     }
 
 //    ============================  remove transaction journal ==============================

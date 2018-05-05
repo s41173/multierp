@@ -172,11 +172,12 @@ class Ap extends MX_Controller
         
     }
     
-    private function get_search($no,$date,$type)
+    private function get_search($no,$date,$type,$vendor)
     {
         if ($no){ $this->model->where('no', $no); }
         elseif($date){ $this->model->where('dates', $date); }
         elseif($type){ $this->model->where('type', $type); }
+        elseif($vendor){ $this->model->where('vendor', $this->vendor->get_vendor_id($vendor)); }
         return $this->model->get();
     }
     
@@ -191,7 +192,7 @@ class Ap extends MX_Controller
         $data['link'] = array('link_back' => anchor($this->title,'<span>back</span>', array('class' => 'back')));
         $data['currency'] = $this->currency->combo();
 
-        $aps = $this->get_search($this->input->post('tno'), $this->input->post('tdate'),  $this->input->post('ctype'));
+        $aps = $this->get_search($this->input->post('tno'), $this->input->post('tdate'),  $this->input->post('ctype'), $this->input->post('tcust'));
         
         $tmpl = array('table_open' => '<table cellpadding="2" cellspacing="1" class="tablemaster">');
 

@@ -52,13 +52,21 @@
 				
 			    function get_begin_balance($acc,$date)
 				{	
+                   $acc_lib = new Account_lib();
+                   $cla_lib = new Classification_lib();
+                    
+                   $type = $cla_lib->get_type($acc_lib->get_classi($acc));    
+                    
 				   $month = date('n', strtotime($date));	
 				   $year = date('Y', strtotime($date));	
 				   $bl = new Balance();
 				   $bl->where('account_id', $acc);
 				   $bl->where('month', $month);
 				   $bl->where('year', $year)->get();
-				   return $bl->beginning;
+                    
+                   if ($type == 'pendapatan' ){ return 0; }
+                   elseif ($type == 'biaya'){ return 0; }
+                   else{ return $bl->beginning; }
 				}
 				
 				function get_journal($acc,$start,$end)

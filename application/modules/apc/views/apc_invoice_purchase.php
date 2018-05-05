@@ -38,7 +38,7 @@
             <tr> <td> Paid To </td> <td>:</td> <td> <?php echo $vendor; ?> </td> </tr>
             <tr> <td> </td> <td></td> <td> <?php echo $venbank; ?> </td> </tr>
 			<tr> <td> Currency </td> <td>:</td> <td> <?php echo $currency; ?> </td> </tr>
-			<tr> <td> Demand </td> <td>:</td> <td> RC-00<?php echo $demand; ?> </td> </tr>
+			<tr> <td> Transtype </td> <td>:</td> <td> <?php echo $type; ?> </td> </tr>
 		</table>
 	</div>
 	
@@ -57,14 +57,14 @@
 		
 		<table class="product">
 
-		 <tr> <th> No </th>  <th> Description </th> <th> Staff </th> <th> Code </th> <th> Amount </th> </tr>
+		 <tr> <th> No </th>  <th> Transcode </th> <th> Notes </th> <th> Amount </th> </tr>
 		 
 		 <!-- <tr> <td> 1 </td> <td class="left"> PO-0021 - Pembelian Alat Kantor &nbsp; GD4523 </td> <td class="right"> 1.000.000 </td> </tr> -->
 		 
 		 <?php
 		 	
-			$cost = new Cost_lib();
 			$acc = new Account_lib();
+            if ($type == 'PURCHASE'){ $code = 'PO-00'; }else{$code = 'CP-00'; }
 		 	
 			if ($items)
 			{
@@ -75,9 +75,8 @@
 					
 					 <tr> 
 						<td> ".$i." </td>
-						<td class=\"left\"> ".$res->notes." </td>
-						<td class=\"left\"> ".ucfirst($res->staff)." </td>
-						<td class=\"left\"> ".$acc->get_code($cost->get_acc($res->cost))." </td> 
+						<td class=\"left\"> ".$code.$res->trans_no." </td>
+                        <td class=\"left\"> ".$res->notes." </td>
 						<td class=\"right\"> ".number_format($res->amount)." </td>
 					 </tr>
 					
@@ -88,7 +87,7 @@
 		 ?>
 		 
 		 
-		<tr> <td></td> <td colspan="2"></td> <td class="right"> <b> Total : </b> </td>
+		<tr> <td colspan="2"></td> <td class="right"> <b> Total : </b> </td>
              <td class="right"> <b> <?php echo number_format($amount); ?> </b> </td> 
         </tr>
 			

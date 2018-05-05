@@ -17,7 +17,7 @@ class Apc_model extends CI_Model
     
     function get_last($limit, $offset)
     {
-        $this->db->select('apc.id, apc.no, apc.currency, apc.dates, apc.acc, apc.account, apc.user, apc.status,
+        $this->db->select('apc.id, apc.no, apc.demand, apc.currency, apc.dates, apc.type, apc.acc, apc.account, apc.user, apc.status,
                            apc.amount, apc.notes, apc.approved');
         
         $this->db->from('apc');
@@ -28,7 +28,7 @@ class Apc_model extends CI_Model
     
     function search($no,$date)
     {
-        $this->db->select('apc.id, apc.no, apc.docno, apc.currency, apc.dates, apc.acc, apc.account, apc.user, apc.status,
+        $this->db->select('apc.id, apc.no, apc.docno, apc.demand, apc.currency, apc.dates, apc.type, apc.acc, apc.account, apc.user, apc.status,
                            apc.amount, apc.notes, apc.approved');
 
         $this->db->from('apc');
@@ -48,7 +48,7 @@ class Apc_model extends CI_Model
     
     function report($cur=null,$start=null,$end,$cat=null,$acc=null)
     {
-        $this->db->select('apc.id, apc.no, apc.dates, apc.currency, apc.notes, apc.acc, apc.amount, apc.approved');
+        $this->db->select('apc.id, apc.no, apc.demand, apc.dates, apc.type, apc.currency, apc.notes, apc.acc, apc.amount, apc.approved');
         $this->db->from('apc');
         $this->cek_cat($acc, 'apc.acc');
         $this->db->where('apc.currency', $cur);
@@ -60,7 +60,7 @@ class Apc_model extends CI_Model
     
     function report_category($vendor=null,$cur=null,$start=null,$end,$cat=null,$acc)
     {
-       $this->db->select('apc.id, apc.no, apc.dates, apc.currency, apc.acc, apc.approved,
+       $this->db->select('apc.id, apc.no, apc.demand, apc.dates, apc.type, apc.currency, apc.acc, apc.approved,
                           costs.name as cost, costs.account_id as account, apc_trans.notes, apc_trans.staff, apc_trans.amount,
                           categories.name as category, categories.id as catid');
         

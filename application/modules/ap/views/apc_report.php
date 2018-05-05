@@ -76,7 +76,8 @@
 						{ name: "Approval", type: "string" },
 						{ name: "Balance", type: "number" },
 						{ name: "Post-Dated", type: "string" },
-						{ name: "Post-Dated Status", type: "string" }
+						{ name: "Post-Dated Status", type: "string" },
+                        { name: "Check-No", type: "string" }
                     ]
                 };
 			
@@ -103,15 +104,16 @@
 				  { text: 'Date', dataField: 'Date', width : 130 },
   				  { text: 'Order No', dataField: 'Order No', width : 100 },
 				  { text: 'Demand', dataField: 'Demand', width : 100 },
-				  { text: 'Type', dataField: 'Type', width : 100 },
+				  { text: 'Type', dataField: 'Type', width : 80 },
  			      { text: 'Voucher No', dataField: 'Voucher No', width : 100 },
-				  { text: 'Vendor', dataField: 'Vendor' },
-				  { text: 'Notes', dataField: 'Notes' },
+				  { text: 'Vendor', dataField: 'Vendor', width : 200 },
+				  { text: 'Notes', dataField: 'Notes', width : 250 },
 				  { text: 'Acc', datafield: 'Acc', width: 70, cellsalign: 'center' },
 				  { text: 'Approval', datafield: 'Approval', width: 90, cellsalign: 'center'},
-				  { text: 'Balance', datafield: 'Balance', width: 150, cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] },
+{ text: 'Balance', datafield: 'Balance', width: 150, cellsalign: 'right', cellsformat: 'number', aggregates: ['sum'] },
 				  { text: 'Post-Dated', datafield: 'Post-Dated', width: 110, cellsalign: 'center'},
-				  { text: 'Post-Dated Status', datafield: 'Post-Dated Status', width: 150, cellsalign: 'center'}
+				  { text: 'Post-Dated Status', datafield: 'Post-Dated Status', width: 150, cellsalign: 'center'},
+                  { text: 'Check-No', datafield: 'Check-No', width: 100, cellsalign: 'center'}
 				  
                 ]
             });
@@ -203,7 +205,8 @@
     <table id="table" border="0" width="100%" >
     <thead>
     <tr>
-    <th> No </th> <th> Date </th> <th> Order No </th> <th> Demand </th> <th> Type </th> <th> Voucher No </th> <th> Vendor </th> <th> Notes </th> <th> Acc </th> <th> Approval </th> <th> Balance </th> <th> Post-Dated </th> <th> Post-Dated Status </th>
+    <th> No </th> <th> Date </th> <th> Order No </th> <th> Demand </th> <th> Type </th> <th> Voucher No </th> <th> Vendor </th> <th> Notes </th> <th> Acc </th> <th> Approval </th> <th> Balance </th> <th> Post-Dated </th> <th> Post-Dated Status </th> 
+    <th> Check-No </th>
     </tr>
     </thead>
     
@@ -233,7 +236,8 @@
                <td class=\"strongs\">".approval($ap->approved)."</td>
                <td class=\"strongs\" align=\"right\">".$ap->amount."</td>
 			   <td class=\"strongs\" align=\"right\">".approval($ap->post_dated)."</td> 
-			   <td class=\"strongs\" align=\"right\">".approval($ap->post_dated_stts)."</td> 			   
+			   <td class=\"strongs\" align=\"right\">".approval($ap->post_dated_stts)."</td> 		
+               <td class=\"strongs\" align=\"right\">".$ap->check_no."</td> 		
            </tr>";
            $val = $val + $ap->amount;
            $i++;

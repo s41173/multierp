@@ -440,7 +440,8 @@ class Stock_out extends MX_Controller
 
 	// Form validation
         $this->form_validation->set_rules('tno', 'BPBG - No', 'required|numeric|callback_valid_no');
-        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
+//        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required|callback_valid_period');
+        $this->form_validation->set_rules('tdate', 'Invoice Date', 'required');
         $this->form_validation->set_rules('tnote', 'Note', 'required');
         $this->form_validation->set_rules('tstaff', 'Workshop Staff', 'required');
         $this->form_validation->set_rules('tuser', 'Warehouse Dept', 'required');

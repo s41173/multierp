@@ -19,11 +19,12 @@
 <script type="text/javascript">
 var uri = "<?php echo site_url('ajax')."/"; ?>";
 var baseuri = "<?php echo base_url(); ?>";
+var site = "<?php echo site_url('ajax')."/"; ?>";
 </script>
 
 <script type="text/javascript">	
 	function refreshparent() { opener.location.reload(true); }
-	function set_item(val){ if (val == 1){ document.getElementById("tproduct").readOnly = true; }else { document.getElementById("tproduct").readOnly = false; } }
+	function set_item(val){ if (val == 1){ document.getElementById("tproduct").readOnly = true; }else { document.getElementById("tproduct").readOnly = false; } }    
 </script>
 
 <style>
@@ -77,8 +78,17 @@ $atts1 = array(
    <td> <label for="tcur"> Currency </label> </td> <td>:</td>
   <td> <input type="text" size="5" name="tcur" readonly value="<?php echo set_value('tcur', isset($default['currency']) ? $default['currency'] : ''); ?>"> </td>
 			</tr>
-           
-           <tr>	
+            
+            <tr> <td> <label for="cacc"> Account </label> </td> <td>:</td> <td>  
+			<select name="cacc" class="required">
+	<option value="bank" <?php echo set_select('cacc', 'bank', isset($default['acc']) && $default['acc'] == 'bank' ? TRUE : FALSE); ?> /> Bank 
+	<option value="cash" <?php echo set_select('cacc', 'cash', isset($default['acc']) && $default['acc'] == 'cash' ? TRUE : FALSE); ?> /> Cash 
+	<option value="pettycash" <?php echo set_select('cacc', 'pettycash', isset($default['acc']) && $default['acc'] == 'pettycash' ? TRUE : FALSE); ?> /> Petty Cash 
+			</select> &nbsp;
+            <?php $js = 'class="required"'; echo form_dropdown('caccount', $account, isset($default['account']) ? $default['account'] : '', $js); ?>
+			<br />  </td> </tr>	
+                
+            <tr>	
    <td> <label for="tcur"> Trans Type </label> </td> <td>:</td>
    <td> 
    <select name="ctype" class="required">
@@ -87,16 +97,7 @@ $atts1 = array(
 <option value="2" <?php echo set_select('ctype', '2', isset($default['type']) && $default['type'] == '2' ? TRUE : FALSE); ?> /> Printing 
 			</select>
    </td>
-			</tr>
-            
-            <tr> <td> <label for="cacc"> Account </label> </td> <td>:</td> <td>  
-			<select name="cacc" class="required">
-	<option value="bank" <?php echo set_select('cacc', 'bank', isset($default['acc']) && $default['acc'] == 'bank' ? TRUE : FALSE); ?> /> Bank </option>
-	<option value="cash" <?php echo set_select('cacc', 'cash', isset($default['acc']) && $default['acc'] == 'cash' ? TRUE : FALSE); ?> /> Cash </option>
-	<option value="pettycash" <?php echo set_select('cacc', 'pettycash', isset($default['acc']) && $default['acc'] == 'pettycash' ? TRUE : FALSE); ?> /> Petty Cash </option>
-			</select> &nbsp;
-            <?php $js = 'class="required"'; echo form_dropdown('caccount', $account, isset($default['account']) ? $default['account'] : '', $js); ?>
-			<br />  </td> </tr>	
+			</tr>        
 					
         <tr>
             <td> <label for="tnote"> Note </label> </td>  <td>:</td>
@@ -136,28 +137,16 @@ $atts1 = array(
 	<form name="modul_form" class="myform" id="ajaxform2" method="post" action="<?php echo $form_action_item; ?>">
 		<table>
 			<tr>
-								
-				<td> <label for="ccost"> Cost Type : </label>  <br />
-	                 <?php $js = 'class="required"'; echo form_dropdown('ccost', $cost, isset($default['cost']) ? $default['cost'] : '', $js); ?>
-                     &nbsp; </td>
-					
-                <td>  
-					<label for="tnotes"> Notes : </label> <br />
-					<input type="text" class="required" name="tnotes" size="35" title="Staff" /> &nbsp;
-				</td>    
-                    			
 				<td>  
-					<label for="tstaff"> Staff : </label> <br />
-					<input type="text" class="required" name="tstaff" size="15" title="Staff" /> &nbsp;
+<?php if ($default['transtype'] == 'PRINTING'){ $code='CP-00'; $type = 'vinyl'; }elseif ($default['transtype'] == 'PURCHASE') { $code='PO-00'; $type = 'purchase'; } ?>
+				<label for="titem"> Transaction: <?php echo $code; ?> </label> <br />
+				<input type="text" class="required" readonly name="titem" id="titem" size="5" title="Transaction Code" />
+<?php echo anchor_popup(site_url($type."/get_list_all/".$default['currency'].'/'.$venid.'/'), '[ ... ]', $atts1); ?> &nbsp;
 				</td>
-                
-                <td>  
-					<label for="tamount"> Amount : </label> <br />
-					<input type="text" name="tamount" id="tamount" size="10" title="Amount" onKeyUp="checkdigit(this.value, 'tamount')" /> &nbsp;
-				</td>
-				
+                				
 				<td> <br />
-					<input type="submit" name="submit" class="button" title="POST" value="POST" /> 
+					<input type="submit" name="submit" class="" title="POST" value="POST" />
+                    <input type="reset" name="submit" class="" title="Cancel" value="RESET" /> 
 				</td>
 			</tr>
 		</table>
@@ -166,7 +155,6 @@ $atts1 = array(
 		<?php echo ! empty($table) ? $table : ''; ?>
 		
 	</form>
-        
 	</fieldset>
     
 </div>

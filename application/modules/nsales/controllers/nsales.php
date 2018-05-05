@@ -466,24 +466,32 @@ class Nsales extends MX_Controller
 
         if ($this->form_validation->run($this) == TRUE)
         {
-            $res = $this->total($this->input->post('tsize'),$this->input->post('tcoloumn'),$this->input->post('tamount'),$this->input->post('tdiscount'), $this->input->post('ctax'));
+            if ($this->input->post('cdisctype') == 0){ $percentage = $this->input->post('tdiscount'); $discount = $this->input->post('tdiscount'); }else{ $percentage = intval($this->input->post('tdiscountnominal')/$this->input->post('tamount')*100); $discount = $this->input->post('tdiscountnominal'); }
+            $res = $this->total($this->input->post('tsize'),$this->input->post('tcoloumn'),$this->input->post('tamount'),$discount, $this->input->post('ctax'),$this->input->post('cdisctype'));
 
             $pitem = array('nsales_id' => $po, 'year' => $year, 'type' => $this->input->post('ctype'), 'size' => $this->input->post('tsize'), 'sup' => $this->input->post('tsup'), 'coloumn' => $this->input->post('tcoloumn'),
-                           'price' => $this->input->post('tamount'), 'discount' => $this->input->post('tdiscount'), 'discount_amount' => $res['discount'],
+                           'price' => $this->input->post('tamount'), 'discount' => $percentage, 'discount_amount' => $res['discount'],
                            'tax' => $res['tax'], 'amount' => $res['amount']);
-            
+                           
             $this->Nsales_item_model->add($pitem);
             $this->update_trans($po,$year);
-
             echo 'true';
+//                
+//            $sales = $this->Nsales_model->get_nsales_by_no($po)->row();
+//            if ($this->contract->cek_contract_amount($sales->contract_no,$res['amount']) == TRUE){
+//                
+//                $this->Nsales_item_model->add($pitem);
+//                $this->update_trans($po,$year);
+//                echo 'true';
+//            }else{ echo 'invalid sales amount greater than contract..!'; }
         }
         else{   echo validation_errors(); }
     }
 
-    private function total($size,$coloumn,$price,$discount,$tax)
+    private function total($size,$coloumn,$price,$discount,$tax=0,$type=0)
     {
         $res = $size * $coloumn * $price;
-        $discount = $this->calculate_discount($res,$discount);
+        if ($type == 0){ $discount = $this->calculate_discount($res,$discount); }
         $netto = $res - $discount;
         $tax = ceil($this->tax->calculate_tax($netto,$tax));
         $amount = $netto + $tax;

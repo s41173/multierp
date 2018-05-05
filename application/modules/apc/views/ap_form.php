@@ -2,23 +2,15 @@
 <style type="text/css">@import url("<?php echo base_url() . 'development-bundle/themes/base/ui.all.css'; ?>");</style>
 <style type="text/css">@import url("<?php echo base_url() . 'css/jquery.fancybox-1.3.4.css'; ?>");</style>
 
-<script type="text/javascript" src="<?php echo base_url();?>js/register.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.3.2.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/register.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>js/datetimepicker_css.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>/development-bundle/ui/ui.core.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.tools.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/hoverIntent.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.fancybox-1.3.4.pack.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/complete.js"></script> 
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.tablesorter.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/sortir.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery.maskedinput-1.3.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/validate.js"></script> 
-<script type='text/javascript' src='<?php echo base_url();?>js/jquery.validate.js'></script>  
 
 <script type="text/javascript">
 var uri = "<?php echo site_url('ajax')."/"; ?>";
 var baseuri = "<?php echo base_url(); ?>";
+var site = null;
 </script>
 
 <style>
@@ -27,10 +19,30 @@ var baseuri = "<?php echo base_url(); ?>";
 		.refresh:visited{ background-color:#FFF; color: #000000;}	
 </style>
 
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+		
+	$('#ctype').change(function() {
+        
+		var type = $(this).val();
+        if (type == '0'){
+            $("#bdemand").show();
+        }else{ $("#bdemand").hide(); $("#tref").val(''); }
+        
+	});
+	
+/* end document */		
+});
+
+</script>
+
 <?php 
 		
 $atts1 = array(
 	  'class'      => 'refresh',
+      'id'         => 'bdemand',
 	  'title'      => 'add cust',
 	  'width'      => '600',
 	  'height'     => '400',
@@ -74,11 +86,25 @@ $atts1 = array(
             
             <tr> <td> <label for="cacc"> Account </label> </td> <td>:</td> <td>  
 			<select name="cacc" class="required">
-	<option value="bank" <?php echo set_select('cacc', 'bank', isset($default['acc']) && $default['acc'] == 'bank' ? TRUE : FALSE); ?> /> Bank </option>
-	<option value="cash" <?php echo set_select('cacc', 'cash', isset($default['acc']) && $default['acc'] == 'cash' ? TRUE : FALSE); ?> /> Cash </option>
-	<option value="pettycash" <?php echo set_select('cacc', 'pettycash', isset($default['acc']) && $default['acc'] == 'pettycash' ? TRUE : FALSE); ?> /> Petty Cash </option>
+	<option value="bank" <?php echo set_select('cacc', 'bank', isset($default['acc']) && $default['acc'] == 'bank' ? TRUE : FALSE); ?> /> Bank 
+	<option value="cash" <?php echo set_select('cacc', 'cash', isset($default['acc']) && $default['acc'] == 'cash' ? TRUE : FALSE); ?> /> Cash 
+	<option value="pettycash" <?php echo set_select('cacc', 'pettycash', isset($default['acc']) && $default['acc'] == 'pettycash' ? TRUE : FALSE); ?> /> Petty Cash 
 			</select>
 			<br />  </td> </tr>
+                
+            <tr> <td> <label for="cacc"> Trans Type </label> </td> <td>:</td> <td>  
+			<select name="ctype" id="ctype" class="required">
+<option value="0" <?php echo set_select('ctype', '0', isset($default['type']) && $default['type'] == '0' ? TRUE : FALSE); ?> /> General 
+<option value="1" <?php echo set_select('ctype', '1', isset($default['type']) && $default['type'] == '1' ? TRUE : FALSE); ?> /> Purchase 
+<option value="2" <?php echo set_select('ctype', '2', isset($default['type']) && $default['type'] == '2' ? TRUE : FALSE); ?> /> Printing 
+			</select>
+			<br />  </td> </tr>
+                
+            <tr> 
+                <td> <label for="tvendor"> Cash Demand </label> </td> <td>:</td>
+                <td> <input type="text" class="required" readonly="readonly" name="tdemand" id="tref" size="5" title="Name" /> &nbsp; 
+                <?php echo anchor_popup(site_url("cash_demand/get_list/null"), '[ ... ]', $atts1); ?>
+            </tr>
 					
 					<tr>
 						<td> <label for="tnote"> Note </label> </td>  <td>:</td>

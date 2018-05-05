@@ -51,6 +51,17 @@ class Account_lib {
         $val = $this->ci->db->get($this->table)->row();
         if ($val){ return $val->name; }
     }
+    
+    function get_combination($id=null){
+        
+        if ($id)
+        {
+            $this->ci->db->select('id,name,code');
+            $this->ci->db->where('id', $id);
+            $val = $this->ci->db->get($this->table)->row();
+            if ($val){ return $val->code.' : '.$val->name; }
+        }
+    }
 	
     function get_cur($id=null)
     {

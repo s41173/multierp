@@ -6,10 +6,12 @@ class Nsales_model extends CI_Model
     {
         parent::__construct();
         $this->year = date('Y');
+        $this->period  = new Period_lib();
+        $this->year = $this->period->get('year');
     }
     
     var $table = 'nsales';
-    private $year;
+    private $year,$period;
     
     function count_all_num_rows()
     {
@@ -115,7 +117,7 @@ class Nsales_model extends CI_Model
         $this->db->from('nsales, customer');
         $this->db->where('nsales.customer = customer.id');
         $this->db->where('nsales.no', $uid);
-        if ($year){ $this->db->where('YEAR(dates)', $year); }else { $this->db->where('YEAR(dates)', $this->year); }
+//        if ($year){ $this->db->where('YEAR(dates)', $year); }else { $this->db->where('YEAR(dates)', $this->year); }
         return $this->db->get();
     }
     

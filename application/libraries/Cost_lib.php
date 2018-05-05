@@ -34,7 +34,7 @@ class Cost_lib {
         $this->ci->db->from($this->table);
         $this->ci->db->where('id', $id);
         $res = $this->ci->db->get()->row();
-        return $res->name;
+        if ($res){ return $res->name; }else{ return null; }
     }
     
     function get_acc($id=null)

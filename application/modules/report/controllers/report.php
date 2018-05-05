@@ -58,7 +58,7 @@ class Report extends MX_Controller
         $year = $this->input->post('tsyear');
         $eyear = $this->input->post('teyear');
         $cur = $this->input->post('ccurrency');
-        $data['company'] = $this->properti['name'];
+        $data['company'] = '';
         $rtype = $this->input->post('ctype');
         $file = $this->input->post('cfile');
         
