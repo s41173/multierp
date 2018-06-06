@@ -11,11 +11,11 @@ class Asset_trans_lib {
     private $ci,$table;
     private $field = "id,asset_id,closing_dates,amount,period";
 
-    function get($no)
+    function get($asset)
     {
         $this->ci->db->select($this->field);
-        $this->ci->db->where('no', $no);
-        $query = $this->ci->db->get($this->table)->row();
+        $this->ci->db->where('asset_id', $asset);
+        $query = $this->ci->db->get($this->table)->result();
         return $query;
     }
     

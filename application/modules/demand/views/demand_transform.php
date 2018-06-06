@@ -106,8 +106,8 @@ $atts1 = array(
 		<table>
 			<tr>				
 				<td> <label for="tproduct"> Product </label>  <br />
-				     <input type="text" class="required" readonly="readonly" name="tproduct" id="tproduct" size="30" title="Name" /> &nbsp;
-				     <?php echo anchor_popup(site_url("product/get_list/"), '[ ... ]', $atts1); ?> &nbsp; &nbsp; </td>
+<input type="text" class="required" readonly="readonly" name="tproduct" id="tproduct" size="30" title="Name" /> &nbsp;
+<?php echo anchor_popup(site_url("product/get_list/"), '[ ... ]', $atts1); ?> &nbsp; &nbsp; </td>
 				
 				<td>  
 					<label for="tqty"> Qty : </label> <br />

@@ -111,11 +111,13 @@
 			.sig td{ width:155px;}
 		</style>
 			<table border="0" class="sig">
-				<tr> <td> Approved By : </td> <td> Review By : </td> <td> Paid By : </td> <td> Received By : </td> </tr>
+				<tr> <td>  </td> <td> Review By : </td> <td> Paid By : </td> <td> Received By : </td> </tr>
 			</table> <br> <br> <br> <br> <br> 
 			
 			<table border="0" class="sig">
-				<tr> <td> Direktur <br> (<?php echo $manager; ?>) </td> <td> Accounting <br> (<?php echo $accounting; ?>) </td> <td> Kasir <br> (<?php echo $user; ?>) </td> <td> (_______________) </td> </tr>
+				<tr> 
+				<td> <!-- Direktur --> <br> <?php //echo $manager; ?> </td> <td> Accounting <br> (<?php echo $accounting; ?>) </td> 
+				<td> Kasir <br> (<?php echo $user; ?>) </td> <td> (_______________) </td> </tr>
 			</table>
 		</div>
 		

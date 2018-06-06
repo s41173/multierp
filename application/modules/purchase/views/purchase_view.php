@@ -75,6 +75,26 @@ $atts2 = array(
 				</table>	
 			</form>			  
 	</fieldset>
+	
+		<fieldset class="field"> <legend> Item Searching </legend>
+	<form name="modul_form" class="myform" id="form" method="post" action="<?php echo $form_action_search; ?>">
+				<table>
+					<tr> 
+					
+					<td> <label for="tname"> Product : </label> <br /> 
+					 <input type="text" class="required" readonly name="titem" id="tproduct" size="45" title="Name" /> &nbsp;
+				     <?php echo anchor_popup(site_url("product/get_list/"), '[ ... ]', $atts1); ?> &nbsp; &nbsp;
+				    </td> 
+					
+					<td colspan="3" align="right"> <br />
+					<input type="submit" name="submit" class="button" title="Klik tombol untuk proses data" value="Search" />  
+					</td>
+					
+					</tr> 
+				</table>	
+			</form>			  
+	</fieldset>
+	
 </div>
 
 

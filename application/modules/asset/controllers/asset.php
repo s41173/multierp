@@ -25,15 +25,14 @@ class Asset extends MX_Controller
     private $properti, $modul, $title, $model, $account;
     private $user,$currency,$group,$asset, $trans;
 
-    private  $atts = array('width'=> '400','height'=> '200',
+    private  $atts = array('width'=> '800','height'=> '600',
                       'scrollbars' => 'yes','status'=> 'yes',
-                      'resizable'=> 'yes','screenx'=> '0','screenx' => '\'+((parseInt(screen.width) - 400)/2)+\'',
-                      'screeny'=> '0','class'=> 'print','title'=> 'print', 'screeny' => '\'+((parseInt(screen.height) - 200)/2)+\'');
+                      'resizable'=> 'yes','screenx'=> '0','screenx' => '\'+((parseInt(screen.width) - 800)/2)+\'',
+                      'screeny'=> '0','class'=> 'print','title'=> 'print', 'screeny' => '\'+((parseInt(screen.height) - 600)/2)+\'');
 
     function index()
     {   
-//      $this->get_last();
-        $this->asset->closing();
+      $this->get_last();
     }
     
     function get_period_group($group){
@@ -88,6 +87,7 @@ class Asset extends MX_Controller
                 (
                     ++$i, $cost->code, $cost->name, $this->group->get_name($cost->group_id), tglin($cost->purchase_date).' : '.tglin($cost->end_date), num_format($cost->amount), num_format($cost->residual),
                     anchor($this->title.'/publish/'.$cost->id,'<span>update</span>',array('class' => $class, 'title' => 'edit / update')).' '.
+                    anchor_popup($this->title.'/invoice/'.$cost->id,'<span>print</span>',$this->atts).' '.
                     anchor($this->title.'/update/'.$cost->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                     anchor($this->title.'/delete/'.$cost->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
                 );
@@ -131,6 +131,7 @@ class Asset extends MX_Controller
             (
                 ++$i, $cost->code, $cost->name, $this->group->get_name($cost->group_id), tglin($cost->purchase_date).' : '.tglin($cost->end_date), num_format($cost->amount), num_format($cost->residual),
                 anchor($this->title.'/publish/'.$cost->id,'<span>update</span>',array('class' => $class, 'title' => 'edit / update')).' '.
+                anchor_popup($this->title.'/invoice/'.$cost->id,'<span>print</span>',$this->atts).' '.
                 anchor($this->title.'/update/'.$cost->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                 anchor($this->title.'/delete/'.$cost->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
@@ -139,6 +140,22 @@ class Asset extends MX_Controller
         $data['table'] = $this->table->generate();
         $this->load->view('template', $data);
     }
+    
+   function invoice($uid=null)
+   {
+       $this->acl->otentikasi2($this->title);
+       $asset = $this->am->get_by_id($uid)->row();
+       $data['h2title'] = 'Fixed Asset'.$this->modul['title'];
+
+       $data['code'] = $asset->code;
+       $data['name'] = $asset->name;
+       $data['group'] = $this->group->get_name($asset->group_id);
+       $data['purchase'] = tglin($asset->purchase_date);
+       $data['amount'] = num_format(floatval($asset->amount-$asset->residual));
+
+       $data['items'] = $this->trans->get($uid);
+       $this->load->view('asset_invoice', $data);
+   }
     
     function publish($pid)
     { 

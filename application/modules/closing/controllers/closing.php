@@ -224,6 +224,10 @@ class Closing extends MX_Controller
         // update ledger stock
         $stock = new Stock_ledger_lib();
         $stock->closing();
+        
+        // update fixed asset closing
+        $asset = new Asset_lib();
+        $asset->closing();
 
          // update periode akuntansi
          $ps->month = $next[0];
@@ -349,6 +353,10 @@ class Closing extends MX_Controller
          // update ledger stock
           $stock = new Stock_ledger_lib();
           $stock->closing();
+          
+         // update fixed asset closing
+          $asset = new Asset_lib();
+          $asset->closing();
 
           // update periode akuntansi
           $ps->month = $next[0];

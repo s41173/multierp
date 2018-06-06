@@ -29,30 +29,32 @@ class Asset_lib {
 
             $no = $journal->counter('FA');
              // create journal- GL
-            $journal->cek_journal_fa($end_date);
-            $journal->new_journal('0'.$no, $end_date, 'FA', 'IDR', 'Depreciation : '.tglin($end_date), $this->get_total_based_category(), $this->ci->session->userdata('log'));
-            $dpid = $journal->get_journal_id('FA','0'.$no);
-            
-            $category = $this->category->get();
-            foreach ($category as $res) {
+            if ($this->get_total_based_category() > 0){
                 
-                $amt = $this->get_total_based_category($res->id);
-                $akumulasi  = $res->acc_accumulation; 
-                $depresiasi = $res->acc_depreciation;
-                
-                $journal->add_trans($dpid,$depresiasi,$amt,0); // tambah depresiasi
-                $journal->add_trans($dpid,$akumulasi,0,$amt); // kurang akumulasi
-                
-                // add transaksi
-                $this->get_asset_based_category($res->id);
+                $journal->cek_journal_fa($end_date);
+                $journal->new_journal('0'.$no, $end_date, 'FA', 'IDR', 'Depreciation : '.tglin($end_date), $this->get_total_based_category(), $this->ci->session->userdata('log'));
+                $dpid = $journal->get_journal_id('FA','0'.$no);
+
+                $category = $this->category->get();
+                foreach ($category as $res) {
+
+                    $amt = $this->get_total_based_category($res->id);
+                    $akumulasi  = $res->acc_accumulation; 
+                    $depresiasi = $res->acc_depreciation;
+
+                    $journal->add_trans($dpid,$depresiasi,$amt,0); // tambah depresiasi
+                    $journal->add_trans($dpid,$akumulasi,0,$amt); // kurang akumulasi
+
+                    // add transaksi
+                    $this->get_asset_based_category($res->id);
+                }
             }
-            
-            return true;
+            return TRUE;
             
         } catch (Exception $e) {
             //alert the user.
             var_dump($e->getMessage());
-            return false;
+            return FALSE;
          }   
     }
     
@@ -110,6 +112,14 @@ class Asset_lib {
         $this->ci->db->where('no', $no);
         $query = $this->ci->db->get($this->table)->row();
         return $query;
+    }
+    
+    function get_name($uid)
+    {
+        $this->ci->db->select($this->field);
+        $this->ci->db->where('id', $uid);
+        $query = $this->ci->db->get($this->table)->row();
+        return $query->name;
     }
 
 

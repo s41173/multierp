@@ -56,6 +56,20 @@ class Demand_item_model extends CI_Model
         return $this->db->get();
     }
     
+    function get_by_id($id)
+    {
+        $this->db->select('id, demand, product, qty, desc, demand_date, vendor');
+        $this->db->from($this->table);
+        $this->db->where('id', $id);
+        return $this->db->get()->row(); 
+    }
+    
+    function update($uid, $users)
+    {
+        $this->db->where('id', $uid);
+        $this->db->update($this->table, $users);
+    }
+    
 
 }
 

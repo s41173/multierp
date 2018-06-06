@@ -224,7 +224,7 @@ $atts1 = array(
 	<div class="clear"></div>
 	
 	<fieldset class="field"> <legend> Item Transaction </legend>
-	<form name="modul_form" class="myform" id="xajaxform2" method="post" action="<?php echo $form_action_item; ?>">
+	<form name="modul_form" class="myform" id="ajaxform2" method="post" action="<?php echo $form_action_item; ?>">
 		<table>
 			<tr>
 			

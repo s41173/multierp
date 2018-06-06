@@ -15,8 +15,9 @@ class Phase_model extends CI_Model
         $this->db->from('contract, phase');
         $this->db->where('contract.no = phase.contract');
         $this->db->where('contract.approved', 1);
-        $this->db->where('MONTH(phase.dates)', date('m'));
-        $this->db->where('YEAR(phase.dates)', date('Y'));
+        $this->db->where('phase.status', 0);
+        $this->db->where('MONTH(phase.dates) <=', date('m'));
+        $this->db->where('YEAR(phase.dates) <=', date('Y'));
         $this->db->order_by('phase.id', 'desc');
         return $this->db->get(); 
     }
@@ -28,6 +29,7 @@ class Phase_model extends CI_Model
         $this->db->where('contract.no = phase.contract');
         $this->cek_null($month,"MONTH(phase.dates)");
         $this->db->where('contract.approved', 1);
+        $this->db->where('phase.status', 0);
         $this->cek_null($year,"YEAR(phase.dates)");
         $this->db->order_by('phase.id', 'asc');
         return $this->db->get();

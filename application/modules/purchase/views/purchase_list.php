@@ -21,6 +21,28 @@ var uri = "<?php echo site_url('ajax')."/"; ?>";
 var baseuri = "<?php echo base_url(); ?>";
 </script>
 
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+    $('#bmultiple').click(function () {
+        
+        var i = 0;
+        var arr = [];
+        $('.ads_Checkbox:checked').each(function () {
+            arr[i++] = $(this).val();
+        });      
+        
+        var result = arr.join();
+        opener.document.getElementById('titem').value = result;
+	    self.close();
+    });
+        
+   			
+    }); //end document ready
+
+</script>
+
 <?php 
 		
 $atts1 = array(
@@ -53,6 +75,7 @@ $atts1 = array(
 			<td> <?php $js = 'class="required"'; echo form_dropdown('ccurrency', $currency, isset($default['currency']) ? $default['currency'] : '', $js); ?> &nbsp; <br /> </td>	
 			
 			<td> <input type="submit" value="SUBMIT" /> </td>
+			<td> <input type="button" value="SELECT" id="bmultiple" /> </td>
 	</tr>
 </table>
 </form>

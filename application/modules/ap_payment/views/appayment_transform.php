@@ -277,24 +277,24 @@ $atts1 = array(
 				<td>  
                 <?php if ($default['transtype'] == 'PRINTING'){ $type = 'vinyl'; }else { $type = 'purchase'; } ?>
 				<label for="titem"> Transaction: </label> <br />
-				<input type="text" class="required" readonly name="titem" id="titem" size="5" title="Transaction Code" />
+				<input type="text" class="required" readonly name="titem" id="titem" size="10" title="Transaction Code" />
 				<?php echo anchor_popup(site_url($type."/get_list_all/".$default['currency'].'/'.$venid.'/'), '[ ... ]', $atts1); ?> &nbsp;
                 <input type="button" id="bget" value="GET"> &nbsp; &nbsp;
 				</td>
                 
                 <td> 
                     <label for="tamount"> Balance </label> <br />
-				    <input type="text" id="tnominal" readonly name="tnominal" size="10" title="Nominal Balance" onKeyUp="checkdigit(this.value, 'tnominal')" /> <br />  
+				    <input type="text" id="tnominal" readonly name="tnominal" size="10" title="Nominal Balance" value="0" onKeyUp="checkdigit(this.value, 'tnominal')" /> <br />  
                 </td> 
                 
                 <td> 
                     <label for="tdiscount"> Discount </label> <br />
-				    <input type="text" id="tdiscount" name="tdiscount" size="10" title="Discount" onKeyUp="checkdigit(this.value, 'tdiscount')" /> <br />  
+				    <input type="text" id="tdiscount" name="tdiscount" size="10" title="Discount" value="0" onKeyUp="checkdigit(this.value, 'tdiscount')" /> <br />  
                 </td> 
                 
 				<td> 
                     <label for="tamount"> Amount </label> <br />
-				    <input type="text" id="tamounts" name="tamount" size="10" title="Amount" onKeyUp="checkdigit(this.value, 'tamounts');" /> <br />  
+<input type="text" id="tamounts" name="tamount" size="10" title="Amount" value="0" onKeyUp="checkdigit(this.value, 'tamounts');" /> <br />  
                 </td> 
 				
 				<td> <br />

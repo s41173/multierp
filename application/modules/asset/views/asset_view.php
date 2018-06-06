@@ -83,6 +83,7 @@ $atts2 = array(
 	<tbody>
 		<tr> 
 		   <td align="right"> 
+		   <?php echo anchor(site_url("groupasset"), 'GROUP ASSET', $atts2); ?>
 		   <?php echo anchor_popup(site_url("asset/add"), 'CREATE NEW', $atts); ?>
 		   </td> 
 		</tr>

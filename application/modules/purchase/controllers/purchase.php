@@ -56,6 +56,7 @@ class Purchase extends MX_Controller
         $data['h2title'] = $this->modul['title'];
         $data['main_view'] = 'purchase_view';
 	$data['form_action'] = site_url($this->title.'/search');
+        $data['form_action_search'] = site_url($this->title.'/search_product');
         $data['link'] = array('link_back' => anchor('main/','<span>back</span>', array('class' => 'back')));
         
 	$uri_segment = 3;
@@ -210,7 +211,47 @@ class Purchase extends MX_Controller
         $this->load->view('template', $data);
     }
 
+    
+    function search_product()
+    {
+        $this->acl->otentikasi1($this->title);
 
+        $data['title'] = $this->properti['name'].' | Administrator Find '.ucwords($this->modul['title']);
+        $data['h2title'] = 'Find '.$this->modul['title'];
+        $data['main_view'] = 'purchase_view';
+        $data['form_action'] = site_url($this->title.'/search');
+	$data['form_action_search'] = site_url($this->title.'/search_product');
+        $data['link'] = array('link_back' => anchor('purchase/','<span>back</span>', array('class' => 'back')));
+        
+        $data['currency'] = $this->currency->combo();
+
+        $purchases = $this->Purchase_model->report_product_search($this->product->get_id($this->input->post('titem')),'IDR')->result();
+        
+        $tmpl = array('table_open' => '<table cellpadding="2" cellspacing="1" class="tablemaster">');
+
+        $this->table->set_template($tmpl);
+        $this->table->set_empty("&nbsp;");
+
+        //Set heading untuk table
+         $this->table->set_heading('No', 'Code', 'Cur', 'Date', 'Product', 'Qty', 'Price', 'Total', 'Vendor', 'Action');
+
+         $i = 0;
+         foreach ($purchases as $purchase)
+         {
+            $datax = array('name'=> 'cek[]','id'=> 'cek'.$i,'value'=> $purchase->id,'checked'=> FALSE, 'style'=> 'margin:0px');
+
+            $this->table->add_row
+            (
+                ++$i, 'PO-00'.$purchase->no, $purchase->currency, tglin($purchase->dates), $this->product->get_name($purchase->product), $purchase->qty, number_format($purchase->price), number_format($purchase->amount), $purchase->name,
+                anchor_popup($this->title.'/invoice/'.$purchase->no,'<span>print</span>',$this->atts)
+            );
+         }
+
+        $data['table'] = $this->table->generate();
+        $data['graph'] = $this->chart($this->input->post('ccurrency'),  $this->input->post('tyear'));
+        $this->load->view('template', $data);
+    }
+    
     function get_list($currency=null,$vendor=null)
     {
         $this->acl->otentikasi1($this->title);
@@ -233,7 +274,7 @@ class Purchase extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('No', 'Code', 'Date', 'Acc', 'Cur', 'Notes', 'Total', 'Balance', 'Action');
+        $this->table->set_heading('#' ,'No', 'Code', 'Date', 'Acc', 'Cur', 'Notes', 'Total', 'Balance', 'Action');
 
         $i = 0;
         foreach ($purchases as $purchase)
@@ -244,10 +285,12 @@ class Purchase extends MX_Controller
                             'content' => 'Select',
                             'onclick' => 'setvalue(\''.$purchase->no.'\',\'titem\')'
                          );
+           
+           $data_check = array('name'=> 'cek[]','id'=> 'cek'.$i, 'class'=> 'ads_Checkbox', 'value'=> $purchase->no,'checked'=> FALSE, 'style'=> 'margin:0px');
 
             $this->table->add_row
             (
-                ++$i, 'PO-00'.$purchase->no, tgleng($purchase->dates), ucfirst($purchase->acc), $purchase->currency, $purchase->notes, number_format($purchase->total), number_format($purchase->p2),
+                form_checkbox($data_check), ++$i, 'PO-00'.$purchase->no, tgleng($purchase->dates), ucfirst($purchase->acc), $purchase->currency, $purchase->notes, number_format($purchase->total), number_format($purchase->p2),
                 form_button($datax)
             );
         }
@@ -278,16 +321,16 @@ class Purchase extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('No', 'Code', 'Date', 'Acc', 'Cur', 'Notes', 'Total', 'Balance', 'Action');
+        $this->table->set_heading('#','No', 'Code', 'Date', 'Acc', 'Cur', 'Notes', 'Total', 'Balance', 'Action');
 
         $i = 0;
         foreach ($purchases as $purchase)
         {
            $datax = array('name' => 'button', 'type' => 'button', 'content' => 'Select', 'onclick' => 'setvalue(\''.$purchase->no.'\',\'titem\')');
-
+           $data_check = array('name'=> 'cek[]','id'=> 'cek'.$i, 'class'=> 'ads_Checkbox', 'value'=> $purchase->no,'checked'=> FALSE, 'style'=> 'margin:0px');
            $this->table->add_row
            (
-              ++$i, 'PO-00'.$purchase->no, tgleng($purchase->dates), ucfirst($purchase->acc), $purchase->currency, $purchase->notes, number_format($purchase->total), number_format($purchase->p2),
+              form_checkbox($data_check), ++$i, 'PO-00'.$purchase->no, tgleng($purchase->dates), ucfirst($purchase->acc), $purchase->currency, $purchase->notes, number_format($purchase->total), number_format($purchase->p2),
               form_button($datax)
            );
         }
@@ -653,17 +696,37 @@ class Purchase extends MX_Controller
     private function trans_item($po=null)
     {
         $demand = $this->Purchase_model->get_purchase_by_no($po)->row();
-        $results = $this->demand->get_request($demand->demand)->result();
         
-        foreach ($results as $res)
-        {
-           $pitem = array('product' => $res->product, 'purchase_id' => $po, 'qty' => $res->qty,
-                           'price' => 0,
-                           'amount' => 0,
-                           'tax' => 0);
-           $this->Purchase_item_model->add($pitem);
-           $this->update_trans($po); 
+        if( strpos($demand->demand, ',' ) !== false ) {
+        
+            $demandlist = explode(',', $demand->demand);
+            foreach ($demandlist as $demandres) {
+                
+                $results = $this->demand->get_request($demandres)->result();
+                foreach ($results as $res)
+                {
+                   $pitem = array('product' => $res->product, 'purchase_id' => $po, 'qty' => $res->qty,
+                                   'price' => 0,
+                                   'amount' => 0,
+                                   'tax' => 0);
+                   $this->Purchase_item_model->add($pitem);
+                   $this->update_trans($po); 
+                }
+            }
+        
+        }else{    
+            $results = $this->demand->get_request($demand->demand)->result();
+            foreach ($results as $res)
+            {
+               $pitem = array('product' => $res->product, 'purchase_id' => $po, 'qty' => $res->qty,
+                               'price' => 0,
+                               'amount' => 0,
+                               'tax' => 0);
+               $this->Purchase_item_model->add($pitem);
+               $this->update_trans($po); 
+            }
         }
+
     }
     
     function add_item($po=null)

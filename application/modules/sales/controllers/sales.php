@@ -298,10 +298,12 @@ class Sales extends MX_Controller
             {
               $this->session->set_flashdata('message', "$this->title has no value..!"); // set flash data message dengan session
             }
-//            elseif ($this->contract->cek_contract_amount($sales->contract_no,intval($sales->p2-$sales->costs)) == FALSE)
-//            {
-//               $this->session->set_flashdata('message', "invalid sales amount greater than contract..!"); // set flash data message dengan session 
-//            }
+            elseif ($this->contract->cek_contract_amount($sales->contract_no,intval($sales->p2-$sales->costs)) == FALSE)
+            {
+               $this->session->set_flashdata('message', "invalid sales amount greater than contract..!"); // set flash data message dengan session 
+//                $this->session->set_flashdata('message', $sales->p2-$sales->costs); // set flash data message dengan session 
+                
+            }
             else
             {
                 $this->db->trans_start();
@@ -560,24 +562,23 @@ class Sales extends MX_Controller
         if ($this->form_validation->run($this) == TRUE)
         {
             if ($this->input->post('cdisctype') == 0){ $percentage = $this->input->post('tdiscount'); $discount = $this->input->post('tdiscount'); }else{ $percentage = intval($this->input->post('tdiscountnominal')/$this->input->post('tamount')*100); $discount = $this->input->post('tdiscountnominal'); }
-            $res = $this->total($this->input->post('tsize'),$this->input->post('tcoloumn'),$this->input->post('tamount'),$discount, $this->input->post('ctax'), $this->input->post('tcount'),
-                                $this->input->post('cround'),$this->input->post('cdisctype'));
+            $res = $this->total($this->input->post('tsize'), $this->input->post('tcoloumn'), $this->input->post('tamount'),$discount, $this->input->post('ctax'), $this->input->post('tcount'),
+                                $this->input->post('cround'), $this->input->post('cdisctype'));
 
             $pitem = array('sales_id' => $po, 'year' => $year, 'type' => $this->input->post('ctype'), 'size' => $this->input->post('tsize'), 'sup' => $this->input->post('tsup'), 'coloumn' => $this->input->post('tcoloumn'),
                            'price' => $this->input->post('tamount'), 'discount' => $percentage, 'discount_amount' => $res['discount'],
                            'tax' => $res['tax'], 'amount' => $res['amount'], 'count' => $this->input->post('tcount'));
             
-            $this->Sales_item_model->add($pitem);
-            $this->update_trans($po,$year);
-            echo 'true';
             
-//            $sales = $this->Sales_model->get_sales_by_no($po)->row();
-//            if ($this->contract->cek_contract_amount($sales->contract_no,$res['amount']) == TRUE){
-//                
-//                $this->Sales_item_model->add($pitem);
-//                $this->update_trans($po,$year);
-//                echo 'true';
-//            }else{ echo 'invalid sales amount greater than contract..!'; }
+            
+            $validation = $this->valid_contract_amount($po, $year, floatval($res['amount']));
+            if ($validation == TRUE){
+                
+                $this->Sales_item_model->add($pitem);
+                $this->update_trans($po,$year);
+                echo 'true';
+                
+            }else{ echo 'invalid sales amount greater than contract..!'; }
         }
         else{   echo validation_errors(); }
     }
@@ -699,6 +700,12 @@ class Sales extends MX_Controller
 
     private function get_status($p2=null)
     { if ($p2 == 0){ return 1; } else { return 0; } }
+    
+    public function valid_contract_amount($po,$year,$amount){
+        
+        $sales = $this->Sales_model->get_sales_by_no($po,$year)->row();
+        return $this->contract->cek_contract_amount($sales->contract_no,$amount);
+    }
 
     public function valid_contract($contract)
     {

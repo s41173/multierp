@@ -62,7 +62,7 @@ class Contract_lib {
            // update status
            $balance = $this->get_contract_details($no);
            $balance = $balance->balance;
-           if ($balance <= 0){ $stts = 'S'; }else { $stts = 'C'; }
+           if ($balance <= 0){ $stts = 1; }else { $stts = 0; }
            
            $value1 = array('status' => $stts);
            $this->ci->db->where('no', $no);

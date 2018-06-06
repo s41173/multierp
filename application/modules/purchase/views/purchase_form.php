@@ -66,7 +66,7 @@ $atts1 = array(
                     
                     <tr> 
 						<td> <label for="tvendor"> FPB </label> </td> <td>:</td>
-						<td> <input type="text" class="required" name="tdemand" id="tdemand" size="5" title="Name" /> &nbsp; 
+						<td> <input type="text" class="required" name="tdemand" id="tdemand" size="15" title="Name" /> &nbsp; 
 						<?php echo anchor_popup(site_url("demand/get_list/"), '[ ... ]', $atts1); ?>
 					</tr>
 					

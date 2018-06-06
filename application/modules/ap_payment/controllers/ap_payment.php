@@ -670,25 +670,53 @@ class Ap_payment extends MX_Controller
     function add_item($po=null,$type=null)
     {
         $this->cek_confirmation($po,'add_trans');
-        
-        $this->form_validation->set_rules('titem', 'Transaction', 'required|callback_valid_po['.$po.']');
+
         $this->form_validation->set_rules('tnominal', 'Nominal', 'required|numeric');
         $this->form_validation->set_rules('tdiscount', 'Discount', 'required|numeric');
         $this->form_validation->set_rules('tamount', 'Amount', 'required|numeric');
+        $this->form_validation->set_rules('titem', 'Transaction', 'required');
+        
+        
+        if( strpos($this->input->post('titem'), ',') !== false ) {
+            
+            $polist = explode(',', $this->input->post('titem'));
+                        
+            foreach ($polist as $poitem) {
+                
+               $result = false; 
+               $validation = $this->valid_po($poitem,$po); // harus ada validasi
+               
+               if ($this->form_validation->run($this) == TRUE)
+               {
+                     if ($type == 'PO'){ $code = 'PO'; }else{ $code = 'CP'; }
+                     
+                     $purchase = $this->purchase->get_po($poitem);
+                     $amount = intval($purchase->p2);
+         
+                     $pitem = array('ap_payment' => $po, 'code' => $code, 'no' => $poitem, 'discount' => $this->input->post('tdiscount'), 'amount' => $this->calculate_rate($po,$amount));
+                     $this->Payment_trans_model->add($pitem);
+                     $this->update_trans($po,$code);
+                     $result = 'true';
+               }
+               else{ $result = validation_errors();  break; }
+            }
+            echo $result;
+        }else{
+           
+            $this->form_validation->set_rules('titem', 'Transaction', 'required|callback_valid_po['.$po.']');   
+            if ($this->form_validation->run($this) == TRUE)
+            {
+                  if ($type == 'PO'){ $code = 'PO'; }else{ $code = 'CP'; }
+                  $purchase = $this->purchase->get_po($this->input->post('titem'));
+                  $amount = $this->input->post('tamount');
 
-        if ($this->form_validation->run($this) == TRUE)
-        {
-            if ($type == 'PO'){ $code = 'PO'; }else{ $code = 'CP'; }
-//            $purchase = $this->purchase->get_po($this->input->post('titem'));
-            $amount = $this->input->post('tamount');
-
-            $pitem = array('ap_payment' => $po, 'code' => $code, 'no' => $this->input->post('titem'), 'discount' => $this->input->post('tdiscount'), 'amount' => $this->calculate_rate($po,$amount));
-            $this->Payment_trans_model->add($pitem);
-            $this->update_trans($po,$code);
-
-            echo 'true';
+                  $pitem = array('ap_payment' => $po, 'code' => $code, 'no' => $this->input->post('titem'), 'discount' => $this->input->post('tdiscount'), 'amount' => $this->calculate_rate($po,$amount));
+                  $this->Payment_trans_model->add($pitem);
+                  $this->update_trans($po,$code);
+                  echo 'true';
+            }
+            else{  echo validation_errors(); }
         }
-        else{   echo validation_errors(); }
     }
     
     private function update_trans($po,$code='PO')
@@ -1043,8 +1071,10 @@ class Ap_payment extends MX_Controller
     {
        if ($this->input->post('po')) 
        {
-          $purchase = $this->purchase->get_po($this->input->post('po'));
-          echo intval($purchase->p2);
+          if( strpos($this->input->post('po'), ',' ) !== false ) { echo '0';}else{
+            $purchase = $this->purchase->get_po($this->input->post('po'));
+            echo intval($purchase->p2);  
+          }
        }
        else { echo '0'; }
     }

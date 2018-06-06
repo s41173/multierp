@@ -17,11 +17,11 @@ class Demand extends MX_Controller
 
         $this->currency = $this->load->library('currency_lib');
         $this->unit = $this->load->library('unit_lib');
-        $this->product      = $this->load->library('products_lib');
+        $this->product = new Products_lib();
         $this->user         = $this->load->library('admin_lib');
         $this->return_stock = $this->load->library('return_stock_lib');
         $this->wt           = $this->load->library('warehouse_transaction');
-        $this->vendor       = $this->load->library('vendor_lib');
+        $this->vendor = new Vendor_lib();
         $this->purchase     = new Purchase_lib();
 
     }
@@ -30,6 +30,11 @@ class Demand extends MX_Controller
                       'scrollbars' => 'yes','status'=> 'yes',
                       'resizable'=> 'yes','screenx'=> '0','screenx' => '\'+((parseInt(screen.width) - 800)/2)+\'',
                       'screeny'=> '0','class'=> 'print','title'=> 'print', 'screeny' => '\'+((parseInt(screen.height) - 600)/2)+\'');
+    
+    private  $attsupdate = array('width'=> '600','height'=> '300',
+                      'scrollbars' => 'yes','status'=> 'yes',
+                      'resizable'=> 'yes','screenx'=> '0','screenx' => '\'+((parseInt(screen.width) - 600)/2)+\'',
+                      'screeny'=> '0','class'=> 'edit','title'=> '', 'screeny' => '\'+((parseInt(screen.height) - 300)/2)+\'');
 
     private $properti, $modul, $title, $currency, $unit;
     private $user,$product,$return_stock,$wt,$vendor,$purchase;
@@ -163,7 +168,7 @@ class Demand extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('No', 'Code', 'Date', 'Notes', 'Action');
+        $this->table->set_heading('#','No', 'Code', 'Date', 'Notes', 'Action');
 
         $i = 0;
         foreach ($demands as $res)
@@ -174,10 +179,12 @@ class Demand extends MX_Controller
                             'content' => 'Select',
                             'onclick' => 'setvalue(\''.$res->no.'\',\'tdemand\')'
                          );
+           
+           $data_check = array('name'=> 'cek[]','id'=> 'cek'.$i, 'class'=> 'ads_Checkbox', 'value'=> $res->no,'checked'=> FALSE, 'style'=> 'margin:0px');
 
             $this->table->add_row
             (
-                ++$i, 'FPB-00'.$res->no, tglin($res->dates), ucfirst($res->desc),
+                form_checkbox($data_check), ++$i, 'FPB-00'.$res->no, tglin($res->dates), ucfirst($res->desc),
                 form_button($datax)
             );
         }
@@ -365,6 +372,7 @@ class Demand extends MX_Controller
             $this->table->add_row
             (
                 ++$i, $this->product->get_name($item->product), $item->qty.' '.$this->product->get_unit($item->product), $item->desc, tgleng($item->demand_date), $this->vendor->get_vendor_name($item->vendor),
+                anchor_popup($this->title.'/edit_item/'.$item->id,'<span>print</span>',$this->attsupdate).' '.
                 anchor($this->title.'/delete_item/'.$item->id.'/'.$po,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
         }
@@ -375,6 +383,43 @@ class Demand extends MX_Controller
 
 
 //    ======================  Item Transaction   ===============================================================
+    
+    function edit_item($id)
+    {
+       $this->acl->otentikasi2($this->title); 
+       $val = $this->Demand_item_model->get_by_id($id);  
+       $data['form_action_item'] = site_url($this->title.'/edit_item_process/'.$id.'/'.$val->demand); 
+       
+       $data['default']['product'] = $this->product->get_name($val->product);
+       $data['default']['qty'] = $val->qty;
+       $data['default']['desc'] = $val->desc;       
+       $data['default']['demanddate'] = $val->demand_date;
+       $data['default']['vendor'] = $this->vendor->get_vendor_shortname($val->vendor);
+        
+       $this->load->view('demand_update_item', $data); 
+    }
+    
+    function edit_item_process($id,$dip)
+    {
+        $demand = $this->Demand_model->get_demand_by_id($demand)->row();
+        
+        $this->form_validation->set_rules('tproduct', 'Product', 'required');
+        $this->form_validation->set_rules('tqty', 'Qty', 'required|numeric');
+        $this->form_validation->set_rules('tdesc', 'Description', 'required');
+        $this->form_validation->set_rules('tdemanddate', 'Demand Date', 'required');
+        $this->form_validation->set_rules('tvendor', 'Vendor', 'required');
+
+        if ($this->form_validation->run($this) == TRUE)
+        {
+            $pitem = array('product' => $this->product->get_id($this->input->post('tproduct')), 'demand' => $dip,
+                           'qty' => $this->input->post('tqty'), 'desc' => $this->input->post('tdesc'), 
+                           'demand_date' => $this->input->post('tdemanddate'), 'vendor' => $this->vendor->get_vendor_id($this->input->post('tvendor')));
+            
+            $this->Demand_item_model->update($id,$pitem);
+        }
+        
+        redirect($this->title.'/edit_item/'.$id);
+    }
 
     function add_item($po=null)
     {

@@ -200,6 +200,7 @@ a.editstatus,
 a.download, 
 a.payment, 
 a.approve, 
+a.warning, 
 a.notapprove, 
 a.print, 
 a.invoice,
@@ -237,6 +238,7 @@ a.print:hover,
 a.invoice:cost,
 a.download:hover,
 a.approve:hover, 
+a.warning:hover, 
 a.notapprove:hover, 
 a.update:hover,
 a.edit:hover,
@@ -281,6 +283,9 @@ a.payment{
 }
 a.approve{
 	background:url(../images/approve.gif) left center no-repeat;
+}
+a.warning{
+	background:url(../images/warning.png) left center no-repeat;
 }
 a.notapprove{
 	background:url(../images/notapprove.gif) left center no-repeat;

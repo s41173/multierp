@@ -116,6 +116,7 @@ class Product extends MX_Controller
                 $this->table->add_row
                 (
                     form_checkbox($datax), ++$i, 'PRO-0'.$product->id, $this->brand->get_name($product->brand), $this->category->get_name($product->category), $product->currency, ucfirst($product->type), $product->model, $product->name, $product->qty.' '.$product->unit, number_format($this->get_unit_cost($product->id)), number_format($product->price), number_format($this->get_unit_cost($product->id)*$product->qty),
+                    anchor('#','<span>update</span>',array('class' => $this->post_status($product->qty), 'title' => 'edit / update')).' &nbsp; | &nbsp; '.
                     anchor_popup($this->title.'/details/'.$product->id,'<span>print</span>',array('class' => 'details1', 'title' => '')).' '.    
                     anchor($this->title.'/update/'.$product->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                     anchor($this->title.'/delete/'.$product->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
@@ -137,6 +138,14 @@ class Product extends MX_Controller
 
         // Load absen view dengan melewatkan var $data sbgai parameter
 	$this->load->view('template', $data);
+    }
+    
+    private function post_status($val)
+    {   
+       if ($val <= 1) { $class = "notapprove"; }
+       elseif ($val >= 2 && $val <= 5){ $class = "warning"; }
+       elseif ($val > 5){ $class = "approve"; }
+       return $class;
     }
     
     function search()
@@ -174,6 +183,7 @@ class Product extends MX_Controller
             $this->table->add_row
             (
                 form_checkbox($datax), ++$i, 'PRO-0'.$product->id, $this->brand->get_name($product->brand), $this->category->get_name($product->category), $product->currency, ucfirst($product->type), $product->model, $product->name, $product->qty.' '.$product->unit, number_format($this->get_unit_cost($product->id)), number_format($product->price), number_format($this->get_unit_cost($product->id)*$product->qty),
+                anchor('#','<span>update</span>',array('class' => $this->post_status($product->qty), 'title' => 'edit / update')).' &nbsp; | &nbsp; '.
                 anchor_popup($this->title.'/details/'.$product->id,'<span>print</span>',array('class' => 'details1', 'title' => '')).' '.    
                 anchor($this->title.'/update/'.$product->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                 anchor($this->title.'/delete/'.$product->id,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))

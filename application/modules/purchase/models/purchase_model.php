@@ -241,6 +241,23 @@ class Purchase_model extends CI_Model
         $this->db->order_by('purchase.dates', 'desc');
         return $this->db->get();
     }
+    
+    function report_product_search($product,$cur)
+    {
+        $this->db->select('purchase.id, purchase.no, purchase.demand, purchase.dates, purchase.acc, purchase.docno, vendor.prefix, vendor.name, vendor.address, vendor.phone1, vendor.phone2,
+                           purchase.currency, purchase.user, purchase.log,
+                           purchase.notes, purchase.shipping_date, purchase.status,
+                           purchase_item.product, purchase_item.qty, purchase_item.price, purchase_item.tax, purchase_item.amount');
+
+        $this->db->from('purchase, purchase_item, vendor');
+        $this->db->where('purchase.vendor = vendor.id');
+        $this->db->where('purchase_item.purchase_id = purchase.no');
+        $this->cek_null($product,"purchase_item.product");
+        $this->cek_null($cur,"purchase.currency");
+
+        $this->db->order_by('purchase.dates', 'desc');
+        return $this->db->get();
+    }
 
 //    =========================================  REPORT  =================================================================
 

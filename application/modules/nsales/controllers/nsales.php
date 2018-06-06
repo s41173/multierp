@@ -398,7 +398,7 @@ class Nsales extends MX_Controller
         $data['title'] = $this->properti['name'].' | Administrator '.ucwords($this->modul['title']);
         $data['h2title'] = 'Create New '.$this->modul['title'];        
         $data['form_action'] = site_url($this->title.'/update_process/'.$pid);
-        $data['form_action_item'] = site_url($this->title.'/add_item/'.$sales->no.'/'.$year);
+        $data['form_action_item'] = site_url($this->title.'/add_item/'.$pid);
         $data['currency'] = $this->currency->combo();
         $data['tax'] = $this->tax->combo();
         $data['code'] = $sales->no;
@@ -452,10 +452,11 @@ class Nsales extends MX_Controller
     
 //    ======================  Item Transaction   ===============================================================
 
-    function add_item($po=null,$year=null)
+    function add_item($pid)
     {
-        $pid = $this->Nsales_model->get_nsales_by_no($po,$year)->row();
-        $this->cek_confirmation($pid->id,'add_trans');
+        $sales = $this->Nsales_model->get_nsales_by_id($pid)->row();
+        $this->cek_confirmation($pid,'add_trans');
+        $year  = date('Y', strtotime($sales->dates));
         
         $this->form_validation->set_rules('ctype', 'Type', 'required');
         $this->form_validation->set_rules('tsup', 'Sup', '');
@@ -469,12 +470,13 @@ class Nsales extends MX_Controller
             if ($this->input->post('cdisctype') == 0){ $percentage = $this->input->post('tdiscount'); $discount = $this->input->post('tdiscount'); }else{ $percentage = intval($this->input->post('tdiscountnominal')/$this->input->post('tamount')*100); $discount = $this->input->post('tdiscountnominal'); }
             $res = $this->total($this->input->post('tsize'),$this->input->post('tcoloumn'),$this->input->post('tamount'),$discount, $this->input->post('ctax'),$this->input->post('cdisctype'));
 
-            $pitem = array('nsales_id' => $po, 'year' => $year, 'type' => $this->input->post('ctype'), 'size' => $this->input->post('tsize'), 'sup' => $this->input->post('tsup'), 'coloumn' => $this->input->post('tcoloumn'),
+            $pitem = array('nsales_id' => $sales->no, 'year' => $year, 'type' => $this->input->post('ctype'), 'size' => $this->input->post('tsize'), 'sup' => $this->input->post('tsup'), 'coloumn' => $this->input->post('tcoloumn'),
                            'price' => $this->input->post('tamount'), 'discount' => $percentage, 'discount_amount' => $res['discount'],
                            'tax' => $res['tax'], 'amount' => $res['amount']);
                            
             $this->Nsales_item_model->add($pitem);
-            $this->update_trans($po,$year);
+            $this->update_trans($sales->no,$year);
+            
             echo 'true';
 //                
 //            $sales = $this->Nsales_model->get_nsales_by_no($po)->row();

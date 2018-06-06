@@ -21,6 +21,29 @@ var uri = "<?php echo site_url('ajax')."/"; ?>";
 var baseuri = "<?php echo base_url(); ?>";
 </script>
 
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+    $('#bmultiple').click(function () {
+        
+        var i = 0;
+        var arr = [];
+        $('.ads_Checkbox:checked').each(function () {
+            arr[i++] = $(this).val();
+        });      
+        
+        var result = arr.join();
+        opener.document.getElementById('tdemand').value = result;
+	    self.close();
+    });
+        
+   			
+    }); //end document ready
+
+</script>
+
 <?php 
 		
 $atts1 = array(
@@ -42,7 +65,9 @@ $atts1 = array(
 <p class="message"> <?php echo ! empty($message) ? $message : '' . ! empty($flashmessage) ? $flashmessage : ''; ?> </p>
 
 <fieldset class="field"> <legend> Demand List </legend>
-
+<table style="float:right; margin:5px;">
+    <tr> <td> <button type="button" id="bmultiple"> SELECT MULTIPLE </button> </td> </tr>
+</table>
 <?php echo ! empty($table) ? $table : ''; ?>
 </div>
 </fieldset>

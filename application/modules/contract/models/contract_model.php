@@ -70,7 +70,7 @@ class Contract_model extends CI_Model
         $test = $this->db->get($this->table)->row_array();
         $userid=$test['no'];
 	$userid = $userid+1;
-	return $userid;
+	return intval($userid);
     }
     
     function delete($uid)
