@@ -21,6 +21,7 @@ class Sales_item_model extends CI_Model
             $this->db->select('id, sales_id, year, type, size, coloumn, price, discount, discount_amount, tax, amount, sup, count');
             $this->db->from('sales_item');
             $this->db->where('sales_id', $po);
+            $this->db->where('year', $year);
             $this->db->order_by('id', 'asc'); 
             return $this->db->get(); 
         }

@@ -276,9 +276,9 @@ class Nsales extends MX_Controller
         $ar_contract = $cm->get_id(57); // piutang kontrak non tax
         $cost = $cm->get_id(58); // pendapatan lain-lain (materai, etc)
         
-        
-        $this->journalgl->new_journal('0'.$ap1->no,$ap1->dates,'NSO',$ap1->currency,$ap1->notes,$ap1->total, $this->session->userdata('log'));
-        $dpid = $this->journalgl->get_journal_id('NSO','0'.$ap1->no);
+        $year = date('y', strtotime($ap1->dates));
+        $this->journalgl->new_journal('0'.$ap1->no.$year,$ap1->dates,'NSO',$ap1->currency,$ap1->notes,$ap1->total, $this->session->userdata('log'));
+        $dpid = $this->journalgl->get_journal_id('NSO','0'.$ap1->no.$year);
         
         $this->journalgl->add_trans($dpid,$ar,$ap1->p2,0); // piutang dagang ppn
         $this->journalgl->add_trans($dpid,$ar_contract,0,intval($ap1->total-$ap1->tax)); // piutang kontrak tax
@@ -315,7 +315,8 @@ class Nsales extends MX_Controller
       $this->trans->remove($sales->dates, 'NSO', $sales->no);
       
        // hapus jurnal
-      $this->journalgl->remove_journal('NSO', '0'.$sales->no); // journal gl  
+      $year = date('y', strtotime($sales->dates));
+      $this->journalgl->remove_journal('NSO', '0'.$sales->no.$year); // journal gl  
       
       $data = array('approved' => 0);
       $this->Nsales_model->update_id($uid, $data);

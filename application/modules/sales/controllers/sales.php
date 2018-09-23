@@ -355,7 +355,8 @@ class Sales extends MX_Controller
         
         $ap1 = $this->Sales_model->get_sales_by_id($sid)->row();
         //  create journal gl
-                
+        $year = date('y', strtotime($ap1->dates));
+        
         $cm = new Control_model();
         
         $ar = $cm->get_id(17); // piutang dagang
@@ -363,9 +364,8 @@ class Sales extends MX_Controller
         $ar_contract = $cm->get_id(56); // piutang kontrak tax
         $cost = $cm->get_id(58); // pendapatan lain-lain (materai, etc)
         
-        
-        $this->journalgl->new_journal('0'.$ap1->no,$ap1->dates,'SO',$ap1->currency,$ap1->notes,$ap1->total, $this->session->userdata('log'));
-        $dpid = $this->journalgl->get_journal_id('SO','0'.$ap1->no);
+        $this->journalgl->new_journal('0'.$ap1->no.$year,$ap1->dates,'SO',$ap1->currency,$ap1->notes,$ap1->total, $this->session->userdata('log'));
+        $dpid = $this->journalgl->get_journal_id('SO','0'.$ap1->no.$year);
         
         $this->journalgl->add_trans($dpid,$ar,$ap1->p2,0); // piutang dagang ppn
         $this->journalgl->add_trans($dpid,$ar_contract,0,intval($ap1->total-$ap1->tax)); // piutang kontrak tax
@@ -400,7 +400,8 @@ class Sales extends MX_Controller
       $this->trans->remove($sales->dates, 'SO', $sales->no);
       
       // hapus jurnal
-      $this->journalgl->remove_journal('SO', '0'.$sales->no); // journal gl  
+      $year = date('y', strtotime($sales->dates));
+      $this->journalgl->remove_journal('SO', '0'.$sales->no.$year); // journal gl  
       
       $data = array('approved' => 0);
       $this->Sales_model->update_id($uid, $data);  
@@ -491,7 +492,6 @@ class Sales extends MX_Controller
         $data['tax'] = $this->tax->combo();
         $data['user'] = $this->session->userdata("username");
 
-        
         $data['code'] = $sales->no;
 
         $data['default']['contract'] = $sales->contract_no;

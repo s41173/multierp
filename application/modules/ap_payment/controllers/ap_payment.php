@@ -688,10 +688,13 @@ class Ap_payment extends MX_Controller
                
                if ($this->form_validation->run($this) == TRUE)
                {
-                     if ($type == 'PO'){ $code = 'PO'; }else{ $code = 'CP'; }
-                     
-                     $purchase = $this->purchase->get_po($poitem);
-                     $amount = intval($purchase->p2);
+                     if ($type == 'PO'){ $code = 'PO';
+                        $purchase = $this->purchase->get_po($poitem);
+                        $amount = intval($purchase->p2);
+                     }else{ $code = 'CP'; 
+                        $purchase = $this->printing->get_po($poitem);
+                        $amount = intval($purchase->p2);
+                     }
          
                      $pitem = array('ap_payment' => $po, 'code' => $code, 'no' => $poitem, 'discount' => $this->input->post('tdiscount'), 'amount' => $this->calculate_rate($po,$amount));
                      $this->Payment_trans_model->add($pitem);
@@ -707,7 +710,6 @@ class Ap_payment extends MX_Controller
             if ($this->form_validation->run($this) == TRUE)
             {
                   if ($type == 'PO'){ $code = 'PO'; }else{ $code = 'CP'; }
-                  $purchase = $this->purchase->get_po($this->input->post('titem'));
                   $amount = $this->input->post('tamount');
 
                   $pitem = array('ap_payment' => $po, 'code' => $code, 'no' => $this->input->post('titem'), 'discount' => $this->input->post('tdiscount'), 'amount' => $this->calculate_rate($po,$amount));

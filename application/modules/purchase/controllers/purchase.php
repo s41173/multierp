@@ -177,6 +177,7 @@ class Purchase extends MX_Controller
         $data['h2title'] = 'Find '.$this->modul['title'];
         $data['main_view'] = 'purchase_view';
 	$data['form_action'] = site_url($this->title.'/search');
+        $data['form_action_search'] = site_url($this->title.'/search_product');
         $data['link'] = array('link_back' => anchor('purchase/','<span>back</span>', array('class' => 'back')));
         
         $data['currency'] = $this->currency->combo();

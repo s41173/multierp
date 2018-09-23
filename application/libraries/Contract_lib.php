@@ -26,7 +26,9 @@ class Contract_lib {
         $this->ci->db->where('no', $contract);
         $this->ci->db->where('approved', 1);
         $query = $this->ci->db->get($this->table)->row();
-        if($query->balance < $sales_amt) { return FALSE; }else { return TRUE; }
+        if(!$query){ return FALSE; }else{
+            if($query->balance < $sales_amt) { return FALSE; }else { return TRUE; }
+        }
     }
 
     function get_contract_details($contract)

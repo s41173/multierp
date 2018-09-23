@@ -276,16 +276,16 @@ class Vinyl extends MX_Controller
         $this->table->set_empty("&nbsp;");
 
         //Set heading untuk table
-        $this->table->set_heading('No', 'Code', 'Date', 'Acc', 'Cur', 'Notes', 'Total', 'Balance', 'Action');
+        $this->table->set_heading('#','No', 'Code', 'Date', 'Acc', 'Cur', 'Notes', 'Total', 'Balance', 'Action');
 
         $i = 0;
         foreach ($purchases as $purchase)
         {
            $datax = array('name' => 'button', 'type' => 'button', 'content' => 'Select', 'onclick' => 'setvalue(\''.$purchase->no.'\',\'titem\')');
-
+           $data_check = array('name'=> 'cek[]','id'=> 'cek'.$i, 'class'=> 'ads_Checkbox', 'value'=> $purchase->no,'checked'=> FALSE, 'style'=> 'margin:0px');
            $this->table->add_row
            (
-              ++$i, 'CP-00'.$purchase->no, tgleng($purchase->dates), ucfirst($purchase->acc), $purchase->currency, $purchase->notes, number_format($purchase->total), number_format($purchase->p2),
+              form_checkbox($data_check), ++$i, 'CP-00'.$purchase->no, tgleng($purchase->dates), ucfirst($purchase->acc), $purchase->currency, $purchase->notes, number_format($purchase->total), number_format($purchase->p2),
               form_button($datax)
            );
         }

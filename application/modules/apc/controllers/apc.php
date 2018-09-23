@@ -559,23 +559,25 @@ class Apc extends MX_Controller
 
     }
     
-    private function add_demand_trans($no)
+    function add_demand_trans($no)
     {
         if ($no)
         {
           $ap = $this->model->where('no',$no)->get();
-          $result = $this->demand->get_by_no($ap->demand);
+          if ($ap->approved == 0){
+              
+            $result = $this->demand->get_by_no($ap->demand);
+            foreach ($result as $res)
+            {
+              $pitem = array('apc_id' => $ap->id, 'cost' => $res->cost, 'type' => '0',
+                         'notes' => $res->notes,
+                         'staff' => '',
+                         'amount' => $res->amount);
 
-          foreach ($result as $res)
-          {
-            $pitem = array('apc_id' => $ap->id, 'cost' => $res->cost, 'type' => '0',
-                       'notes' => $res->notes,
-                       'staff' => '',
-                       'amount' => $res->amount);
-
-            $this->Apc_trans_model->add($pitem);
-            $this->update_trans($ap->id);
-          }  
+              $this->Apc_trans_model->add($pitem);
+              $this->update_trans($ap->id);
+            }  
+          }
         }
     }
 
@@ -606,6 +608,7 @@ class Apc extends MX_Controller
         $data['default']['docno'] = $ap->docno;
         $data['default']['account'] = $ap->account;
         $data['default']['type'] = $ap->type;
+        $data['default']['demand'] = $ap->demand;
         
         $data['default']['balance'] = $ap->amount;
         if ($ap->type == 0){ $type = 'GENERAL'; $view = 'apc_transform'; }elseif($ap->type == 1){ $type = 'PURCHASE'; $view = 'apc_transform_purchase'; }

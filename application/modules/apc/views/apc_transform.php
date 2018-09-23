@@ -19,17 +19,28 @@
 <script type="text/javascript">
 var uri = "<?php echo site_url('ajax')."/"; ?>";
 var baseuri = "<?php echo base_url(); ?>";
+var uri_pull = "<?php echo site_url('apc')."/add_demand_trans/"; ?>";
 </script>
 
 <script type="text/javascript">	
 	function refreshparent() { opener.location.reload(true); }
 	function set_item(val){ if (val == 1){ document.getElementById("tproduct").readOnly = true; }else { document.getElementById("tproduct").readOnly = false; } }
+    
+    function pull(){
+      $(document).ready(function () {
+         var no = $("#tno").val();
+          $.get(uri_pull+no, function(data, status){
+             location.reload();
+          });
+      }); // end document ready     
+    }
+
 </script>
 
 <style>
-        .refresh{ border:1px solid #AAAAAA; color:#000; padding:2px 5px 2px 5px; margin:0px 2px 0px 2px; background-color:#FFF;}
-		.refresh:hover{ background-color:#CCCCCC; color: #FF0000;}
-		.refresh:visited{ background-color:#FFF; color: #000000;}	
+    .refresh{ border:1px solid #AAAAAA; color:#000; padding:2px 5px 2px 5px; margin:0px 2px 0px 2px; background-color:#FFF;}
+    .refresh:hover{ background-color:#CCCCCC; color: #FF0000;}
+    .refresh:visited{ background-color:#FFF; color: #000000;}	
 </style>
 
 <?php 
@@ -61,7 +72,7 @@ $atts1 = array(
                 	
 					<tr>	
 						<td> <label for="tno"> No </label> </td> <td>:</td>
-	     <td> <input type="text" class="required" readonly name="tno" size="4" title="Name" value="<?php echo isset($code) ? $code : ''; ?>" /> &nbsp; <br /> </td>
+	     <td> <input type="text" class="required" readonly id="tno" name="tno" size="4" title="Name" value="<?php echo isset($code) ? $code : ''; ?>" /> &nbsp; <br /> </td>
 					</tr>
                     
 					<tr>	
@@ -79,13 +90,16 @@ $atts1 = array(
 			</tr>
            
            <tr>	
-   <td> <label for="tcur"> Trans Type </label> </td> <td>:</td>
+   <td> <label for="tcur"> Trans Type / Cash Demand </label> </td> <td>:</td>
    <td> 
    <select name="ctype" class="required">
 <option value="0" <?php echo set_select('ctype', '0', isset($default['type']) && $default['type'] == '0' ? TRUE : FALSE); ?> /> General 
 <option value="1" <?php echo set_select('ctype', '1', isset($default['type']) && $default['type'] == '1' ? TRUE : FALSE); ?> /> Purchase 
 <option value="2" <?php echo set_select('ctype', '2', isset($default['type']) && $default['type'] == '2' ? TRUE : FALSE); ?> /> Printing 
 			</select>
+   <input type="text" id="tdemand" size="3" readonly value="<?php echo $default['demand'];?>">
+   <input type="button" id="bpull" onclick="pull();" value="RE-PULL">
+						
    </td>
 			</tr>
             

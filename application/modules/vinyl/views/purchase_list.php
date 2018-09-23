@@ -17,8 +17,30 @@
 <script type='text/javascript' src='<?php echo base_url();?>js/jquery.validate.js'></script>  
 
 <script type="text/javascript">
-var uri = "<?php echo site_url('ajax')."/"; ?>";
-var baseuri = "<?php echo base_url(); ?>";
+    
+    var uri = "<?php echo site_url('ajax')."/"; ?>";
+    var baseuri = "<?php echo base_url(); ?>";
+    
+</script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+        $('#bmultiple').click(function () {
+
+            var i = 0;
+            var arr = [];
+            $('.ads_Checkbox:checked').each(function () { arr[i++] = $(this).val();  });      
+
+            var result = arr.join();
+            opener.document.getElementById('titem').value = result;
+            self.close();
+        });
+   			
+    }); //end document ready
+
 </script>
 
 <?php 
@@ -45,14 +67,15 @@ $atts1 = array(
 <form name="modul_form" class="myform" id="form" method="post" action="<?php echo $form_action; ?>">
 <table>
 	<tr> 
-			<td> <label for="tvendor"> Vendor </label> </td> <td>:</td>
-			<td> <input type="text" class="" name="tvendor" id="tcust" size="25" title="Vendor" /> &nbsp; 
-			<?php echo anchor_popup(site_url("vendor/get_list/"), '[ ... ]', $atts1); ?> </td>	
-			
-			<td> <label for="tname"> Currency </label> </td> <td>:</td>
-			<td> <?php $js = 'class="required"'; echo form_dropdown('ccurrency', $currency, isset($default['currency']) ? $default['currency'] : '', $js); ?> &nbsp; <br /> </td>	
-			
-			<td> <input type="submit" value="SUBMIT" /> </td>
+        <td> <label for="tvendor"> Vendor </label> </td> <td>:</td>
+        <td> <input type="text" class="" name="tvendor" id="tcust" size="25" title="Vendor" /> &nbsp; 
+        <?php echo anchor_popup(site_url("vendor/get_list/"), '[ ... ]', $atts1); ?> </td>	
+
+        <td> <label for="tname"> Currency </label> </td> <td>:</td>
+        <td> <?php $js = 'class="required"'; echo form_dropdown('ccurrency', $currency, isset($default['currency']) ? $default['currency'] : '', $js); ?> &nbsp; <br /> </td>	
+
+        <td> <input type="submit" value="SUBMIT" /> </td>
+        <td> <input type="button" value="SELECT" id="bmultiple" /> </td>
 	</tr>
 </table>
 </form>
