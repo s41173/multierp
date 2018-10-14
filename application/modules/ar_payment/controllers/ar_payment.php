@@ -227,9 +227,11 @@ class Ar_payment extends MX_Controller
        $this->journalgl->new_journal('0'.$appayment->no,$appayment->dates,'CR',$appayment->currency, 'Customer payment for : '.$this->get_trans_code($appayment->no).' - '.$appayment->prefix.' '.$appayment->name, $appayment->amount, $this->session->userdata('log'));
        $dpid = $this->journalgl->get_journal_id('CR','0'.$appayment->no);
 
-       $this->journalgl->add_trans($dpid,$account,intval($sum['amount']+$sum['tax']),0); // bank masuk
+//       $this->journalgl->add_trans($dpid,$account,intval($sum['amount']+$sum['tax']),0); // bank masuk (old mode)
+       
+       $this->journalgl->add_trans($dpid,$account,$appayment->amount,0); // bank masuk
        if ($sum['cost'] > 0){ $this->journalgl->add_trans($dpid,$cost,$sum['cost'],0); }
-       if ($sum['tax2'] > 0){ $this->journalgl->add_trans($dpid,$pph23,$sum['tax2'],0); }
+//       if ($sum['tax2'] > 0){ $this->journalgl->add_trans($dpid,$pph23,$sum['tax2'],0); } // old mode
        $this->journalgl->add_trans($dpid,$ar,0,$appayment->amount); // kredit piutang
         
         $this->db->trans_complete();

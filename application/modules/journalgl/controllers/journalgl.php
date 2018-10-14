@@ -91,7 +91,7 @@ class Journalgl extends MX_Controller
                     ++$i, $journal->code.'-'.$journal->no, $journal->currency, tglin($journal->dates), $journal->notes, number_format($journal->balance,2),
                     anchor($this->title.'/confirmation/'.$journal->id,'<span>update</span>',array('class' => $this->post_status($journal->approved), 'title' => 'edit / update')).' '.
                     anchor_popup($this->title.'/invoice/'.$journal->no.'/'.$journal->code,'<span>print</span>',$this->atts).' '.
-                    anchor($this->title.'/add_trans/'.$journal->no.'/'.$journal->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
+                    anchor($this->title.'/add_trans/'.$journal->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                     anchor($this->title.'/delete/'.$journal->id.'/'.$journal->no,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
                 );
             }
@@ -146,7 +146,7 @@ class Journalgl extends MX_Controller
                 ++$i, $journal->code.'-'.$journal->no, $journal->currency, tglin($journal->dates), $journal->notes, number_format($journal->balance),
                 anchor($this->title.'/confirmation/'.$journal->id,'<span>update</span>',array('class' => $this->post_status($journal->approved), 'title' => 'edit / update')).' '.
                 anchor_popup($this->title.'/invoice/'.$journal->no.'/'.$journal->code,'<span>print</span>',$this->atts).' '.
-                anchor($this->title.'/add_trans/'.$journal->no.'/'.$journal->code,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
+                anchor($this->title.'/add_trans/'.$journal->id,'<span>details</span>',array('class' => 'update', 'title' => '')).' '.
                 anchor($this->title.'/delete/'.$journal->id.'/'.$journal->no,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
         }
@@ -329,9 +329,12 @@ class Journalgl extends MX_Controller
             $this->model->log      = $this->session->userdata('log');
 
             $this->model->save();
-
+            
+            $uid = $this->model->select_max('id');
+            $uid = $this->model->get();
+            
             $this->session->set_flashdata('message', "One $this->title data successfully saved!");
-            redirect($this->title.'/add_trans/'.$this->input->post('tno').'/'.$this->input->post('ctype'));
+            redirect($this->title.'/add_trans/'.$uid->id);
 //            echo 'true';
         }
         else
@@ -342,20 +345,19 @@ class Journalgl extends MX_Controller
 
     }
 
-    function add_trans($po=null,$code=null)
+    function add_trans($pid=null,$code=null)
     {
         $this->acl->otentikasi2($this->title);
 
-        $this->model->where('no',$po);
-        $journal = $this->model->where('code',$code)->get();
+        $journal = $this->model->where('id',$pid)->get();
 
         $data['title'] = $this->properti['name'].' | Administrator '.ucwords($this->modul['title']);
         $data['h2title'] = 'Create New '.$this->modul['title'];
 	$data['form_action'] = site_url($this->title.'/update_process/'.$journal->id);
         $data['form_action_item'] = site_url($this->title.'/add_item/'.$journal->id);
         $data['currency'] = $this->currency->combo();
-        $data['code'] = $po;
-        $data['codetrans'] = $code;
+        $data['code'] = $journal->no;
+        $data['codetrans'] = $journal->code;
         $data['user'] = $this->session->userdata("username");
         $data['jurnaltype'] = $this->journaltype->combo();
 
@@ -382,7 +384,7 @@ class Journalgl extends MX_Controller
             $this->table->add_row
             (
                 ++$i, $this->account->get_name($item->account_id), number_format($item->debit,2), number_format($item->credit,2),
-                anchor($this->title.'/delete_item/'.$item->id.'/'.$po.'/'.$journal->id.'/'.$code,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
+                anchor($this->title.'/delete_item/'.$item->id.'/'.$journal->no.'/'.$journal->id.'/'.$journal->no,'<span>delete</span>',array('class'=> 'delete', 'title' => 'delete' ,'onclick'=>"return confirm('Are you sure you will delete this data?')"))
             );
         }
 
@@ -491,7 +493,7 @@ class Journalgl extends MX_Controller
             $this->session->set_flashdata('message', "1 item successfully removed..!");
         }
         else{ $this->session->set_flashdata('message', "Journal approved, can't deleted..!"); }
-        redirect($this->title.'/add_trans/'.$po.'/'.$code);
+        redirect($this->title.'/add_trans/'.$jid);
     }
 //    ==========================================================================================
 

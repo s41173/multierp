@@ -226,7 +226,7 @@ class Nar_payment extends MX_Controller
        $dpid = $this->journalgl->get_journal_id('NCR','0'.$appayment->no);
 
        $this->journalgl->add_trans($dpid,$account,intval($sum['amount']+$sum['tax']),0); // bank masuk
-       if ($sum['cost'] > 0){ $this->journalgl->add_trans($dpid,$cost,$sum['cost'],0); }
+       if ($sum['cost'] > 0){ $this->journalgl->add_trans($dpid,$cost,$sum['cost'],0); } // biaya tambahan
        $this->journalgl->add_trans($dpid,$ar,0,$appayment->amount); // kredit piutang
         
         $this->db->trans_complete();

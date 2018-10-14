@@ -997,8 +997,8 @@ class Apc extends MX_Controller
 //        Property Details
         $data['company'] = $this->properti['name'];
 
-        if ($type == 0){ $data['aps'] = $this->Apc_model->report($vendor,$cur,$start,$end,$category,$acc)->result(); $page = 'apc_report'; }
-        elseif ($type == 1){ $data['aps'] = $this->Apc_model->report($vendor,$cur,$start,$end,$category,$acc)->result(); $page = 'apc_report_details'; }
+        if ($type == 0){ $data['aps'] = $this->Apc_model->report($cur,$start,$end,$category,$acc)->result(); $page = 'apc_report'; }
+        elseif ($type == 1){ $data['aps'] = $this->Apc_model->report($cur,$start,$end,$category,$acc)->result(); $page = 'apc_report_details'; }
         elseif ($type == 2) { $data['aps'] = $this->Apc_model->report_category($vendor,$cur,$start,$end,$category,$acc)->result(); $page = 'apc_report_category'; }
         elseif ($type == 3) { $data['aps'] = $this->Apc_model->report_category($vendor,$cur,$start,$end,$category,$acc)->result(); $page = 'apc_pivot'; }
         
